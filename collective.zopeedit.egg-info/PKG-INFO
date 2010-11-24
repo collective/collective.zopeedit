@@ -1,0 +1,23 @@
+Metadata-Version: 1.0
+Name: collective.zopeedit
+Version: 0.12.6
+Summary: ZopeEdit : External Editor Client
+Home-page: http://svn.plone.org/svn/collective/
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: GPL
+Description: Introduction
+        ============
+        
+        
+        
+        Changelog
+        =========
+        
+        0.12.6dev (unreleased)
+        ----------------------
+        
+        - Initial release
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python

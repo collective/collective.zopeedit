@@ -1,0 +1,12 @@
+README.txt
+setup.py
+collective/__init__.py
+collective.zopeedit.egg-info/PKG-INFO
+collective.zopeedit.egg-info/SOURCES.txt
+collective.zopeedit.egg-info/dependency_links.txt
+collective.zopeedit.egg-info/entry_points.txt
+collective.zopeedit.egg-info/namespace_packages.txt
+collective.zopeedit.egg-info/not-zip-safe
+collective.zopeedit.egg-info/requires.txt
+collective.zopeedit.egg-info/top_level.txt
+collective/zopeedit/__init__.py
