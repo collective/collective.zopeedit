@@ -1760,6 +1760,7 @@ editor=planner
 def main(input_file = ""):
     """ call zopeedit as a lib
     """
+    input_file = sys.argv[1]
     ExternalEditor(input_file).launch()
 
 if __name__ == '__main__':
