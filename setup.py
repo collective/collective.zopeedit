@@ -56,6 +56,7 @@ setup(name='collective.zopeedit',
       classifiers=[
         "Programming Language :: Python",
         "Development Status :: 5 - Production/Stable",
+        "License :: OSI Approved :: Zope Public License",
         ],
       keywords='zope plone externaleditor zopeedit edition',
       author='Thierry Benita - atReal',

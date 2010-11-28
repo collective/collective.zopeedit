@@ -24,10 +24,10 @@ import os
 system_path=os.path.split(__file__)[0]
 # Open the VERSION file for reading.
 try:
-    f=open('docs/VERSION.txt', 'r')
+    f=open(os.path.join(system_path,'docs/VERSION.txt'), 'r')
 except IOError:
     # zopeedit is not properly installed : try uninstalled path
-    f=open('../../docs/VERSION.txt', 'r')  # Open the VERSION file for reading.
+    f=open(os.path.join(system_path,'../../docs/VERSION.txt'), 'r')  # Open the VERSION file for reading.
 __version__ = f.readline()[:-1]
 f.close()
 
