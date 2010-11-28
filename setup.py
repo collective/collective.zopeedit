@@ -1,7 +1,50 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#   ZopeEdit, client for ExternalEditor
+#
+##############################################################################
+
 from setuptools import setup, find_packages
 import os
+import sys
+import glob
+opj = os.path.join
+# Open the VERSION file for reading.
+try:
+    f=open('docs/VERSION.txt', 'r')
+except IOError:
+    # zopeedit is not properly installed : try uninstalled path
+    f=open('../../docs/VERSION.txt', 'r')  # Open the VERSION file for reading.
+# Below, "[:-1]" means we omit the last character, which is "\n".
+version = f.readline()[:-1]
+f.close
 
-version = '0.12.6'
+try:
+    import py2exe
+except ImportError:
+    if sys.platform == 'win32':
+        raise
+    packages = None
+else:
+    packages = ['Plugins']
+
+def data_files():
+    '''Build list of data files to be installed'''
+    files = []
+
+    files.append((opj('share','man','man1',''),['collective/zopeedit/man/zopeedit.1']))
+    files.append((opj('collective','zopeedit', 'docs'), [f for
+        f in glob.glob('docs/*') if os.path.isfile(f)]))
+    #files.append((opj('share', 'pixmaps', 'openerp-client'),
+        #glob.glob('bin/pixmaps/*.png')))
+    #files.append((opj('share', 'pixmaps', 'openerp-client', 'icons'),
+    #    glob.glob('bin/icons/*.png')))
+    files.append((opj('share', 'zopeedit'), ['collective/zopeedit/zopeedit.py', ]))
+    files.append(("share/locale", glob.glob("collective/zoeedit/locales/*.*")))
+    return files
+
 
 setup(name='collective.zopeedit',
       version=version,
@@ -12,6 +55,7 @@ setup(name='collective.zopeedit',
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Programming Language :: Python",
+        "Development Status :: 5 - Production/Stable",
         ],
       keywords='zope plone externaleditor zopeedit edition',
       author='Thierry Benita - atReal',
@@ -26,7 +70,11 @@ setup(name='collective.zopeedit',
           'setuptools',
           # -*- Extra requirements: -*-
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points = {
+        'console_scripts': [
+            'zopeedit = collective.zopeedit.zopeedit:main',
+        ]
+      },
+      data_files = data_files(),
+      options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]}},
       )
