@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ZopeEdit
+Comment=Directly edit Zope content with a local editor
+Comment[fr]=Édition des contenus du serveur Zope avec un logiciel local
+Categories=GNOME;Utility;
+Exec=zopeedit
+Icon=
+StartupNotify=true
+Terminal=true
+Type=Application

@@ -1,0 +1,52 @@
+In this directory is a file named "ZopeExtEditDummyOCX.ocx".  The OCX
+does nothing whatsoever.  But if you install it on a client system, it
+can be used to test for the presence of external editor.
+
+To install by hand:
+
+regsvr32 ZopeExtEditDummyOCX.ocx
+
+To install via Innosetup see "Installing OCXs" at
+http://www.jrsoftware.org/iskb.php?a=vb ... I haven't tried it yet tho
+
+Once it's installed, you can use the folllowing VBScript to do the
+detection:
+
+<SCRIPT LANGUAGE=VBScript>
+ return IsObject(
+ CreateObject("ZOPEEXTEDITDUMMYOCX.ZopeExtEditDummyOCXCtrl.1"))
+</SCRIPT>
+
+Or an x-platform bit of Javascript that works under Moz or IE to do same
+is:
+
+function externalEditorInstalled() {
+     // mozilla: life is easy; test for mimetype availability
+     mt  = 'application/x-zope-edit'
+     if ( navigator.mimeTypes && navigator.mimeTypes.length ) {
+          thing = navigator.mimeTypes[mt];
+          return thing;
+     }
+
+     // IE: test for presence of dummy OCX installed by installer
+     else if ( ActiveXObject ) {
+       return new
+ActiveXObject("ZOPEEXTEDITDUMMYOCX.ZopeExtEditDummyOCXCtrl.1");
+     }
+
+     // others: return true for conservatism's sake
+     else {
+          return true;
+     }
+
+}          
+
+... then condition the visibility of "pencil icons" (or whatever) on the
+result of that function ... I have been wrapping the result of all
+occurrences of ExternalEditLink in a span that has a CSS class named
+"eelink" which has style "display:none", then I have a bit of javascript
+at the bottom of templates that show these icons which calls the
+"externalEditorInstalled()" function; if it returns true, it iterates
+over all of the "eelink" elements on the page switching them on.
+
+

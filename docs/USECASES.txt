@@ -1,0 +1,59 @@
+Usecases handled by ZopeEdit
+============================
+
+Introduction
+------------
+
+ZopeEdit can handle many proxy and server configurations. It can work in many
+cases, but their can be usecases not handled.
+
+This file explains how each usecase is handled.
+
+Configuration file and proxy
+----------------------------
+
+    The configuration file is edited by the user by launching zopeedit directly
+    either in command line or application launcher.
+    
+    The config file is used prior to any other possibility when an option is
+    defined.
+    
+    The config file has options for proxy definition, configuration and
+    authentification.
+    
+    When their is no option defined in the configuration file, zopeedit will
+    try to auto-detect the user's environment configuration. If a proxy is
+    defined at the system level, zopeedit will try to use it. This is called
+    "auto-proxy".
+    
+
+Situations
+----------
+
+    - http / auto proxy
+    
+        * this needs more testing
+        * maybe issue in the code : how does it use the proxy ?
+        * what happens when the auto-detected proxy fails to connect
+          the server ?
+    
+    
+    - https / auto proxy
+        
+        * what happens when the auto-detected proxy fails to connect
+          the server ?
+    
+    - http / manual proxy
+    
+    
+    - https / manual proxy
+    
+    
+    - http / direct
+    
+        * no proxy detected
+    
+    
+    - https / direct
+    
+        * no proxy detected

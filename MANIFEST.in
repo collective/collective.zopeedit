@@ -1,0 +1,4 @@
+global-include *.mo
+global-include *.desktop
+recursive-include docs *.txt
+global-include zopeedit.1

@@ -1,0 +1,37 @@
+.TH zopeedit 1 "Nov 10, 2010" "Zope External Editor"
+.SH NAME
+.B zopeedit
+\- helper application that handles the interaction between the Zope ExternalEditor product and the client side applications
+
+.SH SYNOPSIS
+.B This program is intended to be called by the web browser in response to the application/x\-zope\-edit MIME type and .zem file extension. It can be called directly by the user in order to configure its options.
+
+.SH DESCRIPTION
+Most web browsers should respect the MIME handling instructions in the /etc/mailcap metamail capabilities file, where an entry should have automatically been placed by the system to let zopeedit handle the application/x\-zope\-edit MIME type.
+
+However, if your web browser does not respect mailcap, or if it was not automatically updated during installation, you can simply specify
+
+.B /usr/bin/zopeedit
+
+as a new helper application in your web browser of choice to handle downloads of MIME type
+
+.B application/x\-zope\-edit
+
+for you to be able to edit Zope objects using your favourite editor.
+
+Further customization may be made after the first run of the helper application on the file
+
+.B ~/.zope\-external\-edit
+
+More information on configuration and debugging are available in the upstream author's home page at <http://plone.org/products/zope-externaleditor-client>.
+
+.SH FILES
+.TP
+.I ~/.zope\-external\-edit
+
+.SH "SEE ALSO"
+.BR mailcap(5)
+
+.SH AUTHOR
+This manual page was initially written by Andreas Tille <tille@debian.org>, and is maintained by Federico Sevilla III <jijo@free.net.ph> as part of the zopeedit package for the Debian GNU/Linux system. It may be used freely by others.
+

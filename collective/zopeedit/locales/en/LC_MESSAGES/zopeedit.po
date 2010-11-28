@@ -1,0 +1,322 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ZopeEdit\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-17 10:18+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
+"Language-Team: atReal <contact@atreal.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED KINGDOM\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk\n"
+"X-Poedit-SearchPath-0: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk\n"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:521
+#, python-format
+msgid ""
+"No editor was found for that object.\n"
+"Specify an editor in the configuration file:\n"
+"(%s)"
+msgstr ""
+"No editor was found for that object.\n"
+"Specify an editor in the configuration file:\n"
+"(%s)"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:590
+#, python-format
+msgid ""
+"Editor did not launch properly.\n"
+"External editor lost connection to editor process.\n"
+"\n"
+"%s"
+msgstr ""
+"Editor did not launch properly.\n"
+"External editor lost connection to editor process.\n"
+"\n"
+"%s"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:598
+#, python-format
+msgid ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"\n"
+"Saved at : %(time)s\n"
+"\n"
+"Edition completed"
+msgstr ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"\n"
+"Saved at : %(time)s\n"
+"\n"
+"Edition completed"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:607
+#, python-format
+msgid ""
+"%(title)s\n"
+"\n"
+"Edition completed"
+msgstr ""
+"%(title)s\n"
+"\n"
+"Edition completed"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:619
+msgid ""
+"Some modifications are NOT SAVED to the server.\n"
+"\n"
+msgstr ""
+"Some modifications are NOT SAVED to the server.\n"
+"\n"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:621
+#, python-format
+msgid ""
+"This file has been saved at : %(time)s\n"
+"\n"
+msgstr ""
+"This file has been saved at : %(time)s\n"
+"\n"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:624
+msgid ""
+"This file has never been saved\n"
+"\n"
+msgstr ""
+"This file has never been saved\n"
+"\n"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:625
+msgid ""
+"You may have network issues.\n"
+"Reopen local copy ?\n"
+"If you choose 'No' you will loose all your subsequent work.\n"
+"if you choose 'Yes', backup your file."
+msgstr ""
+"You may have network issues.\n"
+"Reopen local copy ?\n"
+"If you choose 'No' you will loose all your subsequent work.\n"
+"if you choose 'Yes', backup your file."
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:639
+#, python-format
+msgid ""
+"%(title)s\n"
+"\n"
+"Local working copy : %(content_file)s\n"
+"\n"
+"Your intranet file hasn't been saved.\n"
+"Do you want to keep your logs and temporary working copy ?"
+msgstr ""
+"%(title)s\n"
+"\n"
+"Local working copy : %(content_file)s\n"
+"\n"
+"Your intranet file hasn't been saved.\n"
+"Do you want to keep your logs and temporary working copy ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:653
+#, python-format
+msgid ""
+"%(title)s\n"
+"\n"
+"Local working copy : %(content_file)s\n"
+"\n"
+"Your intranet file hasn't been unlocked\n"
+"Do you want to keep your logs and temporary working copy ?"
+msgstr ""
+"%(title)s\n"
+"\n"
+"Local working copy : %(content_file)s\n"
+"\n"
+"Your intranet file hasn't been unlocked\n"
+"Do you want to keep your logs and temporary working copy ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:721
+#, python-format
+msgid ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"Saved at : %(time)s\n"
+"\n"
+"Did you close your file ?"
+msgstr ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"Saved at : %(time)s\n"
+"\n"
+"Did you close your file ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:736
+#, python-format
+msgid ""
+"%(title)s :\n"
+"\n"
+"Did you close your file ?"
+msgstr ""
+"%(title)s :\n"
+"\n"
+"Did you close your file ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:757
+#, python-format
+msgid ""
+"%(title)s\n"
+"Could not acquire lock.\n"
+"Attempt to save to Zope anyway ?"
+msgstr ""
+"%(title)s\n"
+"Could not acquire lock.\n"
+"Attempt to save to Zope anyway ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:782
+msgid ""
+"Could not save to Zope.\n"
+"Error occurred during HTTP put"
+msgstr ""
+"Could not save to Zope.\n"
+"Error occurred during HTTP put"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:805
+#, python-format
+msgid ""
+"%(title)s\n"
+"This object is already locked.\n"
+"Please unlock it or contact your administrator"
+msgstr ""
+"%(title)s\n"
+"This object is already locked.\n"
+"Please unlock it or contact your administrator"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:812
+#, python-format
+msgid ""
+"%s\n"
+"This object is already locked by you in another session.\n"
+"Do you want to borrow this lock and continue ?"
+msgstr ""
+"%s\n"
+"This object is already locked by you in another session.\n"
+"Do you want to borrow this lock and continue ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:842
+#, python-format
+msgid ""
+"%s\n"
+"Object already locked"
+msgstr ""
+"%s\n"
+"Object already locked"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:847
+#, python-format
+msgid ""
+"%(title)s\n"
+"Unable to get a lock on the server(return value %(dav_lock_response)s)"
+msgstr ""
+"%(title)s\n"
+"Unable to get a lock on the server(return value %(dav_lock_response)s)"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:855
+msgid "Do you want to retry ?"
+msgstr "Do you want to retry ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:864
+#, python-format
+msgid ""
+"%s\n"
+"Unable to lock the file on the server.\n"
+"This may be a network or proxy issue.\n"
+"Please contact your system administrator."
+msgstr ""
+"%s\n"
+"Unable to lock the file on the server.\n"
+"This may be a network or proxy issue.\n"
+"Please contact your system administrator."
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1180
+msgid ""
+"There is no specific user configuration file.\n"
+"Create it ?"
+msgstr ""
+"There is no specific user configuration file.\n"
+"Create it ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1186
+msgid "Do you want to replace your configuration file with the default one ?"
+msgstr "Do you want to replace your configuration file with the default one ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1204
+msgid ""
+"Do you want to replace your configuration file \n"
+"with the default one ?"
+msgstr ""
+"Do you want to replace your configuration file \n"
+"with the default one ?"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1426
+msgid "Please enter your password"
+msgstr "Please enter your password"
+
+#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1498
+#, python-format
+msgid ""
+"FATAL ERROR: %s\n"
+"            ZopeEdit will close."
+msgstr ""
+"FATAL ERROR: %s\n"
+"            ZopeEdit will close."
+
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "File : %(content_file)s\n"
+#~ "Saved at : %(time)s\n"
+#~ "\n"
+#~ "Please confirm that the edition is completed"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "File : %(content_file)s\n"
+#~ "Saved at : %(time)s\n"
+#~ "\n"
+#~ "Please confirm that the edition is completed"
+#~ msgid ""
+#~ "%(title)s :\n"
+#~ "\n"
+#~ "Please confirm that the edition is completed"
+#~ msgstr ""
+#~ "%(title)s :\n"
+#~ "\n"
+#~ "Please confirm that the edition is completed"
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "                                    %(content_file)s\n"
+#~ " Saved at : %(time)s\n"
+#~ "                                    Please confirm that the edition is "
+#~ "completed"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "                                    %(content_file)s\n"
+#~ " Saved at : %(time)s\n"
+#~ "                                    Please confirm that the edition is "
+#~ "completed"
+#~ msgid ""
+#~ "Do you want to replace your configuration file`\n"
+#~ "with the default one ?"
+#~ msgstr ""
+#~ "Do you want to replace your configuration file`\n"
+#~ "with the default one ?"
+
