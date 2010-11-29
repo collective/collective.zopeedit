@@ -8,20 +8,30 @@ Zope External Editor Installation
 
   ZopeEdit Application Installation
 
-    Dependancies: Python 2.x pyTk (python2.x-tk or python-tk)
+    Dependancies: 
+
+        - Python 2.x pyTk (python-tk)
+        - Setuptools (python-setuptools)
     
-    You can install zopeedit from pypi::
+    Method 1 : You can install zopeedit from pypi::
     
       easy_install collective.zopeedit
 
-    Download the helper app archive and extract it. Enter the ExternalEditor
-    directory and run (You may need to be root)::
+    Method 2 : Download the helper app archive and extract it. 
+    Enter the ExternalEditor directory and run (You may need to be root)::
 
       python2.6 setup.py install
 
-    This will install the zopeedit.py executable (in /usr/local/bin on my
-    system). Alternately, you can launch zopeedit.py from location where
-    you downloaded it.
+      This will install the zopeedit.py executable (in /usr/local/bin on my
+      system). Alternately, you can launch zopeedit.py from location where
+      you downloaded it.
+
+    Method 3 : You may use zopeedit directly from its source tree::
+
+      Extract the source archive or checkout from subversion
+      Add execution rights to zopeedit.py
+      chmod 755 collective/zopeedit/zopeedit.py
+      and associate zopeedit.py from its source folder.
 
     Once you have the helper application installed, you need to configure your
     browser to fire it off appropriately. To do so, create an entry in the

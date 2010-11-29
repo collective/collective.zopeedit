@@ -6,33 +6,34 @@ Zope External Editor Installation
 
   - Install the helper application on the client(s) and configure the browser(s)
 
-  Product Installation
+  Product Installation (server side)
 
     Download the archive and extract it into your Zope products directory. Then
     restart Zope. If you succeeded, you'll notice pencil icons next to the
     external editable objects in the Zope management screens.
     
-  Helper Application Installation (Binary)
+  Helper Application Installation (client side)
 
     The binary distribution for Windows includes everything you need to
     to install the helper application. It is precompiled to a native Windows
-    executable using Python 2.3.4, Pythonwin build 163 and Py2exe 0.5. 
+    executable using Python 2.6, Pythonwin, distutils and Py2exe. 
     Everything is included for you in one package.
 
     Just run the setup executable to install and configure the helper app
     for use with Internet Explorer. You can also register it (zopeedit.exe) 
     with other browsers directly.
 
-    You can download the binary installer from Zope.org at::
+    You can download the binary installer from Plone.org at::
 
-      http://www.zope.org/Members/Caseman/ExternalEditor
+      http://plone.org/products/zope-externaleditor-client
 
   Helper Application Installation (Source)
 
-    Dependancies: Python 2.2 or newer, Pythonwin extensions (win32all)
+    Dependancies: Python 2.6 or newer, Pythonwin extensions (win32all), 
+                  Setuptools
 
-    *Note: This configuration is for Windows 98, for easier setup on XP and
-    Windows 2000, use the binary distribution*
+    *Note: This configuration is for Windows 98, for easier setup
+     use the binary distribution*
     
     Download the helper app archive and extract into the directory where you 
     want to install it: C:\Program Files\ZopeEdit might be a good choice. 
@@ -52,7 +53,7 @@ Zope External Editor Installation
 
     - Enter a description such as "Zope External Editor"
 
-    - Enter an extension not otherwise used on your system (.zope is usually a
+    - Enter an extension not otherwise used on your system (.zem is usually a
       good choice, the exact value is not important)
 
     - For content type (MIME) enter: application/x-zope-edit
@@ -67,7 +68,7 @@ Zope External Editor Installation
       Python, enter the path to the helper application file, in quotes if
       needed.  Follow it with: "%1" (in quotes). On my system it looks like::
 
-        '"C:\Python23\pythonw.exe" C:\Casey\ExternalEditor\zopeedit.py "%1"
+        '"C:\Python26\pythonw.exe" C:\user\ExternalEditor\zopeedit.py "%1"
 
     - Click OK.
 

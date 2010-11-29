@@ -12,7 +12,7 @@ AppUpdatesURL=http://plone.org/products/zope-externaleditor-client
 DefaultDirName={pf}\ZopeExternalEditor
 DefaultGroupName=Zope External Editor
 AllowNoIcons=true
-LicenseFile=..\LICENSE.txt
+LicenseFile=..\..\..\LICENSE.txt
 ChangesAssociations=true
 OutputBaseFilename=zopeedit-win32-0.12.6
 VersionInfoCompany=atReal
@@ -43,13 +43,13 @@ Source: ZopeEdit.ini; DestDir: {app}; Flags: ignoreversion
 Source: ZopeExtEditDummyOCX.ocx; DestDir: {app}; Flags: restartreplace regserver
 Source: ..\..\..\README.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\..\..\LICENSE.txt; DestDir: {app}\docs; Flags: ignoreversion
-Source: ..\..\..\CHANGES.txt; DestDir: {app}\docs; Flags: ignoreversion
-Source: ..\..\..\VERSION.txt; DestDir: {app}\docs; Flags: ignoreversion
+Source: ..\..\..\docs\HISTORY.txt; DestDir: {app}\docs; Flags: ignoreversion
+Source: ..\..\..\docs\VERSION.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
 
 [_ISToolPreCompile]
-Name: C:\Documents and Settings\admin\Mes documents\ZopeEdit-ar\win32\buildexe.bat; Parameters: ; Flags: abortonerror
+Name: buildexe.bat; Parameters: ; Flags: abortonerror
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
