@@ -175,6 +175,15 @@ class Configuration:
 
         return opt
 
+class NullResponse:
+    """ Fake Response in case of http error
+    """
+    def getheader(self, n, d = None):
+        return d
+
+    def read(self):
+        return '(No Response From Server)'
+
 class ExternalEditor:
 
     did_lock = False
@@ -264,16 +273,21 @@ class ExternalEditor:
                                             metadata.get('extension'),
                                             self.host)
 
+            logger.info("all options : %r" % self.options)
+
             # Log level
             logger.setLevel(LOG_LEVELS[self.options.get('log_level',
                                                         'debug')])
 
-            logger.info("all options : %r" % self.options)
-
+            # Get autoproxy option : do we want to configure proxy from system ?
+            self.autoproxy = self.options.get('autoproxy','')
+            logger.debug("autoproxy: %r" % self.autoproxy)
+            
             # Get proxy from options
             self.proxy = self.options.get('proxy','')
-            if self.proxy == '':
-                proxies = getproxies()
+            proxies = getproxies()
+            logger.debug("system proxies : %r" % proxies)
+            if self.proxy == '' and self.autoproxy:
                 if proxies.has_key('http') :
                     self.proxy = proxies["http"]
             if self.proxy.startswith('http://'):
@@ -828,7 +842,7 @@ class ExternalEditor:
 
     def lock(self):
         """Apply a webdav lock to the object in Zope"""
-	logger.debug("lock: lock at: %s" % time.asctime(time.localtime()) )
+        logger.debug("lock: lock at: %s" % time.asctime(time.localtime()) )
         if not self.use_locks:
             logger.debug("lock: don't use locks")
             return True
@@ -1199,12 +1213,6 @@ class ExternalEditor:
         except:
             # On error return a null response with error info
             logger.error("zopeRequest: we got an exception !")
-            class NullResponse:
-                def getheader(self, n, d = None):
-                    return d
-
-                def read(self):
-                    return '(No Response From Server)'
 
             response = NullResponse()
             response.reason = sys.exc_info()[1]
@@ -1631,12 +1639,17 @@ version = %s
 # Default 'infinite' value is about 12 minutes
 lock_timeout = 86400
 
-# Proxy : if nor set, it may be taken from http_proxy env
+# Proxy address
 #proxy = http://www.myproxy.com:8080
 
 # Proxy user and password ( optional )
 #proxy_user = 'username'
 #proxy_pass = 'password'
+
+# Automatic proxy configuration from system
+# does nothing if proxy is configured
+# Default value is "disabled" : 0
+#autoproxy = 1
 
 # Max isAlive counter
 # This is used in order to wait the editor to effectively lock the file

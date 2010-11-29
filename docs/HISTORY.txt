@@ -1,6 +1,13 @@
 Changelog
 =========
 
+29/11/2010 - 0.12.7
+-------------------
+
+    - install from egg
+    - disable automatic proxy detection by default as it may have side effects
+      when a proxy can't handle the request while a direct connexion is ok
+
 19/11/2010 - 0.12.6
 -------------------
 
