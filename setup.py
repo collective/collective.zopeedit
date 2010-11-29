@@ -37,12 +37,8 @@ def data_files():
     files.append((opj('share','man','man1',''),['collective/zopeedit/man/zopeedit.1']))
     files.append((opj('collective','zopeedit', 'docs'), [f for
         f in glob.glob('docs/*') if os.path.isfile(f)]))
-    #files.append((opj('share', 'pixmaps', 'openerp-client'),
-        #glob.glob('bin/pixmaps/*.png')))
-    #files.append((opj('share', 'pixmaps', 'openerp-client', 'icons'),
-    #    glob.glob('bin/icons/*.png')))
-    files.append((opj('share', 'zopeedit'), ['collective/zopeedit/zopeedit.py', ]))
-    files.append(("share/locale", glob.glob("collective/zoeedit/locales/*.*")))
+    files.append((opj('collective','zopeedit','docs'),['README.txt']))
+
     return files
 
 

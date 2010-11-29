@@ -28,7 +28,7 @@ try:
     f=open(os.path.join(system_path,'docs/VERSION.txt'), 'r')
 except IOError:
     # zopeedit is not properly installed : try uninstalled path
-    f=open(os.path.join(system_path,'../../docs/VERSION.txt'), 'r')  # Open the VERSION file for reading.
+    f=open(os.path.join(system_path,'../../docs/VERSION.txt'), 'r')
 __version__ = f.readline()[:-1]
 f.close()
 
@@ -1577,6 +1577,20 @@ def fatalError(message, exit = 1):
         debug_f.close()
     if exit:
         sys.exit(0)
+                
+def messageScrolledText(text):
+    if has_tk():
+        from ScrolledText import ScrolledText
+        myText=ScrolledText(tk_root, width=80, wrap="word")
+        myText.pack()
+        myText.insert('end',"".join(text))
+        tk_root.wm_deiconify()
+        tk_flush()
+        tk_root.protocol( "WM_DELETE_WINDOW", sys.exit )
+        tk_root.mainloop()
+
+    else:
+        print text
 
 default_configuration = """
 # Zope External Editor helper application configuration
@@ -1758,25 +1772,29 @@ extension=.planner
 editor=planner
 """
 
-def main(input_file = ""):
+def main():
     """ call zopeedit as a lib
-    """
-    input_file = sys.argv[1]
-    ExternalEditor(input_file).launch()
-
-if __name__ == '__main__':
-    """ command line call
     """
     args = sys.argv
 
     if '--version' in args or '-v' in args:
         credits = ('Zope External Editor %s\n'
-                   'By Casey Duncan, Zope Corporation\n'
-                   'http://www.zope.com/\n'
-                   'This version is maintained by atReal\n'
+                   'By atReal\n'
                    'http://www.atreal.net') % __version__
-        errorDialog(credits)
-        sys.exit()
+        messageDialog(credits)
+        sys.exit(0)
+    if '--help' in args or '-h' in args:
+        # Open the VERSION file for reading.
+        try:
+            f=open(os.path.join(system_path,'docs','README.txt'), 'r')
+        except IOError:
+            # zopeedit is not properly installed : try uninstalled path
+            f=open(os.path.join(system_path,'..','..','README.txt'), 'r')
+        README = f.readlines()
+        f.close()        
+        messageScrolledText(README)
+        sys.exit(0)
+        
     if len(sys.argv)>=2:
         input_file = sys.argv[1]
     else:
@@ -1787,3 +1805,8 @@ if __name__ == '__main__':
         pass
     except:
         fatalError(sys.exc_info()[1])
+
+if __name__ == '__main__':
+    """ command line call
+    """
+    main()
