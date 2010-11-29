@@ -26,9 +26,8 @@ try:
 except ImportError:
     if sys.platform == 'win32':
         raise
-    packages = None
-else:
-    packages = ['Plugins']
+
+packages = find_packages(exclude=['ez_setup'])
 
 def data_files():
     '''Build list of data files to be installed'''
@@ -59,7 +58,7 @@ setup(name='collective.zopeedit',
       author_email='contact@atreal.net',
       url='http://svn.plone.org/svn/collective/collective.zopeedit/',
       license='ZPL',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=packages,
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
@@ -73,5 +72,7 @@ setup(name='collective.zopeedit',
         ]
       },
       data_files = data_files(),
+      scripts=['collective/zopeedit/zopeedit.py'],
+      windows=['collective\zopeedit\zopeedit.py'],
       options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]}},
       )

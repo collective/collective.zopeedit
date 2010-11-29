@@ -47,6 +47,8 @@ Source: ..\..\..\docs\HISTORY.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\..\..\docs\VERSION.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
+Source: ..\..\..\dist\*; DestDir: {app}; Flags: restartreplace
+Source: ..\Plugins\*; DestDir: {app}\Plugins; Flags: ignoreversion
 
 [_ISToolPreCompile]
 Name: buildexe.bat; Parameters: ; Flags: abortonerror

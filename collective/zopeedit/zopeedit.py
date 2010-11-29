@@ -20,9 +20,13 @@ APP_NAME = 'zopeedit'
 
 import sys
 import os
-#system_path = os.path.realpath( os.path.dirname( sys.argv[0] ) )
 # get the path of zopeedit.py
-system_path=os.path.split(__file__)[0]
+try:
+    # try to get the python file path
+    system_path=os.path.split(__file__)[0]
+except NameError:
+    system_path = os.path.realpath( os.path.dirname( sys.argv[0] ) )
+
 # Open the VERSION file for reading.
 try:
     f=open(os.path.join(system_path,'docs/VERSION.txt'), 'r')
