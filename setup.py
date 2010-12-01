@@ -34,6 +34,9 @@ def data_files():
     files = []
 
     files.append((opj('share','man','man1',''),['collective/zopeedit/man/zopeedit.1']))
+    files.append((opj('share','mime'),['collective/zopeedit/posix/x-zope-edit-zem.xml']))
+    files.append((opj('share','applications'),['collective/zopeedit/posix/zopeedit.desktop']))
+    files.append((opj('share','icons'),['collective/zopeedit/posix/zopeedit.svg']))
     files.append((opj('collective','zopeedit', 'docs'), [f for
         f in glob.glob('docs/*') if os.path.isfile(f)]))
     files.append((opj('collective','zopeedit','docs'),['README.txt']))
@@ -72,7 +75,6 @@ setup(name='collective.zopeedit',
         ]
       },
       data_files = data_files(),
-      scripts=['collective/zopeedit/zopeedit.py'],
-      windows=['collective\zopeedit\zopeedit.py'],
+      windows=[os.path.join('collective','zopeedit','zopeedit.py')],
       options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]}},
       )
