@@ -9,3 +9,4 @@ StartupNotify=true
 Terminal=false
 Type=Application
 Encoding=UTF-8
+X-AppInstall-Package=collective.zopeedit

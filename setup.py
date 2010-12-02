@@ -34,7 +34,7 @@ def data_files():
     files = []
 
     files.append((opj('share','man','man1',''),['collective/zopeedit/man/zopeedit.1']))
-    files.append((opj('share','mime'),['collective/zopeedit/posix/x-zope-edit-zem.xml']))
+    files.append((opj('share','mime','application'),['collective/zopeedit/posix/x-zope-edit-zem.xml']))
     files.append((opj('share','applications'),['collective/zopeedit/posix/zopeedit.desktop']))
     files.append((opj('share','icons'),['collective/zopeedit/posix/zopeedit.svg']))
     files.append((opj('collective','zopeedit', 'docs'), [f for
