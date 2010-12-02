@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZopeEdit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-03 00:18+0100\n"
+"POT-Creation-Date: 2010-12-03 00:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -187,6 +187,14 @@ msgstr ""
 "Unable to lock the file on the server.\n"
 "This may be a network or proxy issue.\n"
 "Please contact your system administrator."
+
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:980
+msgid ""
+"Error while removing the file's lock.\n"
+"Retry ?"
+msgstr ""
+"Error while removing the file's lock.\n"
+"Retry ?"
 
 #: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1234
 msgid "Reset configuration file ?"

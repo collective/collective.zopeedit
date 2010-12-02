@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zopeedit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-03 00:12+0100\n"
+"POT-Creation-Date: 2010-12-03 00:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -188,6 +188,14 @@ msgstr ""
 "Impossible de verrouiller le document sur le serveur.\n"
 "Il est possible que vous rencontriez un problème de réseau ou de configuration de proxy.\n"
 "Merci de contacter votre administrateur."
+
+#: zopeedit.py:980
+msgid ""
+"Error while removing the file's lock.\n"
+"Retry ?"
+msgstr ""
+"Une erreur est survenue lors du dé-verrouillage de votre document.\n"
+"Voulez-vous ré-essayer ?"
 
 #: zopeedit.py:1234
 msgid "Reset configuration file ?"

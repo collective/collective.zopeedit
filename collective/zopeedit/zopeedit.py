@@ -977,8 +977,8 @@ class ExternalEditor:
                                        time.asctime(time.localtime()), 
                                        self.did_lock, status ))
             if askRetryAfterError(response, 
-                                  "ZopeEdit can''t unlock your file.\n"
-                                  "Retry ?"):
+                                  _("Error while removing the file's lock.\n"
+                                  "Retry ?")):
                 status = self.DAVunlock().status
                 continue
             else :
