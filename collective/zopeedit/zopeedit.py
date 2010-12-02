@@ -189,11 +189,19 @@ class NullResponse:
         return '(No Response From Server)'
 
 class ExternalEditor:
-
-    did_lock = False
-    tried_cleanup = False
+    """ ExternalEditor is the main class of zopeedit.
+        It is in charge of making the link between the client editor
+        and the server file object.
+        There are 2 main actions :
+        - launch('filename') : starts the edition process
+        - editConfig() : allows the end user to edit a local options file
+    """
 
     def __init__(self, input_file = ''):
+        """ arguments :
+                - 'input_file' is the main file received from the server.
+        """
+        self.networkerror = False
         self.input_file = input_file
         # Setup logging.
         global log_file
@@ -210,48 +218,18 @@ class ExternalEditor:
                 "ZopeEdit version %s maintained by atReal." % __version__ )
         logger.info('Opening %r.', self.input_file)
 
+        # Read the configuration file
+        config_path = self.getConfigPath()
+        self.config = Configuration(config_path)
+
+        # If there is no filename, don't try to use it ! 
+        if self.input_file == '':
+            return
+
         try:
-            # Read the configuration file
-            if win32:
-                # Check the home dir first and then the program dir
-                config_path = os.path.expanduser('~\\ZopeEdit.ini')
-
-                # sys.path[0] might be library.zip!!!!
-                app_dir = sys.path[0]
-                if app_dir.lower().endswith('library.zip'):
-                    app_dir = os.path.dirname(app_dir)
-                global_config = os.path.join(app_dir or '', 'ZopeEdit.ini')
-
-                if not os.path.exists(config_path):
-                    logger.info('Config file %r does not exist. '
-                                 'Using global configuration file: %r.',
-                                 config_path, global_config)
-
-                    # Don't check for the existence of the global
-                    # config file. It will be created anyway.
-                    config_path = global_config
-                else:
-                    logger.info('Using user configuration file: %r.',
-                                 config_path)
-
-            elif osx:
-                config_path = os.path.expanduser('~/ZopeEdit-Config.txt')
-            else:
-                config_path = os.path.expanduser('~/.zope-external-edit')
-
-            self.config = Configuration(config_path)
-
-
-            # If there is no filename, the user edits the config file 
-            # of zopeEdit
-            if input_file == '':
-                self.editConfig()
-                sys.exit(0)
-
             # Open the input file and read the metadata headers
             in_f = open(self.input_file, 'rb')
             m = rfc822.Message(in_f)
-
             self.metadata = metadata = m.dict.copy()
             logger.debug("metadata: %s" % repr(self.metadata))
 
@@ -379,6 +357,7 @@ class ExternalEditor:
             body_f.close()
             in_f.close()
 
+            # cleanup the input file if the clean_up option is active
             if self.clean_up:
                 try:
                     logger.debug('Cleaning up %r.', self.input_file)
@@ -389,8 +368,8 @@ class ExternalEditor:
                                      self.input_file)
                     pass # Sometimes we aren't allowed to delete it
 
+            # See if ssl is available
             if self.ssl:
-                # See if ssl is available
                 try:
                     from socket import ssl
                 except ImportError:
@@ -414,17 +393,44 @@ class ExternalEditor:
             raise
 
     def __del__(self):
-        if self.did_lock:
-            # Try not to leave dangling locks on the server
-            try:
-                self.unlock(interactive = False)
-            except:
-                logger.exception('Failure during unlock.')
         logger.info("ZopeEdit ends at: %s" % 
                         time.asctime(time.localtime()) )
 
+    def getConfigPath(self):
+        """ Retrieve the configuration path
+            It may be local if there is a user configuration file
+            or global for all users
+        """
+        if win32:
+            # Check the home dir first and then the program dir
+            config_path = os.path.expanduser('~\\ZopeEdit.ini')
 
-    def cleanContentFile(self):
+            # sys.path[0] might be library.zip!!!!
+            app_dir = sys.path[0]
+            if app_dir.lower().endswith('library.zip'):
+                app_dir = os.path.dirname(app_dir)
+            global_config = os.path.join(app_dir or '', 'ZopeEdit.ini')
+
+            if not os.path.exists(config_path):
+                logger.info('Config file %r does not exist. '
+                             'Using global configuration file: %r.',
+                             config_path, global_config)
+
+                # Don't check for the existence of the global
+                # config file. It will be created anyway.
+                config_path = global_config
+            else:
+                logger.info('Using user configuration file: %r.',
+                             config_path)
+
+        elif osx:
+            config_path = os.path.expanduser('~/ZopeEdit-Config.txt')
+        else:
+            config_path = os.path.expanduser('~/.zope-external-edit')
+        
+        return config_path
+
+    def cleanContentFile(self, tried_cleanup = False):
         if self.clean_up and hasattr(self, 'content_file'):
             # for security we always delete the files by default
             try:
@@ -434,7 +440,7 @@ class ExternalEditor:
                              time.asctime(time.localtime())))
                 return True
             except OSError:
-                if self.tried_cleanup :
+                if tried_cleanup :
                     logger.exception("Failed to clean up %r at %s" % (
                                       self.content_file, 
                                       time.asctime(time.localtime())))
@@ -450,14 +456,14 @@ class ExternalEditor:
                     # Some editors close first and save the file ; 
                     # This may last few seconds
                     time.sleep(10)
-                    self.tried_cleanup = True
 
                     # This is the first try. It may be an editor issue.
                     # Let's retry later.
-                    return self.cleanContentFile()
+                    return self.cleanContentFile(tried_cleanup = True)
 
     def getEditorCommand(self):
-        """Return the editor command"""
+        """ Return the editor command
+        """
         editor = self.options.get('editor')
 
         if win32 and editor is None:
@@ -580,8 +586,14 @@ class ExternalEditor:
         return editor
 
     def launch(self):
-        """Launch external editor"""
+        """ Launch external editor
+        """
 
+        # Do we have an input file ?
+        if self.input_file == '':
+            fatalError(_("No input file. \n"
+                         "ZopeEdit will close."), exit = 0)
+        
         self.last_mtime = os.path.getmtime(self.content_file)
         self.initial_mtime = self.last_mtime
         self.last_saved_mtime = self.last_mtime
@@ -590,7 +602,13 @@ class ExternalEditor:
         command = self.getEditorCommand()
 
         # lock before opening the file in the editor
-        lock_success = self.lock()
+        if not self.lock():
+            self.networkerror = True
+            if self.use_locks:
+                logger.error("lock failed. Exit.")
+                fatalError(_("Could not acquire lock. ZopeEdit will close.\n"
+                             "Your log file will be opened"))
+                self.openLogFile()
 
         # Extract the executable name from the command
         if win32:
@@ -638,17 +656,41 @@ class ExternalEditor:
             logger.info("Editor launched successfully")
 
         launch_success = self.editor.isAlive()
+        if not launch_success:
+            fatalError( _("Unable to edit your file.\n\n"
+                          "%s") % command)
 
         file_monitor_exit_state = self.monitorFile()
 
-        if not launch_success:
-            fatalError( _("Editor did not launch properly.\n"
-                          "External editor lost connection "
-                          "to editor process.\n\n"
-                          "%s") % command, exit = 0)
-
         unlock_success = self.unlock()
+        if not unlock_success:
+            self.networkerror = True
 
+        # Check is a file has been modified but not saved back to zope
+
+        # Clean content file
+        if self.dirty_file:
+            logger.exception("Some modifications are NOT saved "
+                             "we'll re-open file and logs")
+
+            self.clean_up = False
+            self.keep_log = True
+        elif ( not unlock_success ) and self.clean_up:
+            logger.exception("Unlock failed and we have to clean up files")
+            self.clean_up = False
+            self.keep_log = True
+
+        if self.networkerror:
+            # Reopen file whe, there is an issue...
+            errorDialog(_("Network error : your document will be re-opened.\n"
+                         "Save it back manually to the intranet\n\n"
+                         "A log file will also be opened in order to make a diagnostic."))
+            self.editFile(log_file,detach=True)
+            self.editor.startEditor()
+            sys.exit(0)
+
+        # Inform the user of what has been done when the edition is finished
+        # without issue
         if file_monitor_exit_state == "closed modified":
             msg = _("%(title)s\n\n"
                     "File : %(content_file)s\n\n"
@@ -666,57 +708,6 @@ class ExternalEditor:
             pass
         elif file_monitor_exit_state == "manual close not modified":
             pass
-
-        # Check is a file has been modified but not saved back to zope
-        # XXX simplify here !!! 
-        if self.dirty_file:
-            msg = "%s\n\n" %(self.title)
-            msg += _("Some modifications are NOT SAVED to the server.\n\n")
-            if self.last_saved_mtime != self.initial_mtime:
-                msg += _("This file has been saved at : %(time)s\n\n") % {
-                            'time' : time.ctime(self.last_saved_mtime )}
-            else:
-                msg += _("This file has never been saved\n\n")
-            msg += _("You may have network issues.\n"
-                     "Reopen local copy ?\n"
-                     "If you choose 'No' "
-                     "you will loose all your subsequent work.\n"
-                     "if you choose 'Yes', backup your file.")
-            if askYesNo(msg):
-                logger.exception("File NOT saved ; "
-                                 "User decided to re-open a local copy.")
-                self.editor.startEditor()
-
-        # Clean content file
-        if self.dirty_file:
-            logger.exception("Some modifications are NOT saved "
-                             "ask user wether to keep it or not")
-            msg = _("%(title)s\n\n"
-                    "Local working copy : %(content_file)s\n\n"
-                    "Your intranet file hasn't been saved.\n"
-                    "Do you want to keep your logs "
-                    "and temporary working copy ?" ) %{
-                                    'title': self.title, 
-                                    'content_file': self.content_file}
-            if askYesNo(msg):
-                self.clean_up = False
-                self.keep_log = True
-                logger.exception("User decides to keep logs and "
-                                 "temporary working copy")
-        elif ( not unlock_success ) and self.clean_up:
-            logger.exception("Unlock failed and we have to clean up files")
-            msg = _("%(title)s\n\n"
-                    "Local working copy : %(content_file)s\n\n"
-                    "Your intranet file hasn't been unlocked\n"
-                    "Do you want to keep your logs and "
-                    "temporary working copy ?") %{
-                                   'title': self.title, 
-                                   'content_file': self.content_file}
-            if askYesNo(msg):
-                self.clean_up = False
-                self.keep_log = True
-                logger.exception("User decides to keep logs and "
-                                 "temporary working copy")
 
         self.cleanContentFile()
 
@@ -803,19 +794,6 @@ class ExternalEditor:
     def putChanges(self):
         """Save changes to the file back to Zope"""
         logger.info("putChanges at: %s" % time.asctime(time.localtime()) )
-        if self.use_locks and self.lock_token is None:
-            # We failed to get a lock initially, so try again before saving
-            logger.warning("PutChanges : lock initially failed. "
-                           "Lock before saving.")
-            if not self.lock():
-                # Confirm save without lock
-                msg = _("%(title)s\n"
-                        "Could not acquire lock.\n"
-                        "Attempt to save to Zope anyway ?") %{
-                                                     'title': self.title}
-                if not askYesNo(msg):
-                    logger.error("PutChanges : Could not acquire lock !")
-                    return False
 
         f = open(self.content_file, 'rb')
         body = f.read()
@@ -828,7 +806,8 @@ class ExternalEditor:
             headers['If'] = '<%s> (<%s>)' % (self.path, self.lock_token)
 
         response = self.zopeRequest('PUT', headers, body)
-        del body # Don't keep the body around longer then we need to
+        # Don't keep the body around longer than we need to
+        del body
 
         if response.status / 100 != 2:
             # Something went wrong
@@ -1250,14 +1229,9 @@ class ExternalEditor:
                 logger.info('Local configuration file %r does not exist. '
                              'Global configuration file is : %r.',
                              user_config, global_config)
-                if not askYesNo(_("There is no specific user "
-                                  "configuration file.\n"
-                                  "Create it ?")):
-                    sys.exit(0)
                 create_config_file = True
             else:
-                if askYesNo(_("Do you want to replace your configuration "
-                              "file with the default one ?")):
+                if askYesNo(_("Reset configuration file ?")):
                     create_config_file = True
                     logger.info("Replace the configuration file "
                                 "with the default one.")
@@ -1282,26 +1256,29 @@ class ExternalEditor:
                 output_config = open(user_config, 'w')
                 output_config.write(default_configuration)
                 output_config.close()
+        self.editFile(user_config)
+    
+    def editFile(self, file, detach = False):
         # launch default editor with the user configuration file
         default_editor = self.config.config.get('general',
                                                 'config_editor',
                                                 '')
         if not default_editor:
             if osx:
-                LSOpenFSRef(user_config,None)
-                exit(0)
+                LSOpenFSRef(file,None)
             else:
                 logger.critical("No default editor. "
-                                "Configuration edition failed.")
-                sys.exit(0)
-        logger.info("Edit configuration file %s with editor %s" % (
-                     user_config, default_editor))
-        logger.debug("launching default editor in a shell environment : %s %s" % (default_editor, user_config) )
-        p = Popen("%s %s" % (default_editor, user_config), shell = True)
-        if linux: 
-            sts = os.waitpid(p.pid, 0)[1]
-            logger.debug("sts : %s" % sts)
-
+                                "File edition failed.")
+        logger.info("Edit file %s with editor %s" % (
+                     file, default_editor))
+        logger.debug("launching default editor in a shell environment : %s %s" % (default_editor, file) )
+        p = Popen("%s %s" % (default_editor, file), shell = True)
+        if linux:
+            if detach:
+                p.poll()
+            else:
+                sts = os.waitpid(p.pid, 0)[1]
+                logger.debug("sts : %s" % sts)
 
 title = 'Zope External Editor'
 
@@ -1793,6 +1770,7 @@ def main():
     """ call zopeedit as a lib
     """
     args = sys.argv
+    input_file=''
 
     if '--version' in args or '-v' in args:
         credits = ('Zope External Editor %s\n'
@@ -1814,14 +1792,15 @@ def main():
         
     if len(sys.argv)>=2:
         input_file = sys.argv[1]
+        try:
+            ExternalEditor(input_file).launch()
+        except (KeyboardInterrupt, SystemExit):
+            pass
+        except:
+            fatalError(sys.exc_info()[1])
     else:
-        input_file = ""
-    try:
-        ExternalEditor(input_file).launch()
-    except (KeyboardInterrupt, SystemExit):
-        pass
-    except:
-        fatalError(sys.exc_info()[1])
+        ExternalEditor().editConfig()
+
 
 if __name__ == '__main__':
     """ command line call

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zopeedit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-17 09:58+0100\n"
+"POT-Creation-Date: 2010-12-03 00:12+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -12,10 +12,10 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk\n"
-"X-Poedit-SearchPath-0: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk\n"
+"X-Poedit-Basepath: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:521
+#: zopeedit.py:582
 #, python-format
 msgid ""
 "No editor was found for that object.\n"
@@ -26,20 +26,46 @@ msgstr ""
 "Spécifiez un logiciel d'édition dans le fichier de configuration:\n"
 "(%s)"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:590
+#: zopeedit.py:594
+msgid ""
+"No input file. \n"
+"ZopeEdit will close."
+msgstr ""
+"Pas de document à éditer.\n"
+"ZopeEdit va se fermer."
+
+#: zopeedit.py:609
+msgid ""
+"Could not acquire lock. ZopeEdit will close.\n"
+"Your log file will be opened"
+msgstr ""
+"Impossible de verrouiller votre document. ZopeEdit va se ferner.\n"
+"Votre fichier de traces va être ouvert."
+
+#: zopeedit.py:660
 #, python-format
 msgid ""
-"Editor did not launch properly.\n"
-"External editor lost connection to editor process.\n"
+"Unable to edit your file.\n"
 "\n"
 "%s"
 msgstr ""
-"Le logiciel d'édition ne s'est pas exécuté normalement.\n"
-"ZopeEdit n'a pas pu surveiller l'exécution du logiciel d'édition\n"
+"Impossible d'ouvrir votre document dans un éditeur.\n"
 "\n"
-"(%s)"
+"%s"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:598
+#: zopeedit.py:685
+msgid ""
+"Network error : your document will be re-opened.\n"
+"Save it back manually to the intranet\n"
+"\n"
+"A log file will also be opened in order to make a diagnostic."
+msgstr ""
+"Erreur Réseaux : votre document va être ré-ouvert.\n"
+"Vous devrez le sauvegarder et le mettre à jour manuellement dans votre intranet.\n"
+"\n"
+"Le fichier de traces va être ouvert afin de diagnostiquer le problème."
+
+#: zopeedit.py:695
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -58,7 +84,7 @@ msgstr ""
 "\n"
 "Édition terminée."
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:607
+#: zopeedit.py:704
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -69,79 +95,7 @@ msgstr ""
 "\n"
 "Édition du document terminée."
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:619
-msgid ""
-"Some modifications are NOT SAVED to the server.\n"
-"\n"
-msgstr ""
-"Certaines de vos modifications ne sont PAS SAUVEGARDEES sur le serveur.\n"
-"\n"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:621
-#, python-format
-msgid ""
-"This file has been saved at : %(time)s\n"
-"\n"
-msgstr ""
-"Votre document a été sauvegardé à %(time)s\n"
-"\n"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:624
-msgid ""
-"This file has never been saved\n"
-"\n"
-msgstr ""
-"Ce document n'a jamais été sauvegardé\n"
-"\n"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:625
-msgid ""
-"You may have network issues.\n"
-"Reopen local copy ?\n"
-"If you choose 'No' you will loose all your subsequent work.\n"
-"if you choose 'Yes', backup your file."
-msgstr ""
-"Problème de connexion réseau.\n"
-"Ré-ouvrir la copie locale ?\n"
-"ATTENTION : Si vous choisissez  'Non'\n"
-"vous allez perdre vos modifications locales.\n"
-"Si vous choisissez 'Oui', sauvegardez votre document dans un endroit que vous retrouverez afin de le mettre à jour ultérieurement."
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:639
-#, python-format
-msgid ""
-"%(title)s\n"
-"\n"
-"Local working copy : %(content_file)s\n"
-"\n"
-"Your intranet file hasn't been saved.\n"
-"Do you want to keep your logs and temporary working copy ?"
-msgstr ""
-"%(title)s\n"
-"\n"
-"Copie de travail de votre document : %(content_file)s\n"
-"\n"
-"Votre document n'a fait l'objet d'aucune sauvegarde sur le serveur.\n"
-"Voulez-vous conserver vos fichiers de traces et la copie de travail de votre document ?"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:653
-#, python-format
-msgid ""
-"%(title)s\n"
-"\n"
-"Local working copy : %(content_file)s\n"
-"\n"
-"Your intranet file hasn't been unlocked\n"
-"Do you want to keep your logs and temporary working copy ?"
-msgstr ""
-"%(title)s\n"
-"\n"
-"Copie de travail de votre document : %(content_file)s\n"
-"\n"
-"Votre document n'a pas pu être dé-verrouillé.\n"
-"Voulez-vous conserver vos fichiers de traces et la copie de travail de votre document ?"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:721
+#: zopeedit.py:767
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -159,7 +113,7 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:736
+#: zopeedit.py:782
 #, python-format
 msgid ""
 "%(title)s :\n"
@@ -170,18 +124,7 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:757
-#, python-format
-msgid ""
-"%(title)s\n"
-"Could not acquire lock.\n"
-"Attempt to save to Zope anyway ?"
-msgstr ""
-"%(title)s\n"
-"Impossible de verrouiller le fichier sur le serveur.\n"
-"Faut-il tout de même effectuer la sauvegarde du document sur le serveur ?"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:782
+#: zopeedit.py:816
 msgid ""
 "Could not save to Zope.\n"
 "Error occurred during HTTP put"
@@ -189,7 +132,7 @@ msgstr ""
 "Impossible d'effectuer la sauvegarde sur le serveur.\n"
 "Erreur durant le HTTP put"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:805
+#: zopeedit.py:840
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -200,7 +143,7 @@ msgstr ""
 "Ce document est déjà verrouillé.\n"
 "Merci de le dé-verrouiller ou de contacter votre administrateur."
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:812
+#: zopeedit.py:847
 #, python-format
 msgid ""
 "%s\n"
@@ -211,7 +154,7 @@ msgstr ""
 "Vous avez déjà verrouillé ce document lors d'une autre session.\n"
 "Souhaitez-vous récupérer ce verrou et continuer ?"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:842
+#: zopeedit.py:877
 #, python-format
 msgid ""
 "%s\n"
@@ -220,7 +163,7 @@ msgstr ""
 "%s\n"
 "Document déjà verrouillé"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:847
+#: zopeedit.py:882
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -229,11 +172,11 @@ msgstr ""
 "%(title)s\n"
 "Impossible de verrouiller le document sur le serveur (Erreur n° %(dav_lock_response)s)"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:855
+#: zopeedit.py:890
 msgid "Do you want to retry ?"
 msgstr "Souhaitez-vous ré-essayer ? "
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:864
+#: zopeedit.py:899
 #, python-format
 msgid ""
 "%s\n"
@@ -246,27 +189,21 @@ msgstr ""
 "Il est possible que vous rencontriez un problème de réseau ou de configuration de proxy.\n"
 "Merci de contacter votre administrateur."
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1180
-msgid ""
-"There is no specific user configuration file.\n"
-"Create it ?"
-msgstr "Voulez-vous créer un fichier de configuration utilisateur spécifique ?"
+#: zopeedit.py:1234
+msgid "Reset configuration file ?"
+msgstr "Ré-initialiser le fichier de configuration avec les valeurs par défaut ?"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1186
-msgid "Do you want to replace your configuration file with the default one ?"
-msgstr "Voulez-vous ré-initialiser le fichier de configuration ?"
-
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1204
+#: zopeedit.py:1251
 msgid ""
 "Do you want to replace your configuration file \n"
 "with the default one ?"
 msgstr "Voulez-vous ré-initialiser le fichier de configuration ?"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1426
+#: zopeedit.py:1482
 msgid "Please enter your password"
 msgstr "Saisie de votre mot de passe"
 
-#: /home/tbenita/temp/atreal/ZopeEdit-ar/trunk/zopeedit.py:1498
+#: zopeedit.py:1554
 #, python-format
 msgid ""
 "FATAL ERROR: %s\n"
@@ -276,6 +213,92 @@ msgstr ""
 "Une erreur irrécupérable s'est produite :\n"
 "ZopeEdit va se fermer."
 
+#~ msgid ""
+#~ "Editor did not launch properly.\n"
+#~ "External editor lost connection to editor process.\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Le logiciel d'édition ne s'est pas exécuté normalement.\n"
+#~ "ZopeEdit n'a pas pu surveiller l'exécution du logiciel d'édition\n"
+#~ "\n"
+#~ "(%s)"
+#~ msgid ""
+#~ "Some modifications are NOT SAVED to the server.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Certaines de vos modifications ne sont PAS SAUVEGARDEES sur le serveur.\n"
+#~ "\n"
+#~ msgid ""
+#~ "This file has been saved at : %(time)s\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Votre document a été sauvegardé à %(time)s\n"
+#~ "\n"
+#~ msgid ""
+#~ "This file has never been saved\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Ce document n'a jamais été sauvegardé\n"
+#~ "\n"
+#~ msgid ""
+#~ "You may have network issues.\n"
+#~ "Reopen local copy ?\n"
+#~ "If you choose 'No' you will loose all your subsequent work.\n"
+#~ "if you choose 'Yes', backup your file."
+#~ msgstr ""
+#~ "Problème de connexion réseau.\n"
+#~ "Ré-ouvrir la copie locale ?\n"
+#~ "ATTENTION : Si vous choisissez  'Non'\n"
+#~ "vous allez perdre vos modifications locales.\n"
+#~ "Si vous choisissez 'Oui', sauvegardez votre document dans un endroit que "
+#~ "vous retrouverez afin de le mettre à jour ultérieurement."
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "Local working copy : %(content_file)s\n"
+#~ "\n"
+#~ "Your intranet file hasn't been saved.\n"
+#~ "Do you want to keep your logs and temporary working copy ?"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "Copie de travail de votre document : %(content_file)s\n"
+#~ "\n"
+#~ "Votre document n'a fait l'objet d'aucune sauvegarde sur le serveur.\n"
+#~ "Voulez-vous conserver vos fichiers de traces et la copie de travail de "
+#~ "votre document ?"
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "Local working copy : %(content_file)s\n"
+#~ "\n"
+#~ "Your intranet file hasn't been unlocked\n"
+#~ "Do you want to keep your logs and temporary working copy ?"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "Copie de travail de votre document : %(content_file)s\n"
+#~ "\n"
+#~ "Votre document n'a pas pu être dé-verrouillé.\n"
+#~ "Voulez-vous conserver vos fichiers de traces et la copie de travail de "
+#~ "votre document ?"
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "Could not acquire lock.\n"
+#~ "Attempt to save to Zope anyway ?"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "Impossible de verrouiller le fichier sur le serveur.\n"
+#~ "Faut-il tout de même effectuer la sauvegarde du document sur le serveur ?"
+#~ msgid ""
+#~ "There is no specific user configuration file.\n"
+#~ "Create it ?"
+#~ msgstr ""
+#~ "Voulez-vous créer un fichier de configuration utilisateur spécifique ?"
+#~ msgid ""
+#~ "Do you want to replace your configuration file with the default one ?"
+#~ msgstr "Voulez-vous ré-initialiser le fichier de configuration ?"
 #~ msgid ""
 #~ "%(title)s\n"
 #~ "\n"
