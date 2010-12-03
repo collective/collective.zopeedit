@@ -75,6 +75,9 @@ setup(name='collective.zopeedit',
         ]
       },
       data_files = data_files(),
-      windows=[os.path.join('collective','zopeedit','zopeedit.py')],
+      windows=[{
+	      'script': os.path.join('collective','zopeedit','zopeedit.py'),
+	      'icon_resources': [(1, os.path.join('collective','zopeedit','win32','zopeedit.ico'))]
+	      }],
       options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]}},
       )
