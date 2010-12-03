@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zopeedit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-03 00:32+0100\n"
+"POT-Creation-Date: 2010-12-03 11:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -15,7 +15,44 @@ msgstr ""
 "X-Poedit-Basepath: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: zopeedit.py:582
+#: zopeedit.py:218
+#, python-format
+msgid ""
+"\n"
+"|-----------------------------------------------------------|\n"
+"|                                                           |\n"
+"| ZopeEdit version %s                                       |\n"
+"|                                                           |\n"
+"| This file is a log file.                                  |\n"
+"|                                                           |\n"
+"| Please save it and send it to your administrator.         |\n"
+"|                                                           |\n"
+"|-----------------------------------------------------------|\n"
+"| This version is maintained by atReal contact@atreal.net   |\n"
+"|-----------------------------------------------------------|\n"
+"\n"
+"\n"
+"\n"
+"\n"
+msgstr ""
+"\n"
+"|-----------------------------------------------------------|\n"
+"|                                                           |\n"
+"| ZopeEdit version %s                                       |\n"
+"|                                                           |\n"
+"| Ceci est un fichier de traces.                            |\n"
+"|                                                           |\n"
+"| Merci de le sauvegarder et le transmettre à votre         |\n"
+"| administrateur système.                                   |\n"
+"|-----------------------------------------------------------|\n"
+"| Cette version est réalisée par atReal contact@atreal.net  |\n"
+"|-----------------------------------------------------------|\n"
+"\n"
+"\n"
+"\n"
+"\n"
+
+#: zopeedit.py:595
 #, python-format
 msgid ""
 "No editor was found for that object.\n"
@@ -26,7 +63,7 @@ msgstr ""
 "Spécifiez un logiciel d'édition dans le fichier de configuration:\n"
 "(%s)"
 
-#: zopeedit.py:594
+#: zopeedit.py:607
 msgid ""
 "No input file. \n"
 "ZopeEdit will close."
@@ -34,7 +71,7 @@ msgstr ""
 "Pas de document à éditer.\n"
 "ZopeEdit va se fermer."
 
-#: zopeedit.py:609
+#: zopeedit.py:622
 msgid ""
 "Could not acquire lock. ZopeEdit will close.\n"
 "Your log file will be opened"
@@ -42,7 +79,7 @@ msgstr ""
 "Impossible de verrouiller votre document. ZopeEdit va se ferner.\n"
 "Votre fichier de traces va être ouvert."
 
-#: zopeedit.py:660
+#: zopeedit.py:673
 #, python-format
 msgid ""
 "Unable to edit your file.\n"
@@ -53,19 +90,37 @@ msgstr ""
 "\n"
 "%s"
 
-#: zopeedit.py:685
+#: zopeedit.py:699
 msgid ""
-"Network error : your document will be re-opened.\n"
-"Save it back manually to the intranet\n"
+"Network error :\n"
+"Your working copy will be re-opened,\n"
 "\n"
-"A log file will also be opened in order to make a diagnostic."
+"SAVE YOUR WORK ON YOUR DESKTOP.\n"
+"\n"
+"A log file will be opened\n"
+"Please save it and send it to your administrator."
 msgstr ""
-"Erreur Réseaux : votre document va être ré-ouvert.\n"
-"Vous devrez le sauvegarder et le mettre à jour manuellement dans votre intranet.\n"
+"Erreur réseau:\n"
+"Votre copie de travail va être ré-ouverte,\n"
 "\n"
-"Le fichier de traces va être ouvert afin de diagnostiquer le problème."
+"SAUVEGARDEZ VOTRE TRAVAIL SUR VOTRE BUREAU.\n"
+"\n"
+"Un fichier de traces va être ouvert\n"
+"Merci de le sauvegarder et de le transmettre à votre administrateur."
 
-#: zopeedit.py:695
+#: zopeedit.py:708
+msgid ""
+"Network error : your file is still locked.\n"
+"\n"
+"A log file will be opened\n"
+"Please save it and send it to your administrator."
+msgstr ""
+"Erreur réseau: votre document est resté verrouillé.\n"
+"\n"
+"Un fichier de traces va être ouvert\n"
+"Merci de le sauvegarder et de le transmettre à votre administrateur."
+
+#: zopeedit.py:718
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -84,7 +139,7 @@ msgstr ""
 "\n"
 "Édition terminée."
 
-#: zopeedit.py:704
+#: zopeedit.py:727
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -95,7 +150,7 @@ msgstr ""
 "\n"
 "Édition du document terminée."
 
-#: zopeedit.py:767
+#: zopeedit.py:790
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -113,7 +168,7 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: zopeedit.py:782
+#: zopeedit.py:805
 #, python-format
 msgid ""
 "%(title)s :\n"
@@ -124,26 +179,34 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: zopeedit.py:816
+#: zopeedit.py:838
 msgid ""
-"Could not save to Zope.\n"
-"Error occurred during HTTP put"
+"Network error\n"
+"\n"
+"Could not save the file to server.\n"
+"\n"
+"Error detail :\n"
 msgstr ""
+"Erreur Réseau\n"
+"\n"
 "Impossible d'effectuer la sauvegarde sur le serveur.\n"
-"Erreur durant le HTTP put"
+"\n"
+"Détail de l'erreur :\n"
 
-#: zopeedit.py:840
+#: zopeedit.py:865
 #, python-format
 msgid ""
 "%(title)s\n"
+"\n"
 "This object is already locked.\n"
 "Please unlock it or contact your administrator"
 msgstr ""
 "%(title)s\n"
+"\n"
 "Ce document est déjà verrouillé.\n"
 "Merci de le dé-verrouiller ou de contacter votre administrateur."
 
-#: zopeedit.py:847
+#: zopeedit.py:873
 #, python-format
 msgid ""
 "%s\n"
@@ -154,7 +217,7 @@ msgstr ""
 "Vous avez déjà verrouillé ce document lors d'une autre session.\n"
 "Souhaitez-vous récupérer ce verrou et continuer ?"
 
-#: zopeedit.py:877
+#: zopeedit.py:903
 #, python-format
 msgid ""
 "%s\n"
@@ -163,7 +226,7 @@ msgstr ""
 "%s\n"
 "Document déjà verrouillé"
 
-#: zopeedit.py:882
+#: zopeedit.py:908
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -172,11 +235,11 @@ msgstr ""
 "%(title)s\n"
 "Impossible de verrouiller le document sur le serveur (Erreur n° %(dav_lock_response)s)"
 
-#: zopeedit.py:890
+#: zopeedit.py:916
 msgid "Do you want to retry ?"
 msgstr "Souhaitez-vous ré-essayer ? "
 
-#: zopeedit.py:899
+#: zopeedit.py:925
 #, python-format
 msgid ""
 "%s\n"
@@ -189,29 +252,31 @@ msgstr ""
 "Il est possible que vous rencontriez un problème de réseau ou de configuration de proxy.\n"
 "Merci de contacter votre administrateur."
 
-#: zopeedit.py:980
+#: zopeedit.py:1006
 msgid ""
-"Error while removing the file's lock.\n"
-"Retry ?"
+"Network error\n"
+"\n"
+"Unable to unlock the file on server.\n"
 msgstr ""
-"Une erreur est survenue lors du dé-verrouillage de votre document.\n"
-"Voulez-vous ré-essayer ?"
+"Erreur Réseau\n"
+"\n"
+"Impossible de dé-verrouiller le document sur le serveur.\n"
 
-#: zopeedit.py:1234
+#: zopeedit.py:1261
 msgid "Reset configuration file ?"
 msgstr "Ré-initialiser le fichier de configuration avec les valeurs par défaut ?"
 
-#: zopeedit.py:1251
+#: zopeedit.py:1278
 msgid ""
 "Do you want to replace your configuration file \n"
 "with the default one ?"
 msgstr "Voulez-vous ré-initialiser le fichier de configuration ?"
 
-#: zopeedit.py:1482
+#: zopeedit.py:1509
 msgid "Please enter your password"
 msgstr "Saisie de votre mot de passe"
 
-#: zopeedit.py:1554
+#: zopeedit.py:1581
 #, python-format
 msgid ""
 "FATAL ERROR: %s\n"
@@ -221,6 +286,20 @@ msgstr ""
 "Une erreur irrécupérable s'est produite :\n"
 "ZopeEdit va se fermer."
 
+#~ msgid ""
+#~ "Network error : your document will be re-opened.\n"
+#~ "Save it back manually to the intranet\n"
+#~ "\n"
+#~ "A log file will also be opened in order to make a diagnostic."
+#~ msgstr ""
+#~ "Erreur Réseaux : votre document va être ré-ouvert.\n"
+#~ "Vous devrez le sauvegarder et le mettre à jour manuellement dans votre "
+#~ "intranet.\n"
+#~ "\n"
+#~ "Le fichier de traces va être ouvert afin de diagnostiquer le problème."
+#~ msgid "Error while removing the file's lock.\n"
+#~ msgstr ""
+#~ "Une erreur est survenue lors du dé-verrouillage de votre document.\n"
 #~ msgid ""
 #~ "Editor did not launch properly.\n"
 #~ "External editor lost connection to editor process.\n"
