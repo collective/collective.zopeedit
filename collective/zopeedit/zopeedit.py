@@ -214,8 +214,21 @@ class ExternalEditor:
         logger.addHandler(log_filehandler)
         logger.setLevel(logging.DEBUG)
 
-        logger.info(
-                "ZopeEdit version %s maintained by atReal." % __version__ )
+        logger.info(_(
+                "\n"
+                "|-----------------------------------------------------------|\n"
+                "|                                                           |\n"
+                "| ZopeEdit version %s                                       |\n"
+                "|                                                           |\n"
+                "| This file is a log file.                                  |\n"
+                "|                                                           |\n"
+                "| Please save it and send it to your administrator.         |\n"
+                "|                                                           |\n"
+                "|-----------------------------------------------------------|\n"
+                "| This version is maintained by atReal contact@atreal.net   |\n"
+                "|-----------------------------------------------------------|\n"
+                "\n\n\n\n"
+                )% __version__ )
         logger.info('Opening %r.', self.input_file)
 
         # Read the configuration file
@@ -681,12 +694,22 @@ class ExternalEditor:
             self.keep_log = True
 
         if self.networkerror:
+            if self.dirty_file:
             # Reopen file whe, there is an issue...
-            errorDialog(_("Network error : your document will be re-opened.\n"
-                         "Save it back manually to the intranet\n\n"
-                         "A log file will also be opened in order to make a diagnostic."))
+                errorDialog(_("Network error :\n"
+                              "Your working copy will be re-opened,\n"
+                              "\n"
+                              "SAVE YOUR WORK ON YOUR DESKTOP.\n"
+                              "\n"
+                              "A log file will be opened\n"
+                              "Please save it and send it to your administrator."))
+                self.editor.startEditor()
+            else:
+                errorDialog(_("Network error : your file is still locked.\n"
+                              "\n"
+                              "A log file will be opened\n"
+                              "Please save it and send it to your administrator."))
             self.editFile(log_file,detach=True)
-            self.editor.startEditor()
             sys.exit(0)
 
         # Inform the user of what has been done when the edition is finished
@@ -812,9 +835,11 @@ class ExternalEditor:
         if response.status / 100 != 2:
             # Something went wrong
             if int(self.options.get('manage_locks', 1)) and \
-               askRetryAfterError(response,
-                                  _("Could not save to Zope.\n"
-                                    "Error occurred during HTTP put")):
+               askRetryAfterError(response,_("Network error\n"
+                                             "\n"
+                                             "Could not save the file to server.\n"
+                                    "\n"
+                                    "Error detail :\n")):
                 return self.putChanges()
             else:
                 logger.error("Could not save to Zope\n"
@@ -838,6 +863,7 @@ class ExternalEditor:
                                 "lock tocken not empty\n "
                                 "Exit")
                 msg = _("%(title)s\n"
+                        "\n"
                         "This object is already locked.\n"
                         "Please unlock it or contact your administrator"
                         ) %{'title': self.title}
@@ -977,8 +1003,9 @@ class ExternalEditor:
                                        time.asctime(time.localtime()), 
                                        self.did_lock, status ))
             if askRetryAfterError(response, 
-                                  _("Error while removing the file's lock.\n"
-                                  "Retry ?")):
+                                  _("Network error\n"
+                                    "\n"
+                                    "Unable to unlock the file on server.\n")):
                 status = self.DAVunlock().status
                 continue
             else :
@@ -1288,7 +1315,7 @@ def askRetryAfterError(response, operation, message=''):
        and response.getheader('Bobo-Exception-Type') is not None:
         message = '%s: %s' % (response.getheader('Bobo-Exception-Type'),
                               response.getheader('Bobo-Exception-Value'))
-    return askRetryCancel('%s:\n%d %s\n%s' % (operation, response.status,
+    return askRetryCancel('%s\n\"%d %s - %s\"' % (operation, response.status,
                                            response.reason, message))
 
 class EditorProcess:
@@ -1671,14 +1698,21 @@ lock_file_schemes = .~lock.%s#;.%s.swp
 """
 
 if linux:
+    def findDefaultEditor():
+        """ Find an editor to be used as default editor
+        """
+        for editor in ['gedit','kwrite','gvim','emacs','nano','vi']:
+            for path in os.environ["PATH"].split(":"):
+                if editor in os.listdir(path):
+                    return editor
+
     default_configuration += """
 # Uncomment and specify an editor value to override the editor
 # specified in the environment
-config_editor = gvim -f
+config_editor = %(editor)s
 
 # Default editor
-editor = gvim -f
-
+editor = %(editor)s""" % {'editor': findDefaultEditor()} + """
 # Lock File Scheme
 # These are schemes that are used in order to detect "lock" files
 # %s is the edited file's name (add a ';' between each scheme):
@@ -1764,7 +1798,7 @@ editor=freemind
 [content-type:text/xml]
 extension=.planner
 editor=planner
-"""
+""" 
 
 def main():
     """ call zopeedit as a lib
