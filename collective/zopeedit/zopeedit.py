@@ -437,9 +437,12 @@ class ExternalEditor:
                              config_path)
 
         elif osx:
-            config_path = os.path.expanduser('~/ZopeEdit-Config.txt')
+            config_path = os.path.expanduser('~/ZopeEdit.ini')
         else:
-            config_path = os.path.expanduser('~/.zope-external-edit')
+            # make config file using freedesktop config folders
+            if not os.path.isdir(os.path.expanduser('~/.config/collective.zopeedit')):
+                os.makedirs(os.path.expanduser('~/.config/collective.zopeedit'))
+            config_path = os.path.expanduser('~/.config/collective.zopeedit/ZopeEdit.ini')
         
         return config_path
 
@@ -1241,10 +1244,10 @@ class ExternalEditor:
 
     def editConfig(self):
         logger.info('Edit local configuration')
+        user_config = self.getConfigPath()
         # Read the configuration file
         if win32:
             # Check the home dir first and then the program dir
-            user_config = os.path.expanduser('~\\ZopeEdit.ini')
             # sys.path[0] might be library.zip!!!!
             app_dir = sys.path[0]
             if app_dir.lower().endswith('library.zip'):
@@ -1271,10 +1274,6 @@ class ExternalEditor:
                 output_config_file.close()
 
         else:
-            if linux:
-                user_config = os.path.expanduser('~/.zope-external-edit')
-            elif osx:
-                user_config = os.path.expanduser('~/ZopeEdit-Config.txt')
             if askYesNo(_("Do you want to replace your "
                           "configuration file \n"
                           "with the default one ?")):
@@ -1609,43 +1608,52 @@ def messageScrolledText(text):
         print text
 
 default_configuration = """
-# Zope External Editor helper application configuration
+#######################################################################
+#                                                                     #
+#       Zope External Editor helper application configuration         #
+#                                                                     #
+#             maintained by atReal contact@atreal.net                 #
+#######################################################################
+#                                                                     #
+# Remove '#' to make an option active                                 #
+#                                                                     #
+#######################################################################
 
 [general]
 # General configuration options
 version = %s
 
 # Create a new version when the file is closed ?
-# version_control = 0
+#version_control = 0
 
 # Temporary file cleanup. Set to false for debugging or
 # to waste disk space. Note: setting this to false is a
 # security risk to the zope server
-# cleanup_files = 1
-# keep_log = 1
+#cleanup_files = 1
+#keep_log = 1
 
 # Use WebDAV locking to prevent concurrent editing by
 # different users. Disable for single user use or for
 # better performance
-# set use_locks = 0 if you use a proxy that doesn't allow wabdav LOCKs
-# use_locks = 1
+# set use_locks = 0 if you use a proxy that does not allow wabdav LOCKs
+#use_locks = 1
 
 # If you wish to inform the user about locks issues
 # set manage_locks = 1
 # This will allow the user to borrow a lock or edit a locked file
 # without informing the administrator
-# manage_locks = 1
+#manage_locks = 1
 
 # To suppress warnings about borrowing locks on objects
 # locked by you before you began editing you can
 # set this flag. This is useful for applications that
 # use server-side locking, like CMFStaging
-# always_borrow_locks = 1
+#always_borrow_locks = 1
 
 # Duration of file Lock : 1 day = 86400 seconds
 # If this option is removed, fall back on 'infinite' zope default
 # Default 'infinite' value is about 12 minutes
-lock_timeout = 86400
+#lock_timeout = 86400
 
 # Proxy address
 #proxy = http://www.myproxy.com:8080
@@ -1663,18 +1671,18 @@ lock_timeout = 86400
 # This is used in order to wait the editor to effectively lock the file
 # This is the number of 'probing' cycles
 # default value is 5 cycles of save_interval
-# max_isalive_counter = 5
+#max_isalive_counter = 5
 
 # Automatic save interval, in seconds. Set to zero for
 # no auto save (save to Zope only on exit).
-# save_interval = 5
+#save_interval = 5
 
 # log level : default is 'info'.
 # It can be set to debug, info, warning, error or critical.
-# log_level = debug
+#log_level = debug
 
 # If your server is not using utf-8
-# server_charset = utf-8
+#server_charset = utf-8
 
 # If your client charset is not iso-8859-1
 # client_charset = iso-8859-1
