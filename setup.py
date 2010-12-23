@@ -27,6 +27,13 @@ except ImportError:
     if sys.platform == 'win32':
         raise
 
+install_requires = ['setuptools']
+if sys.platform == 'darwin':
+    install_requires.extend(['pyobjc',
+        'pyobjc-core',
+        'pyobjc-framework-LaunchServices',
+    ])
+
 packages = find_packages(exclude=['ez_setup'])
 
 def data_files():
@@ -45,6 +52,7 @@ def data_files():
 
 
 setup(name='collective.zopeedit',
+      app=[os.path.join('collective', 'zopeedit', 'zopeedit.py')],
       version=version,
       description="ZopeEdit : External Editor Client",
       long_description=open("README.txt").read() + "\n" +
@@ -65,10 +73,7 @@ setup(name='collective.zopeedit',
       namespace_packages=['collective'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          'setuptools',
-          # -*- Extra requirements: -*-
-      ],
+      install_requires=install_requires,
       entry_points = {
         'console_scripts': [
             'zopeedit = collective.zopeedit.zopeedit:main',
@@ -76,8 +81,10 @@ setup(name='collective.zopeedit',
       },
       data_files = data_files(),
       windows=[{
-	      'script': os.path.join('collective','zopeedit','zopeedit.py'),
-	      'icon_resources': [(1, os.path.join('collective','zopeedit','win32','zopeedit.ico'))]
-	      }],
-      options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]}},
+              'script': os.path.join('collective','zopeedit','zopeedit.py'),
+              'icon_resources': [(1, os.path.join('collective','zopeedit','win32','zopeedit.ico'))]
+              }],
+      options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]},
+               "py2app" : {'argv_emulation':True},
+              },
       )
