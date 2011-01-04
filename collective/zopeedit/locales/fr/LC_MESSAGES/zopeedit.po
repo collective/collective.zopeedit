@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zopeedit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-03 11:54+0100\n"
+"POT-Creation-Date: 2011-01-04 16:29+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -52,7 +52,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: zopeedit.py:595
+#: zopeedit.py:598
 #, python-format
 msgid ""
 "No editor was found for that object.\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Spécifiez un logiciel d'édition dans le fichier de configuration:\n"
 "(%s)"
 
-#: zopeedit.py:607
+#: zopeedit.py:610
 msgid ""
 "No input file. \n"
 "ZopeEdit will close."
@@ -71,7 +71,7 @@ msgstr ""
 "Pas de document à éditer.\n"
 "ZopeEdit va se fermer."
 
-#: zopeedit.py:622
+#: zopeedit.py:625
 msgid ""
 "Could not acquire lock. ZopeEdit will close.\n"
 "Your log file will be opened"
@@ -79,7 +79,7 @@ msgstr ""
 "Impossible de verrouiller votre document. ZopeEdit va se ferner.\n"
 "Votre fichier de traces va être ouvert."
 
-#: zopeedit.py:673
+#: zopeedit.py:676
 #, python-format
 msgid ""
 "Unable to edit your file.\n"
@@ -90,7 +90,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: zopeedit.py:699
+#: zopeedit.py:702
 msgid ""
 "Network error :\n"
 "Your working copy will be re-opened,\n"
@@ -108,7 +108,7 @@ msgstr ""
 "Un fichier de traces va être ouvert\n"
 "Merci de le sauvegarder et de le transmettre à votre administrateur."
 
-#: zopeedit.py:708
+#: zopeedit.py:711
 msgid ""
 "Network error : your file is still locked.\n"
 "\n"
@@ -120,7 +120,7 @@ msgstr ""
 "Un fichier de traces va être ouvert\n"
 "Merci de le sauvegarder et de le transmettre à votre administrateur."
 
-#: zopeedit.py:718
+#: zopeedit.py:721
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -139,7 +139,7 @@ msgstr ""
 "\n"
 "Édition terminée."
 
-#: zopeedit.py:727
+#: zopeedit.py:730
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -150,7 +150,7 @@ msgstr ""
 "\n"
 "Édition du document terminée."
 
-#: zopeedit.py:790
+#: zopeedit.py:793
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -168,7 +168,7 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: zopeedit.py:805
+#: zopeedit.py:808
 #, python-format
 msgid ""
 "%(title)s :\n"
@@ -179,7 +179,7 @@ msgstr ""
 "\n"
 "Avez-vous fermé votre document de travail ?"
 
-#: zopeedit.py:838
+#: zopeedit.py:841
 msgid ""
 "Network error\n"
 "\n"
@@ -193,7 +193,7 @@ msgstr ""
 "\n"
 "Détail de l'erreur :\n"
 
-#: zopeedit.py:865
+#: zopeedit.py:868
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -206,7 +206,7 @@ msgstr ""
 "Ce document est déjà verrouillé.\n"
 "Merci de le dé-verrouiller ou de contacter votre administrateur."
 
-#: zopeedit.py:873
+#: zopeedit.py:876
 #, python-format
 msgid ""
 "%s\n"
@@ -217,7 +217,7 @@ msgstr ""
 "Vous avez déjà verrouillé ce document lors d'une autre session.\n"
 "Souhaitez-vous récupérer ce verrou et continuer ?"
 
-#: zopeedit.py:903
+#: zopeedit.py:906
 #, python-format
 msgid ""
 "%s\n"
@@ -226,7 +226,7 @@ msgstr ""
 "%s\n"
 "Document déjà verrouillé"
 
-#: zopeedit.py:908
+#: zopeedit.py:911
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -235,11 +235,11 @@ msgstr ""
 "%(title)s\n"
 "Impossible de verrouiller le document sur le serveur (Erreur n° %(dav_lock_response)s)"
 
-#: zopeedit.py:916
+#: zopeedit.py:919
 msgid "Do you want to retry ?"
 msgstr "Souhaitez-vous ré-essayer ? "
 
-#: zopeedit.py:925
+#: zopeedit.py:928
 #, python-format
 msgid ""
 "%s\n"
@@ -252,7 +252,7 @@ msgstr ""
 "Il est possible que vous rencontriez un problème de réseau ou de configuration de proxy.\n"
 "Merci de contacter votre administrateur."
 
-#: zopeedit.py:1006
+#: zopeedit.py:1009
 msgid ""
 "Network error\n"
 "\n"
@@ -262,21 +262,21 @@ msgstr ""
 "\n"
 "Impossible de dé-verrouiller le document sur le serveur.\n"
 
-#: zopeedit.py:1261
+#: zopeedit.py:1264
 msgid "Reset configuration file ?"
 msgstr "Ré-initialiser le fichier de configuration avec les valeurs par défaut ?"
 
-#: zopeedit.py:1278
+#: zopeedit.py:1277
 msgid ""
 "Do you want to replace your configuration file \n"
 "with the default one ?"
 msgstr "Voulez-vous ré-initialiser le fichier de configuration ?"
 
-#: zopeedit.py:1509
+#: zopeedit.py:1508
 msgid "Please enter your password"
 msgstr "Saisie de votre mot de passe"
 
-#: zopeedit.py:1581
+#: zopeedit.py:1580
 #, python-format
 msgid ""
 "FATAL ERROR: %s\n"
