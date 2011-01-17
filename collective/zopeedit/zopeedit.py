@@ -409,14 +409,17 @@ class ExternalEditor:
         logger.info("ZopeEdit ends at: %s" % 
                         time.asctime(time.localtime()) )
 
-    def getConfigPath(self):
+    def getConfigPath(self, force_local_config = False):
         """ Retrieve the configuration path
             It may be local if there is a user configuration file
             or global for all users
         """
         if win32:
-            # Check the home dir first and then the program dir
-            config_path = os.path.expanduser('~\\ZopeEdit.ini')
+            # Get Application Data
+            app_data = os.environ['APPDATA']
+            # Check the AppData first and then the program dir
+            config_path = os.path.expanduser(os.path.join(app_data ,
+                            'collective.zopeedit','ZopeEdit.ini'))
 
             # sys.path[0] might be library.zip!!!!
             app_dir = sys.path[0]
@@ -424,7 +427,7 @@ class ExternalEditor:
                 app_dir = os.path.dirname(app_dir)
             global_config = os.path.join(app_dir or '', 'ZopeEdit.ini')
 
-            if not os.path.exists(config_path):
+            if not force_local_config and not os.path.exists(config_path):
                 logger.info('Config file %r does not exist. '
                              'Using global configuration file: %r.',
                              config_path, global_config)
@@ -1244,7 +1247,7 @@ class ExternalEditor:
 
     def editConfig(self):
         logger.info('Edit local configuration')
-        user_config = self.getConfigPath()
+        user_config = self.getConfigPath(force_local_config=True)
         # Read the configuration file
         if win32:
             # Check the home dir first and then the program dir
