@@ -417,6 +417,11 @@ class ExternalEditor:
         if win32:
             # Get Application Data
             app_data = os.environ['APPDATA']
+            # Create application folder in Application Data if it isn't here
+            if not os.path.isdir(os.path.expanduser(os.path.join(app_data,
+                                                    'collective.zopeedit'))):
+                os.makedirs(os.path.expanduser(os.path.join(app_data,
+                                                    'collective.zopeedit')))
             # Check the AppData first and then the program dir
             config_path = os.path.expanduser(os.path.join(app_data ,
                             'collective.zopeedit','ZopeEdit.ini'))
