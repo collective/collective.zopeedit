@@ -14,7 +14,7 @@ DefaultGroupName=Zope External Editor
 AllowNoIcons=true
 LicenseFile=..\..\..\LICENSE.txt
 ChangesAssociations=true
-OutputBaseFilename=zopeedit-win32-1.0.0-r2
+OutputBaseFilename=zopeedit-win32-1.0.0-r230594-2
 VersionInfoCompany=atReal
 AppID={{6A79A43D-B97B-4DA3-BD8D-2C4E84500D72}
 PrivilegesRequired=admin
@@ -52,9 +52,31 @@ Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Fla
 
 Source: ..\..\..\dist\*; DestDir: {app}; Flags: restartreplace
 ; Source: ..\Plugins\*; DestDir: {app}\Plugins; Flags: ignoreversion
+Source: vcredist_x86.exe; DestDir: {tmp}
 
 [_ISToolPreCompile]
 Name: buildexe.bat; Parameters: ; Flags: abortonerror
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
+
+[Code]
+
+procedure DoPreInstall();
+var
+  ResultCode: Integer;
+
+begin
+Log('Inside DoPreInstall');
+ExtractTemporaryFile('vcredist_x86.exe');
+Exec(ExpandConstant('{tmp}\vcredist_x86.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssInstall then
+  begin
+    DoPreInstall();
+  end;
+end;
+
