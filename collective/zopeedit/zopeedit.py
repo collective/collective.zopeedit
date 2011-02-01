@@ -650,6 +650,7 @@ class ExternalEditor:
         if bin is not None:
             # Try to load the plugin for this editor
             try:
+                logger.debug("bin is not None - try to load a plugin : %s" % bin)
                 module = 'Plugins.%s' % bin
                 Plugin = __import__(module, globals(), locals(),
                                     ('EditorProcess',))
@@ -657,6 +658,7 @@ class ExternalEditor:
                 logger.info('Launching Plugin %r with: %r',
                              Plugin, self.content_file)
             except (ImportError, AttributeError):
+                logger.debug("Error while to load the plugin ; set bin to None")
                 bin = None
 
         if bin is None:
@@ -704,7 +706,7 @@ class ExternalEditor:
             self.clean_up = False
             self.keep_log = True
 
-        if self.networkerror:
+        if self.networkerror or self.dirty_file:
             if self.dirty_file:
             # Reopen file whe, there is an issue...
                 errorDialog(_("Network error :\n"
