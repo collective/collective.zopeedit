@@ -93,8 +93,18 @@ import gettext
 # Retrieve full path
 local_path = os.path.join( system_path, 'locales' )
 
+LOG_LEVELS = {'debug': logging.DEBUG,
+              'info': logging.INFO,
+              'warning': logging.WARNING,
+              'error': logging.ERROR,
+              'critical': logging.CRITICAL}
+
+logger = logging.getLogger('zopeedit')
+log_file = None
+
 # Retrieve locale from system
 lc, encoding = locale.getdefaultlocale()
+
 
 # Should work without that but it seems to be here most of time
 gettext.bindtextdomain( APP_NAME, local_path )
@@ -108,16 +118,6 @@ lang = gettext.translation( APP_NAME, local_path,
 _ = lang.lgettext
 #__builtins__._ = _
 ## gettext end init
-
-
-LOG_LEVELS = {'debug': logging.DEBUG,
-              'info': logging.INFO,
-              'warning': logging.WARNING,
-              'error': logging.ERROR,
-              'critical': logging.CRITICAL}
-
-logger = logging.getLogger('zopeedit')
-log_file = None
 
 class Configuration:
     def __init__(self, path):
@@ -293,7 +293,7 @@ class ExternalEditor:
 
             # Lock file name for editors that create a lock file
             self.lock_file_schemes = self.options.get('lock_file_schemes',
-                                                      '').split(';')
+                                                      '.~lock.%s#;.%s.swp').split(';')
 
             # Proxy user and pass
             self.proxy_user = self.options.get('proxy_user', '')
@@ -315,14 +315,14 @@ class ExternalEditor:
             # Should we always borrow the lock when it does exist ?
             self.use_locks = int(self.options.get('use_locks', 1))
             self.always_borrow_locks = int(self.options.get(
-                                           'always_borrow_locks', 1))
+                                           'always_borrow_locks', 0))
             self.lock_timeout = self.options.get('lock_timeout', 
-                                                 'infinite')
+                                                 '86400')
 
             # Should we clean-up temporary files ?
             self.clean_up = int(self.options.get('cleanup_files', 1))
 
-            self.save_interval = float(self.options.get('save_interval',5))
+            self.save_interval = float(self.options.get('save_interval',2))
             self.max_is_alive_counter = int(self.options.get(
                                             'max_isalive_counter', 5) )
 
@@ -628,11 +628,16 @@ class ExternalEditor:
         # lock before opening the file in the editor
         if not self.lock():
             self.networkerror = True
-            if self.use_locks:
-                logger.error("lock failed. Exit.")
-                fatalError(_("Could not acquire lock. ZopeEdit will close.\n"
-                             "Your log file will be opened"))
-                self.openLogFile()
+            msg = _("%s\n"
+                    "Unable to lock the file on the server.\n"
+                    "This may be a network or proxy issue.\n"
+                    "Your log file will be opened\n"
+                    "Please save it and send it to your administrator."
+                    ) % self.title
+            errorDialog(msg)
+            logger.error("lock failed. Exit.")
+            self.editFile(log_file,detach=True)
+            sys.exit()
 
         # Extract the executable name from the command
         if win32:
@@ -708,7 +713,7 @@ class ExternalEditor:
 
         if self.networkerror or self.dirty_file:
             if self.dirty_file:
-            # Reopen file whe, there is an issue...
+            # Reopen file when there is an issue...
                 errorDialog(_("Network error :\n"
                               "Your working copy will be re-opened,\n"
                               "\n"
@@ -847,7 +852,7 @@ class ExternalEditor:
 
         if response.status / 100 != 2:
             # Something went wrong
-            if int(self.options.get('manage_locks', 1)) and \
+            if self.manage_locks and \
                askRetryAfterError(response,_("Network error\n"
                                              "\n"
                                              "Could not save the file to server.\n"
@@ -862,46 +867,77 @@ class ExternalEditor:
         return True
 
     def lock(self):
-        """Apply a webdav lock to the object in Zope"""
+        """Apply a webdav lock to the object in Zope
+        usecases :
+        - use_locks "1" and manage_locks "1"
+            1 - no existing lock
+                lock the file
+                if error : ask user if retry or not
+                if no retry and error : return False
+            2 - existing lock
+                if always_borrow_locks "yes"
+                    borrow the lock and return True
+                else ask user wether retrieve it or not
+                    if not : exit with error
+                    if yes : borrow the lock
+        - use_locks "yes" and manage_locks "no"
+            1 - no existing lock
+                lock the file
+                if error : exit with error
+            2 - existing lock
+                exit with error
+        - use_locks "no"
+            don't do anything and exit with no error
+        """        
         logger.debug("lock: lock at: %s" % time.asctime(time.localtime()) )
         if not self.use_locks:
             logger.debug("lock: don't use locks")
-            return True
+            return True            
 
         if self.metadata.get('lock-token'):
             # A lock token came down with the data, so the object is
             # already locked
             if not self.manage_locks:
-                logger.critical("object already locked : "
+                logger.critical("Lock: object already locked : "
                                 "lock tocken not empty\n "
-                                "Exit")
-                msg = _("%(title)s\n"
-                        "\n"
-                        "This object is already locked.\n"
-                        "Please unlock it or contact your administrator"
-                        ) %{'title': self.title}
+                                "user doesn't manage locks, so..."
+                                "exit")
+                msg = _("%s\n"
+                    "This object is already locked."
+                    ) %(self.title)
                 errorDialog(msg)
                 sys.exit()
             # See if we can borrow the lock
-            msg = _("%s\n"
-                    "This object is already locked by you "
-                    "in another session.\n"
-                    "Do you want to borrow this lock and continue ?"
-                    ) %(self.title)
-            if (self.always_borrow_locks
-                or self.metadata.get('borrow_lock')
-                or askYesNo(msg)):
+            if self.always_borrow_locks or self.metadata.get('borrow_lock'):
                 self.lock_token = 'opaquelocktoken:%s' \
                                   % self.metadata['lock-token']
             else:
-                logger.critical("File locked and user doesn't want"
-                " to borrow the lock.")
-                sys.exit()
+                msg = _("%s\n"
+                        "This object is already locked by you "
+                        "in another session.\n"
+                        "Do you want to borrow this lock and continue ?"
+                        ) %(self.title)
+                if askYesNo(msg):
+                    self.lock_token = 'opaquelocktoken:%s' \
+                                      % self.metadata['lock-token']
+                else:
+                    logger.critical("Lock: File locked and user doesn't want"
+                    " to borrow the lock. Exit.")
+                    sys.exit()
 
         if self.lock_token is not None:
-            logger.warning("File successfully locked")
+            logger.warning("Lock: Existing lock borrowed.")
             return True
 
+        # Create a new lock
+        dav_lock_response = self.DAVLock()
+
+        if dav_lock_response / 100 == 2:
+            logger.info("Lock: OK")
+            self.did_lock = True
+            return True
+
+        # There was an error. Retry ?
         while self.manage_locks and not self.did_lock :
             dav_lock_response = self.DAVLock()
 
@@ -909,7 +945,6 @@ class ExternalEditor:
                 logger.info("Lock: OK")
                 self.did_lock = True
                 return True
-
 
             if dav_lock_response == 423:
                 logger.warning("Lock: object already locked")
@@ -924,24 +959,15 @@ class ExternalEditor:
                         ) %{'title': self.title, 
                             'dav_lock_response': dav_lock_response}
 
-            if self.manage_locks:
-                msg += '\n'
-                msg += _("Do you want to retry ?")
-                if askRetryCancel(msg):
-                    logger.info("Retry to lock")
-                    continue
-                else:
-                    logger.critical("Unable to lock the file ; abort")
-                    sys.exit()
-
-            logger.error("Lock failed. Exit.")
-            msg = _("%s\n"
-                    "Unable to lock the file on the server.\n"
-                    "This may be a network or proxy issue.\n"
-                    "Please contact your system administrator."
-                    ) % self.title
-            errorDialog(msg)
-            sys.exit()
+            msg += '\n'
+            msg += _("Do you want to retry ?")
+            if askRetryCancel(msg):
+                logger.info("Lock: Retry lock")
+                continue
+            else:
+                logger.critical("Lock: Unable to lock the file ; return False")
+                logger.error("Lock failed. Return False.")
+                return False
 
     def DAVLock(self):
         """Do effectively lock the object"""
@@ -1004,6 +1030,9 @@ class ExternalEditor:
 
     def unlock(self, interactive = True):
         """Remove webdav lock from edited zope object"""
+        if not self.manage_locks:
+            return True
+
         if ( not self.did_lock ) and self.lock_token is None :
             return True # nothing to do
         response =  self.DAVunlock()
@@ -1658,7 +1687,7 @@ version = %s
 # locked by you before you began editing you can
 # set this flag. This is useful for applications that
 # use server-side locking, like CMFStaging
-#always_borrow_locks = 1
+#always_borrow_locks = no
 
 # Duration of file Lock : 1 day = 86400 seconds
 # If this option is removed, fall back on 'infinite' zope default

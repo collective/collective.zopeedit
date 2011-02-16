@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZopeEdit\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-04 16:29+0100\n"
+"POT-Creation-Date: 2011-02-16 12:21+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thierry Benita <tbenita@atreal.net>\n"
 "Language-Team: atReal <contact@atreal.net>\n"
@@ -52,7 +52,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:598
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:606
 #, python-format
 msgid ""
 "No editor was found for that object.\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Specify an editor in the configuration file:\n"
 "(%s)"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:610
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:618
 msgid ""
 "No input file. \n"
 "ZopeEdit will close."
@@ -71,15 +71,22 @@ msgstr ""
 "No input file. \n"
 "ZopeEdit will close."
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:625
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:631
+#, python-format
 msgid ""
-"Could not acquire lock. ZopeEdit will close.\n"
-"Your log file will be opened"
+"%s\n"
+"Unable to lock the file on the server.\n"
+"This may be a network or proxy issue.\n"
+"Your log file will be opened\n"
+"Please save it and send it to your administrator."
 msgstr ""
-"Could not acquire lock. ZopeEdit will close.\n"
-"Your log file will be opened"
+"%s\n"
+"Unable to lock the file on the server.\n"
+"This may be a network or proxy issue.\n"
+"Your log file will be opened\n"
+"Please save it and send it to your administrator."
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:676
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:691
 #, python-format
 msgid ""
 "Unable to edit your file.\n"
@@ -90,7 +97,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:702
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:717
 msgid ""
 "Network error :\n"
 "Your working copy will be re-opened,\n"
@@ -108,7 +115,7 @@ msgstr ""
 "A log file will be opened\n"
 "Please save it and send it to your administrator."
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:711
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:726
 msgid ""
 "Network error : your file is still locked.\n"
 "\n"
@@ -120,7 +127,7 @@ msgstr ""
 "A log file will be opened\n"
 "Please save it and send it to your administrator."
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:721
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:736
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -139,7 +146,7 @@ msgstr ""
 "\n"
 "Edition completed"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:730
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:745
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -149,27 +156,27 @@ msgstr ""
 "%(title)s\n"
 "\n"
 "Edition completed"
-
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:793
-#, python-format
-msgid ""
-"%(title)s\n"
-"\n"
-"File : %(content_file)s\n"
-"Saved at : %(time)s\n"
-"\n"
-"Did you close your file ?"
-msgstr ""
-"%(title)s\n"
-"\n"
-"File : %(content_file)s\n"
-"Saved at : %(time)s\n"
-"\n"
-"Did you close your file ?"
 
 #: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:808
 #, python-format
 msgid ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"Saved at : %(time)s\n"
+"\n"
+"Did you close your file ?"
+msgstr ""
+"%(title)s\n"
+"\n"
+"File : %(content_file)s\n"
+"Saved at : %(time)s\n"
+"\n"
+"Did you close your file ?"
+
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:823
+#, python-format
+msgid ""
 "%(title)s :\n"
 "\n"
 "Did you close your file ?"
@@ -178,7 +185,7 @@ msgstr ""
 "\n"
 "Did you close your file ?"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:841
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:856
 msgid ""
 "Network error\n"
 "\n"
@@ -192,20 +199,16 @@ msgstr ""
 "\n"
 "Error detail :\n"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:868
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:905
 #, python-format
 msgid ""
-"%(title)s\n"
-"\n"
-"This object is already locked.\n"
-"Please unlock it or contact your administrator"
+"%s\n"
+"This object is already locked."
 msgstr ""
-"%(title)s\n"
-"\n"
-"This object is already locked.\n"
-"Please unlock it or contact your administrator"
+"%s\n"
+"This object is already locked."
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:876
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:915
 #, python-format
 msgid ""
 "%s\n"
@@ -216,7 +219,7 @@ msgstr ""
 "This object is already locked by you in another session.\n"
 "Do you want to borrow this lock and continue ?"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:906
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:951
 #, python-format
 msgid ""
 "%s\n"
@@ -225,7 +228,7 @@ msgstr ""
 "%s\n"
 "Object already locked"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:911
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:956
 #, python-format
 msgid ""
 "%(title)s\n"
@@ -234,24 +237,11 @@ msgstr ""
 "%(title)s\n"
 "Unable to get a lock on the server(return value %(dav_lock_response)s)"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:919
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:963
 msgid "Do you want to retry ?"
 msgstr "Do you want to retry ?"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:928
-#, python-format
-msgid ""
-"%s\n"
-"Unable to lock the file on the server.\n"
-"This may be a network or proxy issue.\n"
-"Please contact your system administrator."
-msgstr ""
-"%s\n"
-"Unable to lock the file on the server.\n"
-"This may be a network or proxy issue.\n"
-"Please contact your system administrator."
-
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1009
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1048
 msgid ""
 "Network error\n"
 "\n"
@@ -261,11 +251,11 @@ msgstr ""
 "\n"
 "Unable to unlock the file on server.\n"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1264
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1303
 msgid "Reset configuration file ?"
 msgstr "Reset configuration file ?"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1277
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1316
 msgid ""
 "Do you want to replace your configuration file \n"
 "with the default one ?"
@@ -273,11 +263,11 @@ msgstr ""
 "Do you want to replace your configuration file \n"
 "with the default one ?"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1508
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1547
 msgid "Please enter your password"
 msgstr "Please enter your password"
 
-#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1580
+#: /home/tbenita/temp/collective/collective.zopeedit/collective/zopeedit/zopeedit.py:1619
 #, python-format
 msgid ""
 "FATAL ERROR: %s\n"
@@ -286,6 +276,22 @@ msgstr ""
 "FATAL ERROR: %s\n"
 "            ZopeEdit will close."
 
+#~ msgid ""
+#~ "Could not acquire lock. ZopeEdit will close.\n"
+#~ "Your log file will be opened"
+#~ msgstr ""
+#~ "Could not acquire lock. ZopeEdit will close.\n"
+#~ "Your log file will be opened"
+#~ msgid ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "This object is already locked.\n"
+#~ "Please unlock it or contact your administrator"
+#~ msgstr ""
+#~ "%(title)s\n"
+#~ "\n"
+#~ "This object is already locked.\n"
+#~ "Please unlock it or contact your administrator"
 #~ msgid ""
 #~ "Network error : your document will be re-opened.\n"
 #~ "Save it back manually to the intranet\n"
