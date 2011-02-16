@@ -695,19 +695,20 @@ class ExternalEditor:
 
         unlock_success = self.unlock()
         if not unlock_success:
+            logger.error("Launch: not unlock_success. Flag networkerror")
             self.networkerror = True
 
         # Check is a file has been modified but not saved back to zope
 
         # Clean content file
         if self.dirty_file:
-            logger.exception("Some modifications are NOT saved "
+            logger.exception("Launch: Some modifications are NOT saved "
                              "we'll re-open file and logs")
 
             self.clean_up = False
             self.keep_log = True
         elif ( not unlock_success ) and self.clean_up:
-            logger.exception("Unlock failed and we have to clean up files")
+            logger.exception("Launch: Unlock failed and we have to clean up files")
             self.clean_up = False
             self.keep_log = True
 
@@ -1030,7 +1031,9 @@ class ExternalEditor:
 
     def unlock(self, interactive = True):
         """Remove webdav lock from edited zope object"""
-        if not self.manage_locks:
+        if not self.use_locks:
+            logger.debug("unlock: use_locks is False "
+                         "return True.")
             return True
 
         if ( not self.did_lock ) and self.lock_token is None :
