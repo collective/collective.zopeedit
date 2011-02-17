@@ -433,25 +433,25 @@ class ExternalEditor:
             global_config = os.path.join(app_dir or '', 'ZopeEdit.ini')
 
             if not force_local_config and not os.path.exists(config_path):
-                logger.info('Config file %r does not exist. '
+                logger.info('getConfigPath: Config file %r does not exist. '
                              'Using global configuration file: %r.',
                              config_path, global_config)
 
                 # Don't check for the existence of the global
                 # config file. It will be created anyway.
                 config_path = global_config
-            else:
-                logger.info('Using user configuration file: %r.',
-                             config_path)
 
         elif osx:
             config_path = os.path.expanduser('~/ZopeEdit.ini')
+
         else:
             # make config file using freedesktop config folders
             if not os.path.isdir(os.path.expanduser('~/.config/collective.zopeedit')):
                 os.makedirs(os.path.expanduser('~/.config/collective.zopeedit'))
             config_path = os.path.expanduser('~/.config/collective.zopeedit/ZopeEdit.ini')
-        
+
+        logger.info('getConfigPath: Using user configuration file: %r.',
+                    config_path)
         return config_path
 
     def cleanContentFile(self, tried_cleanup = False):
@@ -733,7 +733,8 @@ class ExternalEditor:
 
         # Inform the user of what has been done when the edition is finished
         # without issue
-        if file_monitor_exit_state == "closed modified":
+        if file_monitor_exit_state == "closed modified" or \
+                        file_monitor_exit_state == "manual close modified":
             msg = _("%(title)s\n\n"
                     "File : %(content_file)s\n\n"
                     "Saved at : %(time)s\n\n"
@@ -742,20 +743,25 @@ class ExternalEditor:
                             'content_file': self.content_file,
                             'time': time.ctime(self.last_saved_mtime )}
             messageDialog(msg)
-        elif file_monitor_exit_state == "closed not modified":
+        elif file_monitor_exit_state == "closed not modified" or \
+                        file_monitor_exit_state == "manual close not modified":
             msg = _("%(title)s\n\n"
                     "Edition completed") % { 'title': self.title, }
             messageDialog(msg)
-        elif file_monitor_exit_state == "manual close modified":
-            pass
-        elif file_monitor_exit_state == "manual close not modified":
-            pass
 
         self.cleanContentFile()
 
     def monitorFile(self):
+        """ Check if the file is edited and if it is modified.
+        If it's modified save it back.
+        If it is not any more edited exit with an information on what happened.
+         -> was saved back
+         -> was automatically detected
+         -> was manually controled by the user
+        """
         final_loop = False
         isAlive_detected = False
+        returnChain = ""
 
         while 1:
             if not final_loop:
@@ -763,13 +769,13 @@ class ExternalEditor:
             mtime = os.path.getmtime(self.content_file)
 
             if mtime != self.last_mtime:
-                logger.debug("File is dirty : changes detected !")
+                logger.debug("monitorFile: File is dirty : changes detected !")
                 self.dirty_file = True
                 launch_success = True
                 if self.versionControl():
-                    logger.info("New version created successfully")
+                    logger.info("monitorFile: New version created successfully")
                 else:
-                    logger.debug("No new version created")
+                    logger.debug("monitorFile: No new version created")
 
                 self.saved = self.putChanges()
                 self.last_mtime = mtime
@@ -779,8 +785,9 @@ class ExternalEditor:
 
             if not self.editor.isAlive():
                 if final_loop:
-                    logger.info("Final loop done; break")
-                    break
+                    # exit from monitorFile
+                    logger.info("monitorFile: Final loop done; break")
+                    return returnChain
                 else:
                     # Check wether a file hasn't been saved before closing
                     if mtime != self.last_saved_mtime:
@@ -801,9 +808,11 @@ class ExternalEditor:
                     # during a blocking isAlive call.
                     if isAlive_detected :
                         if self.last_saved_mtime != self.initial_mtime:
-                            return "closed modified"
+                            logger.debug("monitorFile: closed modified")
+                            returnChain = "closed modified"
                         else:
-                            return "closed not modified"
+                            logger.debug("monitorFile: closed not modified")
+                            returnChain = "closed not modified"
                     else:
                         if self.last_saved_mtime != self.initial_mtime:
                             msg = _("%(title)s\n\n"
@@ -816,20 +825,24 @@ class ExternalEditor:
                                        'time': time.ctime(
                                                self.last_saved_mtime )}
                             if not askYesNo(msg) :
+                                logger.debug("monitorFile: manual continue modified")
                                 continue
                             else :
-                                return "manual close modified"
+                                logger.debug("monitorFile: manual closed modified")
+                                returnChain = "manual close modified"
 
                         else:
                             msg = _("%(title)s :\n\n"
                                     "Did you close your file ?") % { 
                                                'title': self.title, }
                             if not askYesNo(msg) :
+                                logger.debug("monitorFile: manual continue not modified")
                                 continue
                             else :
-                                return "manual close not modified"
+                                logger.debug("monitorFile: manual close not monified")
+                                returnChain = "manual close not modified"
                     final_loop = True
-                    logger.info("Final loop")
+                    logger.info("monitorFile: Final loop")
             else:
                 isAlive_detected = True
 
