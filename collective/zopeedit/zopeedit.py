@@ -409,6 +409,21 @@ class ExternalEditor:
         logger.info("ZopeEdit ends at: %s" % 
                         time.asctime(time.localtime()) )
 
+    def findAvailableEditor(self, editors_list):
+        """ Find an available editor (Posix only)
+        """
+        if not linux:
+            return editors_list
+        
+        editors = editors_list.split(';')
+        
+        for editor in editors:
+            for path in os.environ["PATH"].split(":"):
+                if editor in os.listdir(path):
+                    return editor
+        # no editor found
+        return None
+
     def getConfigPath(self, force_local_config = False):
         """ Retrieve the configuration path
             It may be local if there is a user configuration file
@@ -488,7 +503,7 @@ class ExternalEditor:
     def getEditorCommand(self):
         """ Return the editor command
         """
-        editor = self.options.get('editor')
+        editor = self.findAvailableEditor(self.options.get('editor'))
 
         if win32 and editor is None:
             from _winreg import HKEY_CLASSES_ROOT, OpenKeyEx, \
@@ -1341,9 +1356,10 @@ class ExternalEditor:
     
     def editFile(self, file, detach = False):
         # launch default editor with the user configuration file
-        default_editor = self.config.config.get('general',
-                                                'config_editor',
-                                                '')
+        default_editor = self.findAvailableEditor(
+            self.config.config.get('general',
+                                   'editor',
+                                   '') )
         if not default_editor:
             if osx:
                 LSOpenFSRef(file,None)
@@ -1352,7 +1368,8 @@ class ExternalEditor:
                                 "File edition failed.")
         logger.info("Edit file %s with editor %s" % (
                      file, default_editor))
-        logger.debug("launching default editor in a shell environment : %s %s" % (default_editor, file) )
+        logger.debug("launching default editor in a shell environment : %s %s" %
+                     (default_editor, file) )
         p = Popen("%s %s" % (default_editor, file), shell = True)
         if linux:
             if detach:
@@ -1677,7 +1694,9 @@ default_configuration = """
 [general]
 # General configuration options
 version = %s
+""" % __version__
 
+default_configuration += """
 # Create a new version when the file is closed ?
 #version_control = 0
 
@@ -1703,7 +1722,7 @@ version = %s
 # locked by you before you began editing you can
 # set this flag. This is useful for applications that
 # use server-side locking, like CMFStaging
-#always_borrow_locks = no
+#always_borrow_locks = 0
 
 # Duration of file Lock : 1 day = 86400 seconds
 # If this option is removed, fall back on 'infinite' zope default
@@ -1741,16 +1760,6 @@ version = %s
 
 # If your client charset is not iso-8859-1
 # client_charset = iso-8859-1
-""" % __version__
-
-if osx:
-    default_configuration += """
-# Uncomment and specify an editor value to override the editor
-# specified in the environment
-config_editor =
-
-# Default editor
-editor =
 
 # Lock File Scheme
 # These are schemes that are used in order to detect "lock" files
@@ -1758,29 +1767,14 @@ editor =
 # lock_file_schemes = .~lock.%s#;~%s.lock
 lock_file_schemes = .~lock.%s#;.%s.swp
 
-"""
+""" 
 
 if linux:
-    def findDefaultEditor():
-        """ Find an editor to be used as default editor
-        """
-        for editor in ['gedit','kwrite','gvim','emacs','nano','vi']:
-            for path in os.environ["PATH"].split(":"):
-                if editor in os.listdir(path):
-                    return editor
-
     default_configuration += """
 # Uncomment and specify an editor value to override the editor
 # specified in the environment
-config_editor = %(editor)s
-
 # Default editor
-editor = %(editor)s""" % {'editor': findDefaultEditor()} + """
-# Lock File Scheme
-# These are schemes that are used in order to detect "lock" files
-# %s is the edited file's name (add a ';' between each scheme):
-# lock_file_schemes = .~lock.%s#;~%s.lock
-lock_file_schemes = .~lock.%s#;.%s.swp
+editor = gedit;kwrite;gvim;emacs;nano;vi
 
 # Specific settings by content-type or meta-type. Specific
 # settings override general options above. Content-type settings
@@ -1824,35 +1818,35 @@ editor=gimp -n
 
 [content-type:application/vnd.oasis.opendocument.text]
 extension=.odt
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.sun.xml.writer]
 extension=.sxw
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.sun.xml.calc]
 extension=.sxc
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.oasis.opendocument.spreadsheet]
 extension=.ods
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.oasis.opendocument.presentation]
 extension=.odp
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/msword]
 extension=.doc
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.ms-excel]
 extension=.xls
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/vnd.ms-powerpoint]
 extension=.ppt
-editor=ooffice
+editor=ooffice;libreoffice;soffice
 
 [content-type:application/x-freemind]
 extension=.mm
