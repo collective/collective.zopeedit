@@ -364,7 +364,11 @@ class ExternalEditor:
         logger.debug("loadConfig: autolauncher: %r" % self.autolauncher)
         
         # Get default editors, in case none is found
-        self.defaulteditors = self.options.get('defaulteditors',
+	if win32:
+            self.defaulteditors = self.options.get('defaulteditors',
+                                               'notepad')
+        else:
+            self.defaulteditors = self.options.get('defaulteditors',
                                                'gedit;kedit;gvim;emacs;vim;nano')
         logger.debug("loadConfig: defaulteditors: %s" % self.defaulteditors)
 
@@ -450,7 +454,9 @@ class ExternalEditor:
         logger.debug("loadConfig: long_filename: %s" % self.long_file_name)
         
         # Editors for the current content type
-        self.editor = self.findAvailableEditor(self.options.get('editor','gedit;kwrite;gvim;emacs;nano;vi'))
+        self.editor = self.options.get('editor')
+        if self.editor is not None:
+            self.editor = self.findAvailableEditor(self.editor)
         logger.debug("loadConfig: editor: %s" % self.editor)
 
     def findAvailableEditor(self, editors_list):
@@ -572,7 +578,7 @@ class ExternalEditor:
                 except EnvironmentError:
                     pass
 
-            if extension is None:
+            if extension is None and self.metadata.has_key('url'):
                 url = self.metadata['url']
                 dot = url.rfind('.')
 
@@ -1399,7 +1405,7 @@ class ExternalEditor:
                 output_config = open(user_config, 'w')
                 output_config.write(default_configuration)
                 output_config.close()
-        self.editFile(user_config)
+        self.editFile(user_config,default=True)
     
     def editFile(self, file, detach = False, default = False):
         # launch default editor with the user configuration file
