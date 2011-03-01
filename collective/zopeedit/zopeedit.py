@@ -230,115 +230,46 @@ class ExternalEditor:
                 "\n\n\n\n"
                 )% __version__ )
         logger.info('Opening %r.', self.input_file)
-
-        # Read the configuration file
-        config_path = self.getConfigPath()
-        self.config = Configuration(config_path)
-
+        
         # If there is no filename, don't try to use it ! 
         if self.input_file == '':
+            self.metadata = {}
+            self.host=''
+            self.loadConfig()
             return
 
         try:
             # Open the input file and read the metadata headers
             in_f = open(self.input_file, 'rb')
             m = rfc822.Message(in_f)
-            self.metadata = metadata = m.dict.copy()
+
+            self.metadata = m.dict.copy()
             logger.debug("metadata: %s" % repr(self.metadata))
 
             # Parse the incoming url
-            scheme, self.host, self.path = urlparse(metadata['url'])[:3]
+            scheme, self.host, self.path = urlparse(self.metadata['url'])[:3]
 
             # Keep the full url for proxy
-            self.url = metadata['url']
+            self.url = self.metadata['url']
             self.ssl = scheme == 'https'
+
+            # initialyze configuration based on the config file and default values
+            self.loadConfig()
 
             # Get last-modified
             last_modified = None
-            if metadata.has_key("last-modified"):
-                last_modified = metadata['last-modified']
+            if self.metadata.has_key("last-modified"):
+                last_modified = self.metadata['last-modified']
                 self.last_modified = http_date_to_datetime(last_modified)
                 logger.debug('last_modified: %s' % str(self.last_modified))
 
-            # Get all configuration options
-            self.options = self.config.getAllOptions(
-                                            metadata['meta_type'],
-                                            metadata.get('content_type',''),
-                                            metadata.get('title',''),
-                                            metadata.get('extension'),
-                                            self.host)
-
-            logger.info("all options : %r" % self.options)
-
-            # Log level
-            logger.setLevel(LOG_LEVELS[self.options.get('log_level',
-                                                        'debug')])
-
-            # Get autoproxy option : do we want to configure proxy from system ?
-            self.autoproxy = self.options.get('autoproxy','')
-            logger.debug("autoproxy: %r" % self.autoproxy)
-            
-            # Get proxy from options
-            self.proxy = self.options.get('proxy','')
-            proxies = getproxies()
-            logger.debug("system proxies : %r" % proxies)
-            if self.proxy == '' and self.autoproxy:
-                if proxies.has_key('http') :
-                    self.proxy = proxies["http"]
-            if self.proxy.startswith('http://'):
-                self.proxy = self.proxy[7:]
-            if self.proxy.find('/') > -1:
-                self.proxy = self.proxy[:self.proxy.find('/')]
-            logger.debug("Proxy set to : %s" % self.proxy)
-
-            # Lock file name for editors that create a lock file
-            self.lock_file_schemes = self.options.get('lock_file_schemes',
-                                                      '.~lock.%s#;.%s.swp').split(';')
-
-            # Proxy user and pass
-            self.proxy_user = self.options.get('proxy_user', '')
-            self.proxy_pass = self.options.get('proxy_pass', '')
-
-            # Create a new version when the file is closed ?
-            self.version_control = int(self.options.get('version_control', 0 ))
-            self.version_command = self.options.get('version_command', 
-                                                    '/saveasnewversion')
-            self.version_command += '?versioncomment=ZopeEdit%%20%s' % \
-                                                    __version__
-
-            # Should we keep the log file?
-            self.keep_log = int(self.options.get('keep_log', 1))
-
-            # Should we inform the user about lock issues ans allow him to edit the file ?
-            self.manage_locks = int(self.options.get('manage_locks',1))
-
-            # Should we always borrow the lock when it does exist ?
-            self.use_locks = int(self.options.get('use_locks', 1))
-            self.always_borrow_locks = int(self.options.get(
-                                           'always_borrow_locks', 0))
-            self.lock_timeout = self.options.get('lock_timeout', 
-                                                 '86400')
-
-            # Should we clean-up temporary files ?
-            self.clean_up = int(self.options.get('cleanup_files', 1))
-
-            self.save_interval = float(self.options.get('save_interval',2))
-            self.max_is_alive_counter = int(self.options.get(
-                                            'max_isalive_counter', 5) )
-
-            # Server charset
-            self.server_charset = self.options.get('server_charset', 
-                                                   'utf-8')
-
-            # Client charset
-            self.client_charset = encoding
 
             # Retrieve original title
-            self.title = metadata["title"].decode(self.server_charset).\
+            self.title = self.metadata["title"].decode(self.server_charset).\
                          encode(self.client_charset,'ignore')
 
             # Write the body of the input file to a separate file
-            if int(self.options.get('long_file_name', 0)):
+            if self.long_file_name:
                 sep = self.options.get('file_name_separator', ',')
                 content_file = urllib.unquote('-%s%s' % (self.host,
                                                          self.path))
@@ -409,8 +340,121 @@ class ExternalEditor:
         logger.info("ZopeEdit ends at: %s" % 
                         time.asctime(time.localtime()) )
 
+    def loadConfig(self):
+        """ Read the configuration file and set default values """
+        config_path = self.getConfigPath()
+        self.config = Configuration(config_path)
+        # Get all configuration options
+        self.options = self.config.getAllOptions(
+                                        self.metadata.get('meta_type', ''),
+                                        self.metadata.get('content_type',''),
+                                        self.metadata.get('title',''),
+                                        self.metadata.get('extension'),
+                                        self.host)
+
+        logger.info("loadConfig: all options : %r" % self.options)
+
+        # Log level
+        logger.setLevel(LOG_LEVELS[self.options.get('log_level',
+                                                    'info')])
+
+        # Get autolauncher in case of an unknown file
+        self.autolauncher = self.options.get('autolauncher',
+                                             'gnome-open;kde-open;xdg-open')
+        logger.debug("loadConfig: autolauncher: %r" % self.autolauncher)
+        
+        # Get default editors, in case none is found
+        self.defaulteditors = self.options.get('defaulteditors',
+                                               'gedit;kedit;gvim;emacs;vim;nano')
+        logger.debug("loadConfig: defaulteditors: %s" % self.defaulteditors)
+
+        # Get autoproxy option : do we want to configure proxy from system ?
+        self.autoproxy = self.options.get('autoproxy','')
+        logger.debug("loadConfig: autoproxy: %r" % self.autoproxy)
+        
+        # Get proxy from options
+        self.proxy = self.options.get('proxy','')
+        proxies = getproxies()
+        logger.debug("loadConfig: system proxies : %r" % proxies)
+        if self.proxy == '' and self.autoproxy:
+            if proxies.has_key('http') :
+                self.proxy = proxies["http"]
+        if self.proxy.startswith('http://'):
+            self.proxy = self.proxy[7:]
+        if self.proxy.find('/') > -1:
+            self.proxy = self.proxy[:self.proxy.find('/')]
+        logger.debug("loadConfig: Proxy set to : %s" % self.proxy)
+
+        # Lock file name for editors that create a lock file
+        self.lock_file_schemes = self.options.get(
+            'lock_file_schemes',
+            '.~lock.%s#;~%s.lock;.%s.swp').split(';')
+        logger.debug("loadConfig: lock_files_schemes: %s" % self.lock_file_schemes)
+
+        # Proxy user and pass
+        self.proxy_user = self.options.get('proxy_user', '')
+        logger.debug("loadConfig: proxy_user: %s" % self.proxy_user)
+        self.proxy_pass = self.options.get('proxy_pass', '')
+        logger.debug("loadConfig: proxy_pass: %s" % self.proxy_pass)
+
+        # Create a new version when the file is closed ?
+        self.version_control = int(self.options.get('version_control', 0 ))
+        logger.debug("loadConfig: version_control: %s" % self.version_control)
+        
+        self.version_command = self.options.get('version_command', 
+                                                '/saveasnewversion')
+        self.version_command += '?versioncomment=ZopeEdit%%20%s' % \
+                                                __version__
+        logger.debug("loadConfig: version_command: %s" % self.version_command)
+
+        # Should we keep the log file?
+        self.keep_log = int(self.options.get('keep_log', 1))
+        logger.debug("loadConfig: keep_log: %s" % self.keep_log)
+
+        # Should we always borrow the lock when it does exist ?
+        self.use_locks = int(self.options.get('use_locks', 1))
+        logger.debug("loadConfig: use_locks: %s" % self.use_locks)
+        self.always_borrow_locks = int(self.options.get(
+                                       'always_borrow_locks', 0))
+        logger.debug("loadConfig: always_borrow_locks: %s" % self.always_borrow_locks)
+
+        # Should we inform the user about lock issues ans allow him to edit the file ?
+        self.manage_locks = int(self.options.get('manage_locks',1))
+        logger.debug("loadConfig: manage_locks: %s" % self.manage_locks)
+
+        self.lock_timeout = self.options.get('lock_timeout', 
+                                             '86400')
+        logger.debug("loadConfig: lock_timeout: %s" % self.lock_timeout)
+
+        # Should we clean-up temporary files ?
+        self.clean_up = int(self.options.get('cleanup_files', 1))
+        logger.debug("loadConfig: cleanup_files: %s" % self.clean_up)
+
+        self.save_interval = float(self.options.get('save_interval',2))
+        logger.debug("loadConfig: save_interval: %s" % self.save_interval)
+        self.max_is_alive_counter = int(self.options.get(
+                                        'max_isalive_counter', 5) )
+        logger.debug("loadConfig: max_isalive_counter: %s" % self.max_is_alive_counter)
+
+        # Server charset
+        self.server_charset = self.options.get('server_charset', 
+                                               'utf-8')
+        logger.debug("loadConfig: server_charset: %s" % self.server_charset)
+
+        # Client charset
+        self.client_charset = encoding
+        logger.debug("loadConfig: client_charset: %s" % self.client_charset)
+
+        # Do we use long file name ? If not we use a generated file name.
+        self.long_file_name = int(self.options.get('long_file_name', 0))
+        logger.debug("loadConfig: long_filename: %s" % self.long_file_name)
+        
+        # Editors for the current content type
+        self.editor = self.findAvailableEditor(self.options.get('editor','gedit;kwrite;gvim;emacs;nano;vi'))
+        logger.debug("loadConfig: editor: %s" % self.editor)
+
     def findAvailableEditor(self, editors_list):
-        """ Find an available editor (Posix only)
+        """ Find an available editor (Linux only)
         """
         if not linux:
             return editors_list
@@ -503,7 +547,7 @@ class ExternalEditor:
     def getEditorCommand(self):
         """ Return the editor command
         """
-        editor = self.findAvailableEditor(self.options.get('editor'))
+        editor = self.editor
 
         if win32 and editor is None:
             from _winreg import HKEY_CLASSES_ROOT, OpenKeyEx, \
@@ -614,13 +658,14 @@ class ExternalEditor:
 
         elif editor is None and osx:
             # we will use the system in order to find the editor
-            return None
+            pass
 
         elif editor is None:
             # linux
-            fatalError(_('No editor was found for that object.\n'
-                         'Specify an editor in the configuration file:\n'
-                         '(%s)') % self.config.path)
+            logger.debug("getEditorCommand: editor is None and linux")
+            logger.debug("getEditorCommand: self.autolauncher = %s" % self.autolauncher)
+            editor = self.findAvailableEditor(self.autolauncher)
+            logger.debug("getEditorCommand: editor is : %s" % editor)
 
         return editor
 
@@ -650,8 +695,8 @@ class ExternalEditor:
                     "Please save it and send it to your administrator."
                     ) % self.title
             errorDialog(msg)
-            logger.error("lock failed. Exit.")
-            self.editFile(log_file,detach=True)
+            logger.error("launch: lock failed. Exit.")
+            self.editFile(log_file,detach=True,default=True)
             sys.exit()
 
         # Extract the executable name from the command
@@ -665,24 +710,24 @@ class ExternalEditor:
         else:
             bin = command
 
-        logger.info('Command %r, will use %r', command, bin)
+        logger.info('launch: Command %r, will use %r', command, bin)
 
         if bin is not None:
             # Try to load the plugin for this editor
             try:
-                logger.debug("bin is not None - try to load a plugin : %s" % bin)
+                logger.debug("launch: bin is not None - try to load a plugin : %s" % bin)
                 module = 'Plugins.%s' % bin
                 Plugin = __import__(module, globals(), locals(),
                                     ('EditorProcess',))
                 self.editor = Plugin.EditorProcess(self.content_file)
-                logger.info('Launching Plugin %r with: %r',
+                logger.info('launch: Launching Plugin %r with: %r',
                              Plugin, self.content_file)
             except (ImportError, AttributeError):
-                logger.debug("Error while to load the plugin ; set bin to None")
+                logger.debug("launch: Error while to load the plugin ; set bin to None")
                 bin = None
 
         if bin is None:
-            logger.info("No plugin found ; using standard editor process")
+            logger.info("launch: No plugin found ; using standard editor process")
             # Use the standard EditorProcess class for this editor
             if win32:
                 file_insert = '%1'
@@ -694,12 +739,12 @@ class ExternalEditor:
             else:
                 command = '%s %s' % (command, self.content_file)
 
-            logger.info('Launching EditorProcess with: %r', command)
+            logger.info('launch: Launching EditorProcess with: %r', command)
             self.editor = EditorProcess(command, 
                                         self.content_file,
                                         self.max_is_alive_counter,
                                         self.lock_file_schemes)
-            logger.info("Editor launched successfully")
+            logger.info("launch: Editor launched successfully")
 
         launch_success = self.editor.isAlive()
         if not launch_success:
@@ -710,20 +755,20 @@ class ExternalEditor:
 
         unlock_success = self.unlock()
         if not unlock_success:
-            logger.error("Launch: not unlock_success. Flag networkerror")
+            logger.error("launch: not unlock_success. Flag networkerror")
             self.networkerror = True
 
         # Check is a file has been modified but not saved back to zope
 
         # Clean content file
         if self.dirty_file:
-            logger.exception("Launch: Some modifications are NOT saved "
+            logger.exception("launch: Some modifications are NOT saved "
                              "we'll re-open file and logs")
 
             self.clean_up = False
             self.keep_log = True
         elif ( not unlock_success ) and self.clean_up:
-            logger.exception("Launch: Unlock failed and we have to clean up files")
+            logger.exception("launch: Unlock failed and we have to clean up files")
             self.clean_up = False
             self.keep_log = True
 
@@ -743,7 +788,7 @@ class ExternalEditor:
                               "\n"
                               "A log file will be opened\n"
                               "Please save it and send it to your administrator."))
-            self.editFile(log_file,detach=True)
+            self.editFile(log_file,detach=True,default=True)
             sys.exit(0)
 
         # Inform the user of what has been done when the edition is finished
@@ -927,9 +972,9 @@ class ExternalEditor:
             # A lock token came down with the data, so the object is
             # already locked
             if not self.manage_locks:
-                logger.critical("Lock: object already locked : "
+                logger.critical("lock: object already locked : "
                                 "lock tocken not empty\n "
-                                "user doesn't manage locks, so..."
+                                "user doesn't manage locks, so... "
                                 "exit")
                 msg = _("%s\n"
                     "This object is already locked."
@@ -950,19 +995,19 @@ class ExternalEditor:
                     self.lock_token = 'opaquelocktoken:%s' \
                                       % self.metadata['lock-token']
                 else:
-                    logger.critical("Lock: File locked and user doesn't want"
-                    " to borrow the lock. Exit.")
+                    logger.critical("lock: File locked and user doesn't want "
+                    "to borrow the lock. Exit.")
                     sys.exit()
 
         if self.lock_token is not None:
-            logger.warning("Lock: Existing lock borrowed.")
+            logger.warning("lock: Existing lock borrowed.")
             return True
 
         # Create a new lock
         dav_lock_response = self.DAVLock()
 
         if dav_lock_response / 100 == 2:
-            logger.info("Lock: OK")
+            logger.info("lock: OK")
             self.did_lock = True
             return True
 
@@ -971,16 +1016,19 @@ class ExternalEditor:
             dav_lock_response = self.DAVLock()
 
             if dav_lock_response / 100 == 2:
-                logger.info("Lock: OK")
+                logger.info("lock: OK")
                 self.did_lock = True
                 return True
 
             if dav_lock_response == 423:
-                logger.warning("Lock: object already locked")
+                logger.warning("lock: object locked by someone else... "
+                               "EXIT !")
                 msg = _("%s\n"
                         "Object already locked") %(self.title)
+                errorDialog(msg)
+                exit()
             else:
-                logger.error("Lock: failed to lock object: "
+                logger.error("lock: failed to lock object: "
                              "response status %s" % dav_lock_response )
                 msg = _("%(title)s\n"
                         "Unable to get a lock on the server"
@@ -991,11 +1039,11 @@ class ExternalEditor:
             msg += '\n'
             msg += _("Do you want to retry ?")
             if askRetryCancel(msg):
-                logger.info("Lock: Retry lock")
+                logger.info("lock: Retry lock")
                 continue
             else:
-                logger.critical("Lock: Unable to lock the file ; return False")
-                logger.error("Lock failed. Return False.")
+                logger.critical("lock: Unable to lock the file ; return False")
+                logger.error("lock failed. Return False.")
                 return False
 
     def DAVLock(self):
@@ -1018,7 +1066,7 @@ class ExternalEditor:
                 )
 
         response = self.zopeRequest('LOCK', headers, body)
-        logger.debug("DAVLock response:%r" % response)
+        logger.debug("DAVLock response:%r" % response.status)
         dav_lock_response = response.status
 
         if dav_lock_response / 100 == 2:
@@ -1208,7 +1256,6 @@ class ExternalEditor:
                     host=taburl[2]
 
                 proxy_authorization = ''
-                # XXX WARNING : looks like proxy and no ssl is not handled !
                 if self.proxy_user and self.proxy_passwd:
                     logger.debug("zopeRequest: proxy_user: %r, proxy_passwd: XXX" % self.proxy_user) 
                     user_pass = base64.encodestring(self.proxy_user+':' \
@@ -1291,7 +1338,7 @@ class ExternalEditor:
             h.endheaders()
             h.send(body)
             response = h.getresponse()
-            logger.debug("zopeRequest: response: %r" % response)
+            logger.debug("zopeRequest: response: %r" % response.status)
             return response
         except:
             # On error return a null response with error info
@@ -1354,29 +1401,44 @@ class ExternalEditor:
                 output_config.close()
         self.editFile(user_config)
     
-    def editFile(self, file, detach = False):
+    def editFile(self, file, detach = False, default = False):
         # launch default editor with the user configuration file
-        default_editor = self.findAvailableEditor(
-            self.config.config.get('general',
-                                   'editor',
-                                   '') )
-        if not default_editor:
+        if default:
+            editor = self.findAvailableEditor(self.defaulteditors)
+        else:
+            editor = self.getEditorCommand()
+        if not editor:
             if osx:
                 LSOpenFSRef(file,None)
             else:
-                logger.critical("No default editor. "
+                logger.critical("editFile: No editor found. "
                                 "File edition failed.")
-        logger.info("Edit file %s with editor %s" % (
-                     file, default_editor))
-        logger.debug("launching default editor in a shell environment : %s %s" %
-                     (default_editor, file) )
-        p = Popen("%s %s" % (default_editor, file), shell = True)
+        logger.info("editFile: Edit file %s with editor %s" % (
+                     file, editor))
+
+        p = Popen("%s %s" % (editor, file), shell = True)
         if linux:
             if detach:
                 p.poll()
             else:
                 sts = os.waitpid(p.pid, 0)[1]
                 logger.debug("sts : %s" % sts)
+            if p.pid == 0:
+                logger.debug("editFile: error with the detected editor ; "
+                             "try with a default one as last option")
+                editor = self.findAvailableEditor(self.defaulteditors)
+                logger.info("editFile: Edit file %s with editor %s" % (
+                             file, editor))
+                logger.debug("editFile: launching editor in a shell environment : %s %s" %
+                             (editor, file) )
+                p = Popen("%s %s" % (editor, file), shell = True)
+                if linux:
+                    if detach:
+                        p.poll()
+                    else:
+                        sts = os.waitpid(p.pid, 0)[1]
+                        logger.debug("sts : %s" % sts)
+                
 
 title = 'Zope External Editor'
 
@@ -1483,7 +1545,7 @@ class EditorProcess:
         """Test if File is locked (filesystem)"""
         logger.debug("test if the file edited is locked by filesystem")
         isFileOpenNum = call(['/bin/fuser' , 
-                                         self.command.split(' ')[-1] ])
+                            re.split(self.arg_re, self.command.strip())[-1] ])
         return isFileOpenNum == 0
 
     def isPidUp(self):
@@ -1684,7 +1746,7 @@ default_configuration = """
 #                                                                     #
 #       Zope External Editor helper application configuration         #
 #                                                                     #
-#             maintained by atReal contact@atreal.net                 #
+#             maintained by atReal contact@atreal.fr                  #
 #######################################################################
 #                                                                     #
 # Remove '#' to make an option active                                 #
@@ -1764,17 +1826,21 @@ default_configuration += """
 # Lock File Scheme
 # These are schemes that are used in order to detect "lock" files
 # %s is the edited file's name (add a ';' between each scheme):
-# lock_file_schemes = .~lock.%s#;~%s.lock
-lock_file_schemes = .~lock.%s#;.%s.swp
+#lock_file_schemes = .~lock.%s#;~%s.lock;.%s.swp
 
 """ 
 
 if linux:
     default_configuration += """
 # Uncomment and specify an editor value to override the editor
-# specified in the environment
+# specified in the environment. You can add several editors separated by ';'
+
 # Default editor
-editor = gedit;kwrite;gvim;emacs;nano;vi
+#editor = gedit;kwrite;gvim;emacs;nano;vi
+
+# Environment auto-launcher
+# based on the association between mime type and applications
+#autolaunchers = gnome-open;kde-open;xdg-open
 
 # Specific settings by content-type or meta-type. Specific
 # settings override general options above. Content-type settings
@@ -1818,35 +1884,35 @@ editor=gimp -n
 
 [content-type:application/vnd.oasis.opendocument.text]
 extension=.odt
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.sun.xml.writer]
 extension=.sxw
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.sun.xml.calc]
 extension=.sxc
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.oasis.opendocument.spreadsheet]
 extension=.ods
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.oasis.opendocument.presentation]
 extension=.odp
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/msword]
 extension=.doc
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.ms-excel]
 extension=.xls
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/vnd.ms-powerpoint]
 extension=.ppt
-editor=ooffice;libreoffice;soffice
+editor=
 
 [content-type:application/x-freemind]
 extension=.mm
