@@ -1,6 +1,25 @@
 Changelog
 =========
 
+01/03/2011 - 1.0.0
+------------------
+
+    - new linux debian/ubuntu packaging
+    - better user experience : less but more explicit messages 
+    - translated in English / French / Spanish (contribs welcome !)
+    - the config file allows multiple editors for a given mimetype : 
+      the first one that is available is used
+    - the users's configuration file is stored in :
+      .config/collective.zopeedit (Linux) 
+      Application Data\collective.zopeedit (Windows)
+    - all options have default values
+    - automatic application detection based on the desktop environment (Linux)
+    - new icon (Windows, Linux)
+    - MS VCRedist in included into the windows package
+    - libreoffice support
+    - locks management improvements
+    - new default values make ZopeEdit faster
+
 29/11/2010 - 0.12.7
 -------------------
 

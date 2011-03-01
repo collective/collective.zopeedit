@@ -4,7 +4,6 @@ ZopeEdit - ToDo !
 Short term improvements
 -----------------------
 
-    - Simplify user interactions (more systematic actions)
     - When there is an error using a proxy, try without proxy
 
 Long term improvements
@@ -16,8 +15,6 @@ Long term improvements
         - when we launch zopeedit manually, reopen these files as if they were just opened, re-starting the monitor process
         - therefore these files will be saved back and unlocked
 
-    - when there is an error saving back : ask less questions and always recover and re-open file and logs
-
 
 Ideas ...
 ---------
@@ -26,6 +23,5 @@ Ideas ...
     - notification messages
     - plugins for server specific context :
         - default is Zope standalone, with limited functions
-        - plone plugin
         - olther content management plugins
 
