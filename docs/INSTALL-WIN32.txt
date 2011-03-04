@@ -2,15 +2,14 @@ Zope External Editor Installation
 
   Installation is two-fold: 
 
-  - Install the ExternalEditor product in Zope.
+  - Install the ExternalEditor product in Zope : Products.ExternalEditor
+    for Zope and collective.zopeedit for Plone.
 
   - Install the helper application on the client(s) and configure the browser(s)
 
   Product Installation (server side)
 
-    Download the archive and extract it into your Zope products directory. Then
-    restart Zope. If you succeeded, you'll notice pencil icons next to the
-    external editable objects in the Zope management screens.
+    Add ExternalEditor to your buildout.
     
   Helper Application Installation (client side)
 
@@ -75,21 +74,7 @@ Zope External Editor Installation
     - Uncheck "Confirm open after download"
       
     - Click OK, you should now see your new file type.
-    
-  Tips
-  
-    The helper application can run any editor program that does not detach
-    itself from the controlling process.
-    
-    As for editors that insist on detaching from the controlling process
-    (EditPad does this by default), you need to configure them so that they do
-    not detach. For EditPad you could use::
 
-      editor = C:\Program Files\EditPadClassic\EditPad.exe /newinstance
-
-    Check the command line options of your favorite editor to see if it
-    supports this.
-    
  Troubleshooting
 
     If the helper app won't launch or you receive errors try the following 

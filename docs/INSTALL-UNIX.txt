@@ -10,14 +10,17 @@ Zope External Editor Installation
 
     Dependancies: 
 
-        - Python 2.x pyTk (python-tk)
+        - Python 2.6 pyTk (python-tk)
         - Setuptools (python-setuptools)
     
-    Method 1 : You can install zopeedit from pypi::
+    Method 1 (preferred) : Install the Debian/Ubuntu package
+                           directly from Plone.org
+   
+    Method 2 : You can install zopeedit from pypi::
     
       easy_install collective.zopeedit
 
-    Method 2 : Download the helper app archive and extract it. 
+    Method 3 : Download the helper app archive and extract it. 
     Enter the ExternalEditor directory and run (You may need to be root)::
 
       python2.6 setup.py install
@@ -26,7 +29,7 @@ Zope External Editor Installation
       system). Alternately, you can launch zopeedit.py from location where
       you downloaded it.
 
-    Method 3 : You may use zopeedit directly from its source tree::
+    Method 4 : You may use zopeedit directly from its source tree::
 
       Extract the source archive or checkout from subversion
       Add execution rights to zopeedit.py

@@ -364,7 +364,7 @@ class ExternalEditor:
         logger.debug("loadConfig: autolauncher: %r" % self.autolauncher)
         
         # Get default editors, in case none is found
-	if win32:
+        if win32:
             self.defaulteditors = self.options.get('defaulteditors',
                                                'notepad')
         else:

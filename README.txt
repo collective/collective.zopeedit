@@ -382,8 +382,6 @@ Conclusion
 Special thanks for their help and contributions
 -----------------------------------------------
 
-      * Lesaffre France - Eric Dussart
-
       * Wayne Glover - excellent texting and reports makes ZopeEdit go ahead !
 
       * Alexandre Gouraud - contributor of the Digest authentification method
