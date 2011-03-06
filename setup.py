@@ -29,7 +29,7 @@ except ImportError:
 
 install_requires = ['setuptools']
 if sys.platform == 'darwin':
-    install_requires.extend(['pyobjc',
+    install_requires.extend([
         'pyobjc-core',
         'pyobjc-framework-LaunchServices',
     ])
