@@ -28,12 +28,18 @@ except NameError:
     system_path = os.path.realpath( os.path.dirname( sys.argv[0] ) )
 
 # Open the VERSION file for reading.
-try:
+if os.path.exists(os.path.join(system_path,'docs/VERSION.txt')):
     f=open(os.path.join(system_path,'docs/VERSION.txt'), 'r')
-except IOError:
+elif os.path.exists(os.path.join(system_path,'../../docs/VERSION.txt')):
     # zopeedit is not properly installed : try uninstalled path
     f=open(os.path.join(system_path,'../../docs/VERSION.txt'), 'r')
-__version__ = f.readline()[:-1]
+elif os.path.exists(os.path.join(system_path,'collective/zopeedit/docs/VERSION.txt')
+else
+    f = None
+if f is not None:
+    __version__ = f.readline()[:-1]
+else:
+    __version__ = "0"
 f.close()
 
 
