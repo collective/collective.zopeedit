@@ -33,9 +33,11 @@ if os.path.exists(os.path.join(system_path,'docs/VERSION.txt')):
 elif os.path.exists(os.path.join(system_path,'../../docs/VERSION.txt')):
     # zopeedit is not properly installed : try uninstalled path
     f=open(os.path.join(system_path,'../../docs/VERSION.txt'), 'r')
-elif os.path.exists(os.path.join(system_path,'collective/zopeedit/docs/VERSION.txt')
-else
+elif os.path.exists(os.path.join(system_path,'collective/zopeedit/docs/VERSION.txt')):
+    f=open(os.path.join(system_path,'collective/zopeedit/docs/VERSION.txt'), 'r')
+else:
     f = None
+
 if f is not None:
     __version__ = f.readline()[:-1]
 else:
@@ -110,7 +112,9 @@ log_file = None
 
 # Retrieve locale from system
 lc, encoding = locale.getdefaultlocale()
-
+if lc is None:
+    lc="en_EN"
+    encoding="UTF-8"
 
 # Should work without that but it seems to be here most of time
 gettext.bindtextdomain( APP_NAME, local_path )
@@ -375,7 +379,7 @@ class ExternalEditor:
                                                'notepad')
         else:
             self.defaulteditors = self.options.get('defaulteditors',
-                                               'gedit;kedit;gvim;emacs;vim;nano')
+                                               'gedit;kedit;gvim;vim;emacs;nano')
         logger.debug("loadConfig: defaulteditors: %s" % self.defaulteditors)
 
         # Get autoproxy option : do we want to configure proxy from system ?
