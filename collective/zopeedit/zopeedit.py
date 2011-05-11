@@ -254,6 +254,25 @@ class ExternalEditor:
             m = rfc822.Message(in_f)
 
             self.metadata = m.dict.copy()
+
+            # Special care for Dexterity Item content type, which
+            # is encapsuled as its own rfc2822 message by plone.rfc822
+            if self.metadata["meta_type"] == "Dexterity Item":
+                import email, email.header, StringIO
+                msg = email.message_from_string(in_f.read())
+                self.dexterity = dict(msg.items())
+                self.metadata["title"] = self.dexterity.get(
+                    "title", self.metadata.get("title", ""))
+                self.metadata["content_type"] = self.dexterity.get(
+                    "Content-Type", self.metadata.get("content_type", "text/plain"))
+                if "Content-Disposition" in self.dexterity:
+                    # Decoding "Content-Disposition" returns list of tuples
+                    self.dexterity["Content-Disposition"] =\
+                        email.header.decode_header(self.dexterity["Content-Disposition"])[0]
+                in_f = StringIO.StringIO()
+                in_f.write(msg.get_payload(decode=True))
+                in_f.seek(0)
+
             logger.debug("metadata: %s" % repr(self.metadata))
 
             # Parse the incoming url
@@ -936,6 +955,23 @@ class ExternalEditor:
         if self.lock_token is not None:
             headers['If'] = '<%s> (<%s>)' % (self.path, self.lock_token)
 
+        # Special care for Dexterity Item content type, which
+        # is encapsuled as its own rfc2822 message by plone.rfc822
+        if self.metadata["meta_type"] == "Dexterity Item":
+            import email
+            msg = email.message.Message()
+            for key in self.dexterity:
+                if key != "Content-Disposition":
+                    msg.add_header(key, self.dexterity[key])
+                else:
+                    # We don't encode "Content-Disposition",
+                    # but self.dexterity[key][1] would contain
+                    # the encoding charset or None for ASCII
+                    msg.add_header(key, self.dexterity[key][0])
+            msg.set_payload(body)
+            email.encoders.encode_base64(msg)
+            body = str(msg)
+            
         response = self.zopeRequest('PUT', headers, body)
         # Don't keep the body around longer than we need to
         del body
