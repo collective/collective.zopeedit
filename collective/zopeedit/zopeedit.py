@@ -265,10 +265,6 @@ class ExternalEditor:
                     "title", self.metadata.get("title", ""))
                 self.metadata["content_type"] = self.dexterity.get(
                     "Content-Type", self.metadata.get("content_type", "text/plain"))
-                if "Content-Disposition" in self.dexterity:
-                    # Decoding "Content-Disposition" returns list of tuples
-                    self.dexterity["Content-Disposition"] =\
-                        email.header.decode_header(self.dexterity["Content-Disposition"])[0]
                 in_f = StringIO.StringIO()
                 in_f.write(msg.get_payload(decode=True))
                 in_f.seek(0)
@@ -961,13 +957,7 @@ class ExternalEditor:
             import email
             msg = email.message.Message()
             for key in self.dexterity:
-                if key != "Content-Disposition":
-                    msg.add_header(key, self.dexterity[key])
-                else:
-                    # We don't encode "Content-Disposition",
-                    # but self.dexterity[key][1] would contain
-                    # the encoding charset or None for ASCII
-                    msg.add_header(key, self.dexterity[key][0])
+                msg.add_header(key, self.dexterity[key])
             msg.set_payload(body)
             email.encoders.encode_base64(msg)
             body = str(msg)
