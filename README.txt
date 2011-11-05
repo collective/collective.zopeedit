@@ -386,6 +386,8 @@ Special thanks for their help and contributions
 
       * Alexandre Gouraud - contributor of the Digest authentification method
 
+      * datakurre - Dexterity support
+
 Authors
 ---------
 

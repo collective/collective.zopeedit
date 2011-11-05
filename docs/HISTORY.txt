@@ -1,7 +1,7 @@
 Changelog
 =========
 
-(Unreleased) - 1.0.1
+(Unreleased) - 1.1.0
 --------------------
 
     - Added support for Dexterity content types (datakurre).
