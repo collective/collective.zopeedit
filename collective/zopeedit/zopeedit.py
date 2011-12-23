@@ -1586,7 +1586,11 @@ class EditorProcess:
     def isFileOpen(self):
         """Test if File is locked (filesystem)"""
         logger.debug("test if the file edited is locked by filesystem")
-        isFileOpenNum = call(['/bin/fuser' , 
+        command = '/bin/fuser'
+        if not os.path.exists(command):
+            command = '/usr/bin/fuser'
+
+        isFileOpenNum = call([command,
                             re.split(self.arg_re, self.command.strip())[-1] ])
         return isFileOpenNum == 0
 
