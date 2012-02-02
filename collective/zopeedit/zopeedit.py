@@ -1590,8 +1590,8 @@ class EditorProcess:
         if not os.path.exists(command):
             command = '/usr/bin/fuser'
 
-        process = subprocess.Popen([command , self.command.split(' ')[-1]], 
-                                   stdout=subprocess.PIPE)
+        process = Popen([command , self.command.split(' ')[-1]], 
+                        stdout=subprocess.PIPE)
         process.wait()
         fileOpenWith = process.stdout.read()
         return fileOpenWith != ''
