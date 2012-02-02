@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+pl#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 ###########################################################################
 #
@@ -1590,10 +1590,12 @@ class EditorProcess:
         if not os.path.exists(command):
             command = '/usr/bin/fuser'
 
-        isFileOpenNum = call([command,
-                            re.split(self.arg_re, self.command.strip())[-1] ])
-        return isFileOpenNum == 0
-
+        process = subprocess.Popen([command , self.command.split(' ')[-1]], 
+                                   stdout=subprocess.PIPE)
+        process.wait()
+        fileOpenWith = process.stdout.read()
+        return fileOpenWith != ''
+        
     def isPidUp(self):
         """Test PID"""
         logger.debug("test if PID is up")
