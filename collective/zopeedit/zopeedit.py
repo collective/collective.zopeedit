@@ -75,6 +75,7 @@ if osx:
     from LaunchServices import LSOpenFSRef
 
 import re
+import subprocess
 from subprocess import Popen, call
 import time
 import rfc822
