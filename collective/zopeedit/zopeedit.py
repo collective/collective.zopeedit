@@ -733,7 +733,7 @@ class ExternalEditor:
             sys.exit()
 
         # Extract the executable name from the command
-        if win32:
+        if command and win32:
             if command.find('\\') != -1:
                 bin = re.search(r'\\([^\.\\]+)\.exe', command.lower())
                 if bin is not None:
