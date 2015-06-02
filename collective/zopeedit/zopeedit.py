@@ -40,9 +40,9 @@ else:
 
 if f is not None:
     __version__ = f.readline()[:-1]
+    f.close()
 else:
     __version__ = "0"
-f.close()
 
 
 # Where am i ?
