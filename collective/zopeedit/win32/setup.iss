@@ -1,4 +1,5 @@
 ; Zope External Editor Inno Setup Script
+; http://www.jrsoftware.org/isinfo.php
 
 [Setup]
 DisableStartupPrompt=true
@@ -38,7 +39,6 @@ Root: HKCR; SubKey: MIME\Database\Content Type\application/x-zope-edit; Flags: u
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\ZopeExternalEditor\zopeedit.exe; ValueType: string; ValueName: Zope External Editor; ValueData: {app}\zopeedit.exe; Flags: uninsdeletekey
 
 [Files]
-Source: libs\*.*; DestDir: {app}; Flags: ignoreversion
 Source: *.txt; DestDir: {app}; Flags: ignoreversion
 Source: ZopeEdit.ini; DestDir: {app}; Flags: ignoreversion
 Source: ZopeExtEditDummyOCX.ocx; DestDir: {app}; Flags: restartreplace regserver
@@ -50,12 +50,8 @@ Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Fla
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Flags: ignoreversion
 
-Source: ..\..\..\dist\*; DestDir: {app}; Flags: restartreplace
-; Source: ..\Plugins\*; DestDir: {app}\Plugins; Flags: ignoreversion
+Source: ..\..\..\dist\ZopeEdit\*; DestDir: {app}; Flags: restartreplace
 Source: vcredist_x86.exe; DestDir: {tmp}
-
-[_ISToolPreCompile]
-Name: buildexe.bat; Parameters: ; Flags: abortonerror
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
