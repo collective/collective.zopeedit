@@ -51,27 +51,6 @@ Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Fla
 Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Flags: ignoreversion
 
 Source: ..\..\..\dist\ZopeEdit\*; DestDir: {app}; Flags: restartreplace
-Source: vcredist_x86.exe; DestDir: {tmp}
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
-
-[Code]
-
-procedure DoPreInstall();
-var
-  ResultCode: Integer;
-
-begin
-Log('Inside DoPreInstall');
-ExtractTemporaryFile('vcredist_x86.exe');
-Exec(ExpandConstant('{tmp}\vcredist_x86.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-begin
-  if CurStep = ssInstall then
-  begin
-    DoPreInstall();
-  end;
-end;
