@@ -1,0 +1,22 @@
+Building a new windows deployment
+=================================
+
+Requirements:
+
+ * Windows
+ * Python 2.7
+ * Python for Windows Extensions: http://sourceforge.net/projects/pywin32/
+ * PyInstaller: https://github.com/pyinstaller/pyinstaller/wiki
+ * InnoSetup: http://www.jrsoftware.org/isinfo.php
+
+To build:
+
+At the root of the egg:
+
+> pyinstaller ZopeEdit.spec
+
+Then open collective/zopeedit/win32/setup.iss in InnoSetup, and run 'Compile'.
+
+You should get an installable exe file here:
+
+collective/zopeedit/win32/Output
