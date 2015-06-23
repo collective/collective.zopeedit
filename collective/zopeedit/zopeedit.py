@@ -256,6 +256,7 @@ class ExternalEditor:
 
             self.metadata = m.dict.copy()
 
+
             # Special care for Dexterity Item content type, which
             # is encapsuled as its own rfc2822 message by plone.rfc822
             if self.metadata["meta_type"] == "Dexterity Item":
@@ -958,11 +959,15 @@ class ExternalEditor:
             import email
             msg = email.message.Message()
             for key in self.dexterity:
+                #  Including the id in the PUT message causes dexterity to
+                #  rename the item, resulting in a lock error.
+                if key == 'id':
+                    continue
                 msg.add_header(key, self.dexterity[key])
             msg.set_payload(body)
             email.encoders.encode_base64(msg)
             body = str(msg)
-            
+
         response = self.zopeRequest('PUT', headers, body)
         # Don't keep the body around longer than we need to
         del body
