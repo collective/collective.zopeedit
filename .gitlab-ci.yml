@@ -1,4 +1,4 @@
-test:
+win32-installer:
         script:
                 - C:\Python27\Scripts\pyinstaller.exe ZopeEdit.spec
         artifacts:
