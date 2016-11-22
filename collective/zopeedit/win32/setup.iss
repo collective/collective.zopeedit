@@ -1,4 +1,5 @@
 ; Zope External Editor Inno Setup Script
+; http://www.jrsoftware.org/isinfo.php
 
 [Setup]
 DisableStartupPrompt=true
@@ -14,7 +15,7 @@ DefaultGroupName=Zope External Editor
 AllowNoIcons=true
 LicenseFile=..\..\..\LICENSE.txt
 ChangesAssociations=true
-OutputBaseFilename=zopeedit-win32-1.0.0
+OutputBaseFilename=zopeedit-win32-1.1.0
 VersionInfoCompany=atReal
 AppID={{6A79A43D-B97B-4DA3-BD8D-2C4E84500D72}
 PrivilegesRequired=admin
@@ -38,7 +39,6 @@ Root: HKCR; SubKey: MIME\Database\Content Type\application/x-zope-edit; Flags: u
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows\CurrentVersion\ZopeExternalEditor\zopeedit.exe; ValueType: string; ValueName: Zope External Editor; ValueData: {app}\zopeedit.exe; Flags: uninsdeletekey
 
 [Files]
-Source: libs\*.*; DestDir: {app}; Flags: ignoreversion
 Source: *.txt; DestDir: {app}; Flags: ignoreversion
 Source: ZopeEdit.ini; DestDir: {app}; Flags: ignoreversion
 Source: ZopeExtEditDummyOCX.ocx; DestDir: {app}; Flags: restartreplace regserver
@@ -50,32 +50,7 @@ Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Fla
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Flags: ignoreversion
 
-Source: ..\..\..\dist\*; DestDir: {app}; Flags: restartreplace
-; Source: ..\Plugins\*; DestDir: {app}\Plugins; Flags: ignoreversion
-Source: vcredist_x86.exe; DestDir: {tmp}
-
-[_ISToolPreCompile]
-Name: buildexe.bat; Parameters: ; Flags: abortonerror
+Source: ..\..\..\dist\ZopeEdit\*; DestDir: {app}; Flags: restartreplace
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
-
-[Code]
-
-procedure DoPreInstall();
-var
-  ResultCode: Integer;
-
-begin
-Log('Inside DoPreInstall');
-ExtractTemporaryFile('vcredist_x86.exe');
-Exec(ExpandConstant('{tmp}\vcredist_x86.exe'), '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
-end;
-
-procedure CurStepChanged(CurStep: TSetupStep);
-begin
-  if CurStep = ssInstall then
-  begin
-    DoPreInstall();
-  end;
-end;
