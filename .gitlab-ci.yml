@@ -1,3 +1,6 @@
 test:
         script:
                 - C:\Python27\Scripts\pyinstaller.exe ZopeEdit.spec
+        artifacts:
+                paths:
+                        - build\ZopeEdit\zopeedit.exe
