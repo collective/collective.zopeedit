@@ -1,3 +1,9 @@
+before_script:
+        - del /f /s /q build 1>nul
+        - rmdir /s /q build
+        - del /f /s /q dist 1>nul
+        - rmdir /s /q dist
+
 win32-installer:
         script:
                 - C:\Python27\Scripts\pyinstaller.exe -F ZopeEdit.spec
