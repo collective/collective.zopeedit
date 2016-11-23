@@ -1,6 +1,7 @@
 # -*- mode: python -*-
 # For use with pyinstaller (pyinstaller.org)
 a = Analysis(['collective\\zopeedit\\zopeedit.py'],
+             pathex=['collective\\zopeedit'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None)
@@ -11,12 +12,12 @@ exe = EXE(pyz,
           name='zopeedit.exe',
           debug=False,
           strip=None,
-          upx=True,
+          upx=False,
           console=False )
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
                strip=None,
-               upx=True,
+               upx=False,
                name='ZopeEdit')
