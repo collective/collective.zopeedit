@@ -6,7 +6,7 @@ before_script:
 
 win32-installer:
         script:
-                - C:\Python27\Scripts\pyinstaller.exe ZopeEdit.spec
+                - C:\Python27\Scripts\pyinstaller.exe  -p collective\zopeedit ZopeEdit.spec
                 - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
         artifacts:
                 paths:
