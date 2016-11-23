@@ -7,7 +7,7 @@ a = Analysis(['collective\\zopeedit\\zopeedit.py'],
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=True,
+          exclude_binaries=False,
           name='zopeedit.exe',
           debug=False,
           strip=None,
