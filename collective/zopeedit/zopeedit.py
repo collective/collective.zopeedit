@@ -40,9 +40,9 @@ else:
 
 if f is not None:
     __version__ = f.readline()[:-1]
+    f.close()
 else:
     __version__ = "0"
-f.close()
 
 
 # Where am i ?
@@ -733,7 +733,7 @@ class ExternalEditor:
             sys.exit()
 
         # Extract the executable name from the command
-        if win32:
+        if command and win32:
             if command.find('\\') != -1:
                 bin = re.search(r'\\([^\.\\]+)\.exe', command.lower())
                 if bin is not None:

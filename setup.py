@@ -21,12 +21,6 @@ except IOError:
 version = f.readline()[:-1]
 f.close
 
-try:
-    import py2exe
-except ImportError:
-    if sys.platform == 'win32':
-        raise
-
 install_requires = ['setuptools']
 if sys.platform == 'darwin':
     install_requires.extend([
@@ -84,7 +78,7 @@ setup(name='collective.zopeedit',
               'script': os.path.join('collective','zopeedit','zopeedit.py'),
               'icon_resources': [(1, os.path.join('collective','zopeedit','win32','zopeedit.ico'))]
               }],
-      options={"py2exe": {"packages": ["encodings", "Plugins", "win32com"]},
+      options={
                "py2app" : {'argv_emulation':True},
               },
       )
