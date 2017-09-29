@@ -10,7 +10,7 @@ artifacts:
     name: installer
 deploy:
   release: collective.zopeedit-v$(APPVEYOR_REPO_TAG_NAME)
-  description: 'collective.zopeedit Windows installer'
+  description: 'collective.zopeedit: installer for Windows'
   provider: GitHub
   auth_token:
     secure: ZpHA71SYuWiMOd6z8dVWy5PXckXUyCOenoaNnx8xLEGBJ/LOEJuIbBE7AJJH8cBf
