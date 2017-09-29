@@ -15,8 +15,7 @@ deploy:
   auth_token:
     secure: ZpHA71SYuWiMOd6z8dVWy5PXckXUyCOenoaNnx8xLEGBJ/LOEJuIbBE7AJJH8cBf
   artifact: installer
-  draft: false
-  prerelease: false
+  draft: true
+  prerelease: true
   on:
-    branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
