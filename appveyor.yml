@@ -1,6 +1,3 @@
-environment:
-        global:
-
 install:
         - choco install -y innosetup
         - pip install pyinstaller==3.2.1
