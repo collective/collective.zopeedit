@@ -1,5 +1,10 @@
+environment:
+        global:
+
 install:
         - choco install -y innosetup
+        - pip install pyinstaller==3.2.1
+
 build_script:
-        - C:\Python27\Scripts\pyinstaller.exe ZopeEdit.spec
+        - pyinstaller.exe ZopeEdit.spec
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
