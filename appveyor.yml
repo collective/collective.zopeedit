@@ -5,3 +5,15 @@ install:
 build_script:
         - pyinstaller.exe ZopeEdit.spec
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
+deploy:
+  release: collective.zopeedit-v$(appveyor_build_version)
+  description: 'collective.zopeedit Windows installer'
+  provider: GitHub
+  auth_token:
+    secure: ZpHA71SYuWiMOd6z8dVWy5PXckXUyCOenoaNnx8xLEGBJ/LOEJuIbBE7AJJH8cBf
+  artifact: collective\zopeedit\win32\Output
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
