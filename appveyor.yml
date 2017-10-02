@@ -3,7 +3,7 @@ install:
         - pip install pyinstaller==3.3
 
 build_script:
-        - pyinstaller.exe ZopeEdit.spec
+        - pyinstaller.exe -D ZopeEdit.spec
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
 artifacts:
   - path: collective\zopeedit\win32\Output\*
