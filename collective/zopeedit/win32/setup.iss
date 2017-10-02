@@ -50,7 +50,7 @@ Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Fla
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Flags: ignoreversion
 
-Source: ..\..\..\dist\ZopeEdit\*; DestDir: {app}; Flags: restartreplace
+Source: ..\..\..\dist\ZopeEdit\*; DestDir: {app}; Flags: restartreplace recursesubdirs
 
 [Icons]
 Name: "{group}\ZopeEdit "; Filename: {app}\zopeedit.exe
