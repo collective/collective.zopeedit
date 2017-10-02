@@ -4,6 +4,7 @@ install:
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
+        - pyi-archive_viewer.exe dist/ZopeEdit/zopeedit.exe
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
 artifacts:
   - path: collective\zopeedit\win32\Output\*
