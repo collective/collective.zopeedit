@@ -2,7 +2,7 @@
 # For use with pyinstaller (pyinstaller.org)
 a = Analysis(['collective\\zopeedit\\zopeedit.py'],
              pathex=['collective\\zopeedit'],
-             hiddenimports=[],
+             hiddenimports=['Tkinter'],
              hookspath=None,
              runtime_hooks=None)
 pyz = PYZ(a.pure)
