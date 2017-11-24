@@ -1,11 +1,15 @@
 install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
+        - pip install pytest
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
         - pyi-archive_viewer.exe dist/ZopeEdit/zopeedit.exe
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
+test_script:
+        - collective\zopedit\win32\Output\zopeedit-win32-1.1.0.exe \VERYSILENT
+        - python -m pytest tests
 artifacts:
   - path: collective\zopeedit\win32\Output\*
     name: installer
