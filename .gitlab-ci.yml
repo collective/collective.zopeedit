@@ -1,9 +1,0 @@
-win32-installer:
-        script:
-                - C:\Python27\Scripts\pyinstaller.exe ZopeEdit.spec
-                - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
-                - '"c:\curl\CURL.EXE" -X POST https://content.dropboxapi.com/2/files/upload --header "Authorization: Bearer %DROPBOX_TOKEN%" --header "Dropbox-API-Arg: {\"path\": \"/installer-%CI_BUILD_REF%.exe\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}" --header "Content-Type: application/octet-stream" --data-binary @%CI_PROJECT_DIR%\collective\zopeedit\win32\Output\zopeedit-win32-1.1.0.exe'
-                - '"c:\curl\CURL.EXE" -X POST https://api.dropboxapi.com/2/sharing/create_shared_link_with_settings --header "Authorization: Bearer %DROPBOX_TOKEN%" --header "Content-Type: application/json" --data "{\"path\": \"/installer-%CI_BUILD_REF%.exe\",\"settings\": {\"requested_visibility\": \"public\"}}"'
-        artifacts:
-                paths:
-                        - collective\zopeedit\win32\Output
