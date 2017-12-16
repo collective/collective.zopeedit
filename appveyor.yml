@@ -17,7 +17,7 @@ deploy:
   description: 'collective.zopeedit: installer for Windows'
   provider: GitHub
   auth_token:
-    secure: ZpHA71SYuWiMOd6z8dVWy5PXckXUyCOenoaNnx8xLEGBJ/LOEJuIbBE7AJJH8cBf
+    secure: ZpHA71SYuWiMOd6z8dVWy5PXckXUyCOenoaNnx8xLEGBJ/LOEJuIbBE7AJJH8cBf   # bla
   artifact: installer
   draft: true
   prerelease: true
