@@ -13,13 +13,23 @@ artifacts:
   - path: collective\zopeedit\win32\Output\*
     name: installer
 deploy:
-  release: $(APPVEYOR_REPO_BRANCH)
-  description: 'collective.zopeedit: installer for Windows'
-  provider: GitHub
-  auth_token:
-    secure: 'Dnv6xHpkOgs6VqVY+iSq5VKyr8V4oUwGTPvUXUdyRR1Ksg66O8Yx6rb2yiG6t14l'
-  artifact: installer
-  draft: true
-  prerelease: true
-  on:
-    appveyor_repo_tag: false        # deploy on tag push only
+  - provider: GitHub
+    release: $(APPVEYOR_REPO_BRANCH)-$(APPVEYOR_REPO_COMMIT)
+    description: 'collective.zopeedit: installer for Windows'
+    auth_token:
+      secure: 'Dnv6xHpkOgs6VqVY+iSq5VKyr8V4oUwGTPvUXUdyRR1Ksg66O8Yx6rb2yiG6t14l'
+    artifact: installer
+    draft: true
+    prerelease: true
+    on:
+      appveyor_repo_tag: false        # deploy on any push
+  - provider: GitHub
+    release: $(APPVEYOR_REPO_TAG_NAME)
+    description: 'collective.zopeedit: installer for Windows'
+    auth_token:
+      secure: 'Dnv6xHpkOgs6VqVY+iSq5VKyr8V4oUwGTPvUXUdyRR1Ksg66O8Yx6rb2yiG6t14l'
+    artifact: installer
+    draft: false
+    prerelease: false
+    on:
+      appveyor_repo_tag: true        # deploy on tag push only
