@@ -1,14 +1,14 @@
 Changelog
 =========
 
-(Unreleased) - 1.1.0
+1.1.0 ((Unreleased))
 --------------------
 
     - fixed file closing detection under MacOSX (thomasdesvenain)
     - zopeedit client works if fuser is located in /usr/bin folder.
     - Added support for Dexterity content types (datakurre).
 
-01/03/2011 - 1.0.0
+1.0.0 (01/03/2011)
 ------------------
 
     - new linux debian/ubuntu packaging
@@ -27,19 +27,19 @@ Changelog
     - locks management improvements
     - new default values make ZopeEdit faster
 
-29/11/2010 - 0.12.7
+0.12.7 (29/11/2010)
 -------------------
 
     - install from egg
     - disable automatic proxy detection by default as it may have side effects
       when a proxy can't handle the request while a direct connexion is ok
 
-19/11/2010 - 0.12.6
+0.12.6 (19/11/2010)
 -------------------
 
     - more debug messages in zopeRequest for proxy connection
 
-17/11/2010 - 0.12.5
+0.12.5 (17/11/2010)
 -------------------
 
     - automatic proxy detection => all OS !
@@ -48,7 +48,7 @@ Changelog
     - more debug logs
     - log level debug by default
 
-17/11/2010 - 0.12.4
+0.12.4 (17/11/2010)
 -------------------
 
     - update man page
@@ -57,12 +57,12 @@ Changelog
     - add lock file detection support for gvim
     - remove calls to os.spawnvp (deprecated)
 
-10/11/2010 - 0.12.3
+0.12.3 (10/11/2010)
 -------------------
 
     - add pythonwin windows libs
 
-10/11/2010 - 0.12.2
+0.12.2 (10/11/2010)
 -------------------
 
     - fix bug related to proxy + ssl starting from python2.5
@@ -70,7 +70,7 @@ Changelog
       are useless when redistributable is installed, and they can't avoid
       installing redistributable
 
-09/11/2010 - 0.12.1
+0.12.1 (09/11/2010)
 -------------------
 
     - switch to python 2.6 for windows
@@ -85,7 +85,7 @@ Changelog
     - contributors
     - translations update
 
-03/11/2010 - 0.12.0
+0.12.0 (03/11/2010)
 -------------------
 
     - Translations added (French + English)
@@ -93,7 +93,7 @@ Changelog
     - simplify the message when everything was ok : inform the user that the
       edition is closed and ok instead of asking questions.
 
-20/05/2010 - 0.11.0
+0.11.0 (20/05/2010)
 -------------------
 
     - don't encode the title in order to be able to print it in user' messages
@@ -101,17 +101,17 @@ Changelog
     - first osx compatible version ; needs to be tested on all platforms before
       release
 
-18/03/2010 - 0.10.0
+0.10.0 (18/03/2010)
 -------------------
 
     - NGINX fix 1 : unable to unlock in https behind NGINX
 
-01/04/2009 - 0.9.11
+0.9.11 (01/04/2009)
 -------------------
 
     - Windows : switch to python 2.5
 
-05/10/2009 - 0.9.11 pre1
+0.9.11 pre1 (05/10/2009)
 ------------------------
 
     - bugfix LINUX : http_proxy env variable not correctly taken into account
@@ -123,7 +123,7 @@ Changelog
     - improvement in log file and in messages
     - default log level is now info instead of debug
 
-04/26/2009 - 0.9.10
+0.9.10 (04/26/2009)
 -------------------
 
     - unification of EditorProcess for windows and linux. Now only one class.
@@ -136,7 +136,7 @@ Changelog
     - bugfix in ini files
     - isalive improvements
 
-02/24/2009 - 0.9.9.3
+0.9.9.3 (02/24/2009)
 --------------------
 
     - handle correctly use_locks = False:
@@ -160,7 +160,7 @@ Changelog
       http_proxy taken into account
     - bugfix - messages
 
-11/20/2008 - 0.9.8 final
+0.9.8 final (11/20/2008)
 ------------------------
 
     - error in traceback save
@@ -169,7 +169,7 @@ Changelog
     - use mktemp for traceback
     - don't crash if Title has characters that are not iso-8858-1 compliant.
 
-10/19/2008 - 0.9.8-beta2
+0.9.8-beta2 (10/19/2008)
 ------------------------
 
     - Enhancement : logs messages have now different log levels. 
@@ -203,7 +203,7 @@ Changelog
     - Enhancement : All options but default editor (posix) and lock duration are now commented
 
 
-08/26/2008 - 0.9.8-beta1
+0.9.8-beta1 (08/26/2008)
 ------------------------
 
     - Borrow lock when the file is locked by the current user
@@ -223,8 +223,8 @@ Changelog
     - mimetypes for excel and powerpoint under linux 
       in default configuration file
 
-06/26/2008 - 0-9-7-ar Release
------------------------------
+0-9-7-ar (06/26/2008)
+---------------------
 
     - Bugfix : start gimp with -n in order to start a new process
     - Improvements in Lock/Unlock process
@@ -237,34 +237,34 @@ Changelog
     - Important bugfix in order to avoid losing file's modifications when : close and answer 'yes' to save
     - More precautions in order to avoid opening an old version of a file (a user opens while another user is closing the file) ; check patched ExterbalEditor in order to be really reliable.
 
-05/28/2008 - 0-9-6-ar Release
------------------------------
+0-9-6-ar (05/28/2008)
+---------------------
 
     - logs from isAlive in order to log the way we track changes
     - New configuration option lock_timeout in order to configure
       the lock duration on the client side
     - Cleanup
 
-04/10/2008 - 0-9-5-ar Release
------------------------------
+0-9-5-ar (04/10/2008)
+---------------------
 
     - better isAlive algorithm
 
-06/28/2007 - 0.9.4-ar Release
------------------------------
+0.9.4-ar (06/28/2007)
+---------------------
 
     - better support for forking applications without pluggin
     - windows and posix systems support
 
-01/03/2007 - 0.9.3 Release
---------------------------
+0.9.3 (01/03/2007)
+------------------
 
     - Fixed issue with 'manage_FTPget' overriding the 'Content-Type'
       header.
     - Only run ExpandEnvironmentStrings on win32 systems.
 
-9/14/2006 - 0.9.2 Release
--------------------------
+0.9.2 (9/14/2006)
+-----------------
 
     - Added 'skip_data' option to make External Editor send out only
       the metadata part and skip appending data to the 'body'.
@@ -277,14 +277,14 @@ Changelog
     - Fixed acquisition issue in manage_main.dtml to sync up with the
       same fix applied to Zope.
 
-6/23/2005 - 0.9.1 Release
--------------------------
+0.9.1 (6/23/2005)
+-----------------
 
     - Older pyc files for plugins were included in the 0.9 release.
       This version has the most up to date plugins.
 
-6/20/2005 - 0.9 Release
------------------------
+0.9 (6/20/2005)
+---------------
 
     - When using the Excel plugin, errors were seen by users like
       "TypeError: This object does not support enumeration".  We now
@@ -320,8 +320,8 @@ Changelog
       function does not work with a hidden root Tk window in Python 2.3.4.
       Thanks to Christopher Mann.
 
-7/13/04 - 0.8 release
----------------------
+0.8 (7/13/04)
+-------------
   
     - Add external editor icon to ZMI breadcrumbs for editable objects.
     - Compiled windows helper app binary using Python 2.3.4, Pythonwin build
@@ -341,8 +341,8 @@ Changelog
       using the Excel plugin where the symptom was a "Call was
       rejected by callee" COM error. Thanks to Chris McDonough.
 
-4/23/04 - 0.7.2 Release
------------------------
+0.7.2 (4/23/04)
+---------------
 
     - Change default configuration to use .txt extension for text/plain only. 
       Add extensions for css and javascript files.
@@ -352,15 +352,15 @@ Changelog
     - Fixed a bug where very short editing sessions where no changes were
       made could make EE think the editor never launched. Thanks to Maik Ihde.
 
-11/7/03 - 0.7.1 Release (affects win32 binary only)
----------------------------------------------------
+0.7.1 (affects win32 binary only) (11/7/03)
+-------------------------------------------
 
     - Fix encoding bug in windows binary. Thanks to Chris McDonough.  
     - Added tip for configuring IE to save files over SSL. Thanks to
       Jonah Bossewitch.
 
-4/1/03 - 0.7 Release
---------------------
+0.7 (4/1/03)
+------------
 
     - Added working distutils setup for Unix.
 
@@ -377,8 +377,8 @@ Changelog
     - Added the man page from the Debian distro. Thanks go out to
       Federico Sevilla III and Andreas Tille
 
-11/02/02 - 0.6 Release
-----------------------
+0.6 (11/02/02)
+--------------
 
     - Built Windows helper app using Python 2.2.2 and PythonWin 148.
 
@@ -402,8 +402,8 @@ Changelog
 
     - Added win32 editor plugin support for the helper application.
 
-8/19/02 - 0.5 Release
----------------------
+0.5 (8/19/02)
+-------------
 
     - Added patch for Zope find template so that you can use external editor
       directly from find results in the ZMI. Thanks to Jim Washington.
@@ -437,14 +437,14 @@ Changelog
     - Fixed auth bug when product was used with mysqlUserFolder. Thanks to
       ViNiL.
 
-6/30/02 - 0.4.2 Release (affects win32 binary only)
----------------------------------------------------
+0.4.2 (affects win32 binary only) (6/30/02)
+-------------------------------------------
 
     - Added SSL support to Windows binary package. Thanks to Federico 
       Sevilla III
 
-6/29/02 - 0.4.1 Release
------------------------
+0.4.1 (6/29/02)
+---------------
 
     - Fixed dangling dav lock bug on fatal errors. Thanks to Marc St-Jean.
     - Fixed content_type bug, now checks if it is callable. Thanks to Arnaud 
@@ -452,8 +452,8 @@ Changelog
     - Fixed bug with editing binary data on Windows. Thanks to Eric Kamm.
     - Fixed bug setting the editor on Posix platforms.
 
-6/24/02 - 0.4 Release
----------------------
+0.4 (6/24/02)
+-------------
 
     - Added --version command line argument
     - Made manage_FTPget the default source for the editable content, instead
@@ -464,8 +464,8 @@ Changelog
       and then the user's home directory (if specified)
     - Fixed bug in Windows registry editor lookup.
 
-6/16/02 - 0.3 Release
----------------------
+0.3 (6/16/02)
+-------------
 
     - Improved behavior when saving after lock attempts fail.
     - Now works on Windows (applause) using Pythonwin. Much overall
@@ -495,12 +495,12 @@ Changelog
     - Eliminated spurious "Editor did not launch" errors on short sessions
       or when other errors occurred.
 
-5/16/02 - 0.2 Release
----------------------
+0.2 (5/16/02)
+-------------
 
     - Fixed product uninstallation bug
 
-5/15/02 - 0.1
+0.1 (5/15/02)
 -------------
 
     - Initial release
