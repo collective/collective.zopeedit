@@ -2,3 +2,14 @@ tests/__pycache__/
 build/
 dist/
 *.pyc
+*.egg-info
+lib
+bin
+include
+tests/bin/
+tests/develop-eggs/
+tests/include/
+tests/lib/
+tests/parts/
+tests/var/
+tests/.installed.cfg
