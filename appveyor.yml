@@ -13,7 +13,7 @@ artifacts:
   - path: collective\zopeedit\win32\Output\*
     name: installer
 deploy:
-  release: '$(APPVEYOR_REPO) - built by appveyor'
+  release: $(APPVEYOR_REPO_BRANCH)
   description: 'collective.zopeedit: installer for Windows'
   provider: GitHub
   auth_token:
