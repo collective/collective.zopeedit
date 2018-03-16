@@ -10,16 +10,8 @@ from setuptools import setup, find_packages
 import os
 import sys
 import glob
-opj = os.path.join
-# Open the VERSION file for reading.
-try:
-    f=open('docs/VERSION.txt', 'r')
-except IOError:
-    # zopeedit is not properly installed : try uninstalled path
-    f=open('../../docs/VERSION.txt', 'r')  # Open the VERSION file for reading.
-# Below, "[:-1]" means we omit the last character, which is "\n".
-version = f.readline()[:-1]
-f.close
+
+version = '1.1.0dev'
 
 install_requires = ['setuptools']
 if sys.platform == 'darwin':
@@ -32,6 +24,7 @@ packages = find_packages(exclude=['ez_setup'])
 
 def data_files():
     '''Build list of data files to be installed'''
+    opj = os.path.join
     files = []
 
     files.append((opj('share','man','man1',''),['collective/zopeedit/man/zopeedit.1']))
