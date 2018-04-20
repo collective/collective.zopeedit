@@ -6,7 +6,7 @@ install:
         - tests\bin\instance install
         - tests\bin\instance run tests\add_file.py
         - tests\bin\instance start
-        - type tests\var\log.instance.log
+        - type tests\var\log\instance.log
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
