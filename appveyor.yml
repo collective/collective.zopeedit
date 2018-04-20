@@ -1,6 +1,7 @@
 install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
+        - docker version
         - python tests\bootstrap.py -c tests\buildout.cfg
         - tests\bin\buildout -Nv -c tests\buildout.cfg
         - tests\bin\instance install
