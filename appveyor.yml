@@ -5,10 +5,8 @@ install:
         - tests\bin\buildout -Nv -c tests\buildout.cfg
         - tests\bin\instance install
         - tests\bin\instance run tests\add_file.py
-        - dir tests
-        - dir tests\var
-        - dir tests\var\filestorage
-        - tests\bin\instance start
+        - net start Zope1068480214
+        - dir tests\var\log
         - type tests\var\log\instance.log
 
 build_script:
