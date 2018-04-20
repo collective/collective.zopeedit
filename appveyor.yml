@@ -1,3 +1,4 @@
+image: Visual Studio 2017
 install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
@@ -6,9 +7,6 @@ install:
         - tests\bin\buildout -Nv -c tests\buildout.cfg
         - tests\bin\instance install
         - tests\bin\instance run tests\add_file.py
-
-services:
-  - Zope1068480214
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
