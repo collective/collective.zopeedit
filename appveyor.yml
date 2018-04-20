@@ -6,6 +6,9 @@ install:
         - tests\bin\instance install
         - tests\bin\instance run tests\add_file.py
         - tests\bin\instance start
+        - dir tests
+        - dir tests\var
+        - dir tests\var\log
         - type tests\var\log\instance.log
 
 build_script:
