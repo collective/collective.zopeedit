@@ -10,6 +10,7 @@ build_script:
         - tests\bin\instance install
         - tests\bin\instance run tests\add_file.py
         - tests\bin\instance start
+        - type tests\var\log.instance.log
 test_script:
         - collective\zopeedit\win32\Output\zopeedit-win32-1.1.0.exe /VERYSILENT
         - tests\bin\pytest tests
