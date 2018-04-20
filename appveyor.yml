@@ -7,7 +7,7 @@ build_script:
         - '"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc collective\zopeedit\win32\setup.iss'
         - python tests\bootstrap.py -c tests\buildout.cfg
         - tests\bin\buildout -Nv -c tests\buildout.cfg
-        - tests\bin\instance console
+        - tests\bin\instance start
 test_script:
         - collective\zopeedit\win32\Output\zopeedit-win32-1.1.0.exe /VERYSILENT
         - tests\bin\pytest tests
