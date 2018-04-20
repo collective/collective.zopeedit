@@ -8,7 +8,7 @@ install:
         - tests\bin\instance start
         - dir tests
         - dir tests\var
-        - dir tests\var\log
+        - dir tests\var\filestorage
         - type tests\var\log\instance.log
 
 build_script:
