@@ -4,6 +4,7 @@ import os
 import sys
 import inspect
 import socket, errno
+import requests
 
 def test_instance_script():
     path = list()
@@ -27,3 +28,8 @@ def test_instance_started():
 	    socket_is_bound = True
     s.close()
     assert(socket_is_bound)
+
+def test_instance_has_externalfile():
+    r = requests.get('http://localhost:8080/test_external')
+    assert r.status_code == 200
+  
