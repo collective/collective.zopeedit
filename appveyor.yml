@@ -10,7 +10,7 @@ build_script:
         - tests\bin\buildout -Nv -c tests\buildout.cfg
 test_script:
         - collective\zopeedit\win32\Output\zopeedit-win32-1.1.0.exe /VERYSILENT
-        - cd
+        - dir tests\bin
         - python -m pytest tests
 artifacts:
   - path: collective\zopeedit\win32\Output\*
@@ -38,3 +38,5 @@ deploy:
       appveyor_repo_tag: true        # deploy on tag push only
 cache:
   - tests\eggs
+environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
