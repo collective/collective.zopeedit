@@ -1,7 +1,6 @@
 install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
-        - pip install pytest
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
