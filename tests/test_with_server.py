@@ -5,7 +5,7 @@ import sys
 import inspect
 import socket, errno
 
-def test_instance_script(host):
+def test_instance_script():
     path = list()
     basedir = os.path.dirname(inspect.getfile(sys.modules[__name__]))
     path.append(basedir)
@@ -14,9 +14,9 @@ def test_instance_script(host):
     if sys.platform == "win32":
         filename += ".exe"
     path.append(filename)
-    host.file(os.sep.join(path)).exists
+    assert os.path.exists(os.sep.join(path))
 
-def test_instance_started(host):
+def test_instance_started():
     socket_is_bound = False
     
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
