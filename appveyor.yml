@@ -4,6 +4,7 @@ install:
         - net stop docker
         - choco install docker-for-windows --pre 
         - refreshenv
+        - net start docker
         - docker version
 #        - choco install -y innosetup
 #        - pip install pyinstaller==3.3
