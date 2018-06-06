@@ -3,10 +3,10 @@ install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
         - docker version
-        - python tests\bootstrap.py -c tests\buildout.cfg
-        - tests\bin\buildout -Nv -c tests\buildout.cfg
-        - tests\bin\instance install
-        - tests\bin\instance run tests\add_file.py
+        - docker build -t zopeedit tests\zope
+        - docker run --rm -d --name server -p 8080:8080 zopeedit
+        - docker logs server
+        - docker stop server
 
 build_script:
         - pyinstaller.exe -D ZopeEdit.spec
