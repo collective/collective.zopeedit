@@ -3,7 +3,7 @@ install:
         - choco install -y innosetup
         - pip install pyinstaller==3.3
         - docker version
-        - docker build -t zopeedit tests\zope
+        - docker build --platform=linux -t zopeedit tests\zope
         - docker run --rm -d --name server -p 8080:8080 zopeedit
         - docker logs server
         - docker stop server
