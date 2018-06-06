@@ -1,8 +1,10 @@
 image: Visual Studio 2017
 install:
+        - docker version
+        - choco install docker-for-windows --pre 
+        - docker version
         - choco install -y innosetup
         - pip install pyinstaller==3.3
-        - docker version
         - docker build --platform=linux -t zopeedit tests\zope
         - docker run --rm -d --name server -p 8080:8080 zopeedit
         - docker logs server
