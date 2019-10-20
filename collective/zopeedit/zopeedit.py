@@ -1298,10 +1298,10 @@ class ExternalEditor:
                     host=taburl[2]
 
                 proxy_authorization = ''
-                if self.proxy_user and self.proxy_passwd:
-                    logger.debug("zopeRequest: proxy_user: %r, proxy_passwd: XXX" % self.proxy_user) 
+                if self.proxy_user and self.proxy_pass:
+                    logger.debug("zopeRequest: proxy_user: %r, proxy_pass: XXX" % self.proxy_user) 
                     user_pass = base64.encodestring(self.proxy_user+':' \
-                              +self.proxy_passwd)
+                              +self.proxy_pass)
                     proxy_authorization = 'Proxy-authorization: Basic ' \
                               +user_pass+'\r\n'
 
