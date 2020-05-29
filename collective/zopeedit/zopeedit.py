@@ -1194,7 +1194,8 @@ class ExternalEditor:
                            old_response):
         #get the challenge
         if ssl is True:
-            h = HTTPSConnection(host)
+            ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            h = HTTPSConnection(host, context=ctx)
         else:
             h = HTTPConnection(host)
         if cookie is not None:
@@ -1358,7 +1359,8 @@ class ExternalEditor:
 
             if self.ssl and not self.proxy:
                 logger.debug("zopeRequest: ssl and no proxy")
-                h = HTTPSConnection(host)
+                ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+                h = HTTPSConnection(host, context=ctx)
             else :
                 logger.debug("zopeRequest: no ssl and no proxy")
                 h = HTTPConnection(host)
