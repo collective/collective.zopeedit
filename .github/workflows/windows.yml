@@ -1,0 +1,58 @@
+name: Windows release
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: olegtarasov/get-tag@v2
+      id: get_tag
+    - uses: nelonoel/branch-name@v1
+    - name: Compute release
+      id: release
+      env:
+        TAG: ${{ steps.get_tag.ouputs.tag }}
+      run: |
+        if ($env:TAG -eq '') {
+            echo "::set-output name=release::$Env:BRANCH_NAME-${{ github.run_number }}"
+        }
+        else {
+            echo "::set-output name=release::$Env:TAG"
+        }
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install dependencies
+      run: |
+        pip install pyinstaller==3.3
+        pip install pytest
+    - name: Build installer
+      run: |
+        pyinstaller.exe -D ZopeEdit.spec
+        echo '#define Version "${{ steps.release.outputs.release }}"' | Out-File -FilePath .\collective\zopeedit\win32\version.iss
+        & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" collective\zopeedit\win32\setup.iss
+    - name: Run installer
+      run: |
+        collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe /VERYSILENT
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.release.outputs.release }}
+        release_name: Release ${{ steps.release.outputs.release }}
+        draft: false
+        prerelease: true
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe
+        asset_name: zopeedit-win32-${{ steps.release.outputs.release }}.exe
+        asset_content_type: application/exe

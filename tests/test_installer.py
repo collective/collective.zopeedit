@@ -2,9 +2,9 @@ import os.path
 import os
 
 def test():
+    drive, tail = os.path.splitdrive(os.getcwd())
     path = list()
-    path.append("C:")
-    path.append("Program Files (x86)")
-    path.append("ZopeExternalEditor")
+    path.append(drive)
+    path.append("inst")
     path.append("zopeedit.exe")
     assert os.path.exists(os.sep.join(path))
