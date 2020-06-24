@@ -18,4 +18,6 @@
 http://plone.org/products/zope-externaleditor-client"""
 
 from collective.zopeedit import zopeedit
+
+
 zopeedit.main()
