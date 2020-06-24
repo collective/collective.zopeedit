@@ -1199,7 +1199,7 @@ class ExternalEditor:
         return dav_lock_response
 
     def versionControl(self):
-        """ If version_control is enabled, ZopeEdit will try to 
+        """ If version_control is enabled, ZopeEdit will try to
             automatically create a new version of the file.
             The version is created only if the file is modified,
             just before the first save.
@@ -1914,7 +1914,7 @@ def messageScrolledText(text):
         tk_root.mainloop()
 
     else:
-        print text
+        print("".join(text))
 
 
 default_configuration = (
