@@ -60,16 +60,16 @@ def test():
     f = open(fn, "w")
     f.write("<html>\n  <head></head>\n  <body>\n  </body>\n</html>")
     f.close()
-    print "Connecting to HomeSite..."
+    print("Connecting to HomeSite...")
     f = EditorProcess(fn)
     print "Attached to %s %s" % (` f.hs `, f.hs.VersionText)
     print ("%s is open..." % fn),
     if f.isAlive():
-        print "yes"
-        print "Test Passed."
+        print("yes")
+        print("Test Passed.")
     else:
-        print "no"
-        print "Test Failed."
+        print("no")
+        print("Test Failed.")
 
 
 if __name__ == "__main__":
