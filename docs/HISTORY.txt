@@ -4,6 +4,7 @@ Changelog
 (Unreleased) - 1.1.0
 --------------------
 
+    - The command zopeedit will work even when installed using pip. Fixes #9 (ale-rt)
     - Fix --help (ale-rt)
     - fixed file closing detection under MacOSX (thomasdesvenain)
     - zopeedit client works if fuser is located in /usr/bin folder.

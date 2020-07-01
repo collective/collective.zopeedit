@@ -60,23 +60,40 @@ try:
 except NameError:
     system_path = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-# Open the VERSION file for reading.
-if os.path.exists(os.path.join(system_path, "docs/VERSION.txt")):
-    f = open(os.path.join(system_path, "docs/VERSION.txt"), "r")
-elif os.path.exists(os.path.join(system_path, "../../docs/VERSION.txt")):
-    # zopeedit is not properly installed : try uninstalled path
-    f = open(os.path.join(system_path, "../../docs/VERSION.txt"), "r")
-elif os.path.exists(os.path.join(system_path, "collective/zopeedit/docs/VERSION.txt")):
-    f = open(os.path.join(system_path, "collective/zopeedit/docs/VERSION.txt"), "r")
-else:
-    f = None
 
-if f is not None:
-    __version__ = f.readline()[:-1]
-    f.close()
-else:
-    __version__ = "0"
+def compute_version():
+    try:
+        import pkg_resources
+        version = pkg_resources.get_distribution("collective.zopeedit").version
+    except:
+        try:
+            # Open the VERSION file for reading.
+            if os.path.exists(os.path.join(system_path, "docs/VERSION.txt")):
+                f = open(os.path.join(system_path, "docs/VERSION.txt"), "r")
+            elif os.path.exists(
+                    os.path.join(system_path, "../../docs/VERSION.txt")):
+                # zopeedit is not properly installed : try uninstalled path
+                f = open(os.path.join(system_path, "../../docs/VERSION.txt"), "r")
+            elif os.path.exists(
+                    os.path.join(
+                        system_path, "collective/zopeedit/docs/VERSION.txt")):
+                f = open(
+                    os.path.join(
+                        system_path, "collective/zopeedit/docs/VERSION.txt"), "r")
+            else:
+                f = None
 
+            if f is not None:
+                version = f.readline()[:-1]
+            else:
+                version = "0"
+            f.close()
+        except:
+            version = "0"
+    return version
+
+
+__version__ = compute_version()
 
 # Where am i ?
 # The windows version is used with py2exe and a python 2.x (actually 2.6)
