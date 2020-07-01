@@ -41,6 +41,7 @@ import glob
 import locale
 import logging
 import os
+import pkg_resources
 import re
 import rfc822
 import shutil
@@ -60,22 +61,8 @@ try:
 except NameError:
     system_path = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-# Open the VERSION file for reading.
-if os.path.exists(os.path.join(system_path, "docs/VERSION.txt")):
-    f = open(os.path.join(system_path, "docs/VERSION.txt"), "r")
-elif os.path.exists(os.path.join(system_path, "../../docs/VERSION.txt")):
-    # zopeedit is not properly installed : try uninstalled path
-    f = open(os.path.join(system_path, "../../docs/VERSION.txt"), "r")
-elif os.path.exists(os.path.join(system_path, "collective/zopeedit/docs/VERSION.txt")):
-    f = open(os.path.join(system_path, "collective/zopeedit/docs/VERSION.txt"), "r")
-else:
-    f = None
 
-if f is not None:
-    __version__ = f.readline()[:-1]
-else:
-    __version__ = "0"
-f.close()
+__version__ = pkg_resources.get_distribution("collective.zopeedit").version
 
 
 # Where am i ?
