@@ -260,11 +260,14 @@ class ExternalEditor:
             # Special care for Dexterity Item content type, which
             # is encapsuled as its own rfc2822 message by plone.rfc822
             if self.metadata["meta_type"] == "Dexterity Item":
-                import email, email.header, StringIO
+                import email, StringIO
+                from email.header import decode_header
                 msg = email.message_from_string(in_f.read())
                 self.dexterity = dict(msg.items())
-                self.metadata["title"] = self.dexterity.get(
-                    "title", self.metadata.get("title", ""))
+                encoded_title = self.dexterity.get(
+                    "title", self.metadata.get("title", "")
+                )
+                self.metadata["title"] = decode_header(encoded_title)[0][0]
                 self.metadata["content_type"] = self.dexterity.get(
                     "Content-Type", self.metadata.get("content_type", "text/plain"))
                 in_f = StringIO.StringIO()
