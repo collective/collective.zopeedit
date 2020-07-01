@@ -14,12 +14,12 @@ Changelog
 ------------------
 
     - new linux debian/ubuntu packaging
-    - better user experience : less but more explicit messages 
+    - better user experience : less but more explicit messages
     - translated in English / French / Spanish (contribs welcome !)
-    - the config file allows multiple editors for a given mimetype : 
+    - the config file allows multiple editors for a given mimetype :
       the first one that is available is used
     - the users's configuration file is stored in :
-      .config/collective.zopeedit (Linux) 
+      .config/collective.zopeedit (Linux)
       Application Data\collective.zopeedit (Windows)
     - all options have default values
     - automatic application detection based on the desktop environment (Linux)
@@ -34,7 +34,7 @@ Changelog
 
     - install from egg
     - disable automatic proxy detection by default as it may have side effects
-      when a proxy can't handle the request while a direct connexion is ok
+      when a proxy can't handle the request while a direct connection is ok
 
 19/11/2010 - 0.12.6
 -------------------
@@ -118,9 +118,9 @@ Changelog
 
     - bugfix LINUX : http_proxy env variable not correctly taken into account
     - Linux : switch from python2.4 to python2.5
-    - CMFEditions basic support : 
+    - CMFEditions basic support :
       New option to activate/deactivate version control in zopeedit
-      When a file is modified and saved, a new version is created before 
+      When a file is modified and saved, a new version is created before
       save
     - improvement in log file and in messages
     - default log level is now info instead of debug
@@ -129,11 +129,11 @@ Changelog
 -------------------
 
     - unification of EditorProcess for windows and linux. Now only one class.
-    - new isAlive algorythm allowing multiple monitoring 
+    - new isAlive algorythm allowing multiple monitoring
       functions and priorities
-    - new monitoring function for lock files 
+    - new monitoring function for lock files
       (openoffice.org 3.0 is now supported)
-    - new default configuration : you need to update your personnal settings 
+    - new default configuration : you need to update your personnal settings
       in order to get openoffice.org 3 working
     - bugfix in ini files
     - isalive improvements
@@ -174,21 +174,21 @@ Changelog
 10/19/2008 - 0.9.8-beta2
 ------------------------
 
-    - Enhancement : logs messages have now different log levels. 
-    - Enhancement : Log is in "debug" mode by default. 
+    - Enhancement : logs messages have now different log levels.
+    - Enhancement : Log is in "debug" mode by default.
       This may be changed later.
     - Enhancement : datetime in front of every log entry.
-    - Enhancement : Title of the file edited is retrieved and used 
+    - Enhancement : Title of the file edited is retrieved and used
       for close message.
-    - Enhancement : Log file is now written during execution. 
-    - Enhancement : Log file may be read and is not any more deleted 
+    - Enhancement : Log file is now written during execution.
+    - Enhancement : Log file may be read and is not any more deleted
       when there is a crash.
     - Enhancement : Log file can be read while zopeedit is running.
     - Enhancement : Keep log by default.
     - Enhancement : Borrow locks by default.
     - Enhancement : Save interval is 5 seconds by default.
     - Enhancement : Max isalive counter is 5 by default.
-    - Enhancement : Temporary file name to be edited is short 
+    - Enhancement : Temporary file name to be edited is short
       (without path) by default.
     - Bugfix : .zope file is now deleted
     - Enhancement : failures are logged as errors or exceptions
@@ -199,9 +199,9 @@ Changelog
     - Enhancement : log message when file's modification is detected
     - Bugfix : detect editor close during first loops,
       when editor is monitored by file
-    - Enhancement : parameters for server and client encoding, 
+    - Enhancement : parameters for server and client encoding,
       used to display file Title
-    - Enhancement : no more parameters needed. This makes upgrades simpler. 
+    - Enhancement : no more parameters needed. This makes upgrades simpler.
     - Enhancement : All options but default editor (posix) and lock duration are now commented
 
 
@@ -213,16 +213,16 @@ Changelog
     - Message to user in order to re-open the last version of the file
       when it can't been saved
     - Network errors handling
-    - Keep log and temporary file when there is a it's impossible 
+    - Keep log and temporary file when there is a it's impossible
       to save or unlock
-    - control file save issues. 
+    - control file save issues.
       In case of problem, propose to re-open local copy for local backup.
-    - interaction with user for cases where zopeedit 
+    - interaction with user for cases where zopeedit
       can't handle the editor automatically
     - now compatible will ALL editors !!
-    - deep rewrite of parts of code    
+    - deep rewrite of parts of code
     - Default option : always borrow locks = true
-    - mimetypes for excel and powerpoint under linux 
+    - mimetypes for excel and powerpoint under linux
       in default configuration file
 
 06/26/2008 - 0-9-7-ar Release
@@ -315,7 +315,7 @@ Changelog
       product).
     - Properly escape hyphens in man page. Thanks to Federico Sevilla III.
     - Check if the editor was launched before locking the file in Zope. This
-      prevents errors if the editor is closed before the lock request 
+      prevents errors if the editor is closed before the lock request
       completes.
     - Do not ask the user what editor to use on Posix platforms. Instead just
       tell the user to edit the config file. The askstring()
@@ -324,16 +324,16 @@ Changelog
 
 7/13/04 - 0.8 release
 ---------------------
-  
+
     - Add external editor icon to ZMI breadcrumbs for editable objects.
     - Compiled windows helper app binary using Python 2.3.4, Pythonwin build
       163 and py2exe 0.5.
     - Add Dreamweaver plugin contributed by Manuel Aristaránn. Thanks also
       to Anton Stonor.
-    - Add ZMI support for Zope 2.7's ordered folder objects.      
+    - Add ZMI support for Zope 2.7's ordered folder objects.
     - Fix bug detecting basic auth info from older versions of CookieCrumber.
       Thanks to David D. Smith and Federico Sevilla III.
-    - Workaround IE browser error when running over SSL. Thanks to 
+    - Workaround IE browser error when running over SSL. Thanks to
       Marc-Aurèle Darche.
     - Add ".zem" file extension support for MacOS X (especially Mac IE),
       to ease helper app integration where MIME support is lacking. Thanks
@@ -346,7 +346,7 @@ Changelog
 4/23/04 - 0.7.2 Release
 -----------------------
 
-    - Change default configuration to use .txt extension for text/plain only. 
+    - Change default configuration to use .txt extension for text/plain only.
       Add extensions for css and javascript files.
     - Fixed packaging bug in Windows binary which disabled several plugins.
       This fixes "Editor did not launch properly" errors for MSOffice
@@ -357,7 +357,7 @@ Changelog
 11/7/03 - 0.7.1 Release (affects win32 binary only)
 ---------------------------------------------------
 
-    - Fix encoding bug in windows binary. Thanks to Chris McDonough.  
+    - Fix encoding bug in windows binary. Thanks to Chris McDonough.
     - Added tip for configuring IE to save files over SSL. Thanks to
       Jonah Bossewitch.
 
@@ -371,7 +371,7 @@ Changelog
       suppressing the dialog box which appears by default. Thanks
       to Shane Hathaway.
 
-    - Improved open file check in Word and Powerpoint plugins 
+    - Improved open file check in Word and Powerpoint plugins
       thanks to Yura Petrov.
 
     - Added plugins for Microsoft Word, Excel and Powerpoint.
@@ -442,14 +442,14 @@ Changelog
 6/30/02 - 0.4.2 Release (affects win32 binary only)
 ---------------------------------------------------
 
-    - Added SSL support to Windows binary package. Thanks to Federico 
+    - Added SSL support to Windows binary package. Thanks to Federico
       Sevilla III
 
 6/29/02 - 0.4.1 Release
 -----------------------
 
     - Fixed dangling dav lock bug on fatal errors. Thanks to Marc St-Jean.
-    - Fixed content_type bug, now checks if it is callable. Thanks to Arnaud 
+    - Fixed content_type bug, now checks if it is callable. Thanks to Arnaud
       Bienvenu.
     - Fixed bug with editing binary data on Windows. Thanks to Eric Kamm.
     - Fixed bug setting the editor on Posix platforms.
@@ -474,7 +474,7 @@ Changelog
       refactoring to abstract process control. Thanks to Oliver Deckmyn,
       Gabriel Genellina and Arno Gross for testing, patches and suggestions.
     - Added "temp_dir" configuration option for specifying a different
-      temp file directory then the OS default. Also further improved 
+      temp file directory then the OS default. Also further improved
       temp file name generation.
     - Added support for domain specific configuration options.
     - Fixed trailing newline bug in encoded auth data coming from
@@ -483,7 +483,7 @@ Changelog
       or wrap the editor in an xterm without using a shell script.
     - Rewrote "Editor did not launch" error message so it makes more sense.
     - Fixed https detection bug. External editor is now tested and working with
-      https. Many thanks to Hans-Dieter Stich and Martin Grönemeyer for their 
+      https. Many thanks to Hans-Dieter Stich and Martin Grönemeyer for their
       assistance and ideas.
     - Made it possible to edit objects that are methods of ZClasses. Thanks to
       Jim Washington
