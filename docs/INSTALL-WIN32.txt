@@ -1,6 +1,6 @@
 Zope External Editor Installation
 
-  Installation is two-fold: 
+  Installation is two-fold:
 
   - Install the ExternalEditor product in Zope : Products.ExternalEditor
     for Zope and collective.zopeedit for Plone.
@@ -10,16 +10,16 @@ Zope External Editor Installation
   Product Installation (server side)
 
     Add ExternalEditor to your buildout.
-    
+
   Helper Application Installation (client side)
 
     The binary distribution for Windows includes everything you need to
-    to install the helper application. It is precompiled to a native Windows
-    executable using Python 2.6, Pythonwin, distutils and Py2exe. 
+    to install the helper application. It is pre-compiled to a native Windows
+    executable using Python 2.6, Pythonwin, distutils and Py2exe.
     Everything is included for you in one package.
 
     Just run the setup executable to install and configure the helper app
-    for use with Internet Explorer. You can also register it (zopeedit.exe) 
+    for use with Internet Explorer. You can also register it (zopeedit.exe)
     with other browsers directly.
 
     You can download the binary installer from Plone.org at::
@@ -28,14 +28,14 @@ Zope External Editor Installation
 
   Helper Application Installation (Source)
 
-    Dependancies: Python 2.6 or newer, Pythonwin extensions (win32all), 
+    Dependencies: Python 2.6 or newer, Pythonwin extensions (win32all),
                   Setuptools
 
     *Note: This configuration is for Windows 98, for easier setup
      use the binary distribution*
-    
-    Download the helper app archive and extract into the directory where you 
-    want to install it: C:\Program Files\ZopeEdit might be a good choice. 
+
+    Download the helper app archive and extract into the directory where you
+    want to install it: C:\Program Files\ZopeEdit might be a good choice.
 
     Once you have the help application installed, you need to configure your
     browser to fire it off appropriately. To do so, create an entry in the
@@ -72,19 +72,19 @@ Zope External Editor Installation
     - Click OK.
 
     - Uncheck "Confirm open after download"
-      
+
     - Click OK, you should now see your new file type.
 
  Troubleshooting
 
-    If the helper app won't launch or you receive errors try the following 
+    If the helper app won't launch or you receive errors try the following
     suggestions:
-    
-    - Make sure you have Pythonwin installed properly. To test this, bring up 
+
+    - Make sure you have Pythonwin installed properly. To test this, bring up
       the Python console and type in 'import win32api'. If it throws an
       exception, you need to install Pythonwin.
 
-    - Netscape 4 users, add a "%s" at the end of the application command line. 
+    - Netscape 4 users, add a "%s" at the end of the application command line.
       It appears the Netscape  likes to alert you with spurious things coming
       from stderr. I'll see if I can come up with a solution to that.
 
@@ -92,28 +92,28 @@ Zope External Editor Installation
       when it receives files of type "application/x-zope-edit".
 
     - Try downloading and saving the external editor data to a file manually
-      (right click on the pencil icon). Then try running the helper app from 
+      (right click on the pencil icon). Then try running the helper app from
       the command line, passing it the path to this file. If it runs, then
       there is something wrong with the browser/system configuration. If not,
       then it should output a traceback to your terminal. Email me a copy of
       this traceback, and the data file and I will try to fix it.
 
-    - If the editor launches, but the helper app complains that it lost its 
-      connection to the editor process, this is because your editor detached 
-      from the parent process (the helper app). Configure the editor such that 
+    - If the editor launches, but the helper app complains that it lost its
+      connection to the editor process, this is because your editor detached
+      from the parent process (the helper app). Configure the editor such that
       it does not do this. Unfortunately, many MDI applications do this and
       cannot be configured otherwise. To solve this problem, a plug-in must
       be developed for the application. See the README file for more details.
-      
+
     - If you are using IE connecting to Zope over SSL (HTTPS), and you receive
       errors that the file could not be opened or downloaded, or you receive
       errors from External Editor that the file was not found try the following:
 
       - Go to Tools->Internet Options and click on the advanced tab
 
-      - Under security (near the bottom) uncheck "Do not save encrypted files 
+      - Under security (near the bottom) uncheck "Do not save encrypted files
         to disk"
-    
+
     - If you are using IE and you receive an error from the helper app like
       "FATAL ERROR [Errno 2] No such file or directory...." it means that IE is
       refusing to save the temp file to disk. This is usually caused by a cache
@@ -122,4 +122,3 @@ Zope External Editor Installation
       CookieCrumber inject this header for all authenticated requests. You can
       fix this by changing the CC configuration on its properties tab in the
       ZMI to use another cache control value such as "private".
-

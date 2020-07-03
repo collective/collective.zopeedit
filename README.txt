@@ -6,10 +6,10 @@ Introduction
 
   The Zope External Editor is a new way to integrate Zope more seamlessly with
   client-side tools. It has the following features:
-    
+
   - Edit objects locally, directly from the ZMI or from your web application.
-  
-  - Works with any graphical editor application that can open a file from the 
+
+  - Works with any graphical editor application that can open a file from the
     command line, including: emacs, gvim, xemacs, nedit, gimp, openoffice.org,
     MS Office, Photoshop, etc.
 
@@ -22,18 +22,18 @@ Introduction
   - Locks objects while they are being edited. Automatically unlocks them when
     the editing session ends.
 
-  - Can add file extensions automatically to improve syntax highlighting or 
+  - Can add file extensions automatically to improve syntax highlighting or
     file type detection.
-  
+
   - Works with basic auth, cookie auth and Zope versions. Credentials are
     automatically passed down to the helper application. No need to
     reauthenticate.
-    
+
   - https support (Openssl required)
-  
+
   - proxy support (might fail with some proxies ; contact us if you get
     an issue)
-  
+
 Using It
 --------
 
@@ -42,7 +42,7 @@ Using It
     externally, just click on the pencil icon next to the object in the ZMI,
     or on the specific direct edit action in your application.
     The object will be downloaded and opened using the editor application you
-    have chosen (you will be prompted the first time to choose an editor). 
+    have chosen (you will be prompted the first time to choose an editor).
 
     You edit the object just like any other file. When you save the changes in
     your editor, they are automatically uploaded back to Zope in the
@@ -52,10 +52,10 @@ Using It
 
 How it Works
 ------------
-  
+
     Ok, so this all sounds a bit too good to be true, no? So how the heck does
     it work anyway? First I'll give you a block diagram::
-    
+
       +------------+     +------------+     +---------+        +------+
       | Editor App | <-- | Helper App | <-- | Browser | <-/ /- | Zope |
       +------------+     +------------+     +---------+        +------+
@@ -66,31 +66,31 @@ How it Works
                   / Local \
                   \  File /
                    -------
-                   
+
     Now the key to getting this to work is solving the problem that the editor
     cannot know about Zope, and must only deal with local files. Also, there is
     no standard way to communication with editors, so the only communication
     channel can be the local file which contains the object's content or code.
-    
+
     It is trivial to get the browser to fire up your editor when you download
     a particular type of data with your browser. But that does you little good,
     since the browser no longer involves itself once the data is downloaded. It
     just creates a temp file and fires off the registered application, passing
     it the file path. Once the editor is running, it is only aware of the local
     file, and has no concept of where it originated from.
-    
+
     To solve this problem, we have developed a helper application whose job is
     essentially two-fold:
-    
+
     - Determine the correct editor to launch for a given Zope object
-    
+
     - Get the data back into Zope when the changes are saved
 
     So, let's take a step by step look at how it works:
 
-    1. You click on the external editor link (the pencil icon) in the Zope 
+    1. You click on the external editor link (the pencil icon) in the Zope
        management interface (This might be a special action).
-       
+
     2. The product code on the server creates a response that encapsulates the
        necessary meta-data (URL, meta-type, content-type, cookies, etc) and the
        content of the Zope object, which can be text or binary data. The
@@ -106,25 +106,25 @@ How it Works
        meta-data from the file is parsed and the content is copied to a new
        temporary file. The appropriate editor program is determined based on
        the data file and the configuration.
-       
+
     5. The editor is launched as a sub-process of the helper app, passing it the
        file containing the content data.
-       
+
     6. If so configured, the helper app sends a WebDAV lock request back to Zope
        to lock the object.
-       
+
     7. Every so often (if so configured), the helper app stats the content file
        to see if it has been changed. If so, it sends an HTTP PUT request
        back to Zope containing the new data.
-       
+
     8. When the editor is closed, the content file is checked one more time and
        uploaded if it has changed. Then a WebDAV unlock request is sent to Zope.
-       
+
     9. The helper application exits.
-    
+
 Configuration
 -------------
-  
+
     The helper application supports several configuration options, each of
     which can be triggered in any combination of object meta-type, content-type
     or domain. This allows you to create appropriate behavior for different
@@ -144,9 +144,9 @@ Configuration
 
       [section 2]
       ...
-    
+
     Options
-    
+
       The available options for all sections of the config file are:
 
       editor -- Command line or plugin name used to invoke the editor
@@ -158,12 +158,12 @@ Configuration
       this command line. To insert the file path in the middle of your
       command, use "$1" for Unix and "%1" for Windows respectively.
 
-      save_interval -- (float) The interval in seconds that the helper 
+      save_interval -- (float) The interval in seconds that the helper
       application checks the edited file for changes.
 
       use_locks -- (1 or 0) Whether to use WebDAV locking. The user editing must
       have the proper WebDAV related permissions for this to work.
-      
+
       always_borrow_locks -- (1 or 0) When use_locks is enabled this features
       suppresses warnings when trying to edit an object you have already locked.
       When enabled, external editor will always "borrow" the existing lock token
@@ -183,8 +183,8 @@ Configuration
       temp_dir -- (path) Path to store local copies of object data being
       edited. Defaults to operating system temp directory. *Note: this setting
       has no apparent effect on Windows* 8^(
-      
-      long_file_name -- (1 or 0) Whether to include the whole path to the 
+
+      long_file_name -- (1 or 0) Whether to include the whole path to the
       object including the hostname in the file name (the default) or just the
       id of the object being edited. Turn this option off for shorter file
       names in your editors, and for editors that don't like long names.
@@ -196,10 +196,10 @@ Configuration
       is ignored if 'long_file_name' is set to 0.
 
     Sections
-    
+
       The sections of the configuration file specify the types of objects and
       content that the options beneath them apply to.
-      
+
       There is only one mandatory section '[general]', which should define all
       of the above options that do not have a default value. If no other
       section defines an option for a given object, the general settings are
@@ -210,20 +210,20 @@ Configuration
       applied in this order of precedence.
 
       - '[content-type:text/html]' -- Options by whole content-type come first
-      
+
       - '[content-type:text/\*]' -- Options by major content-type come second.
-      
+
       - '[meta-type:File]' -- Options by Zope meta-type are third.
 
       - '[domain:www.mydomain.com]' -- Options by domain follow. Several
         sections can be added for each domain level if desired.
-      
+
       - '[general]' -- General options are last.
-      
+
       This scheme allows you to specify an extension by content-type, the
-      editor by meta-type, the locking settings by domain and the remaining 
+      editor by meta-type, the locking settings by domain and the remaining
       options under general for a given object.
-      
+
   Editor Plugins
 
     For tighter client-side integration, external editor has a plugin system
@@ -236,18 +236,18 @@ Configuration
     application and platform.
 
     This system allows external editor to efficiently connect to running
-    applications without relaunching them and therefore fully support MDI 
+    applications without relaunching them and therefore fully support MDI
     environments. The following applications currently have plugin support::
 
       Application       Platform    Plugin Module Name(s)
       ===================================================
       HomeSite          Windows     homesite5, homesite
-      Dreamweaver       Windows     dreamweaver	
+      Dreamweaver       Windows     dreamweaver
 
     External editor will attempt to load a plugin for any application before
     using the general editor control method. It does this by matching the
     name of the application executable file (sans extension) in the editor
-    command line with the available plugins. 
+    command line with the available plugins.
 
     Because plugins do not require the path of the editor application to work,
     you can simply specify the plugin module name for your editor in the
@@ -265,54 +265,54 @@ Configuration
 
       Photoshop -- Photoshop's COM API is quite limited, and external editor
       cannot detect that you have closed a file until you exit the entire
-      application (it can still detect saves). Therefore you may want to turn 
+      application (it can still detect saves). Therefore you may want to turn
       off DAV locking (use_locks=0) or borrow locks (always_borrow_locks=1)
       when using it.
 
-      Dreamweaver -- External editor cannot detect when you have finished 
+      Dreamweaver -- External editor cannot detect when you have finished
       editing a single file. Objects edited with Dreamweaver will remain
       locked on the server until you exit the application. As with Photoshop
       above, you may want to turn off locking for Dreamweaver.
 
       If your favorite editor needs a plugin because the general support is
       not good enough, please let me know. Keep in mind that I must be able to
-      run a copy of the application in order to develop a plugin for it. So, 
+      run a copy of the application in order to develop a plugin for it. So,
       unless the application is free, or a full demo is available for download
       I won't be able to help much. Plugins are not difficult to write, and I
       encourage you to write one for your favorite editor, start by reading
       one of the existing ones. I am happy to include third-party plugins with
       the distribution.
-    
+
   Permissions
-  
+
     External editing is governed by the permission "Use external editor".
     Users with this permission can launch external editor from editable
     objects. In order to save changes, users will need additional permissions
     appropriate for the objects they are editing.
-    
+
     If users wish to use the built-in locking support, they must have the
     "WebDAV access", "WebDAV Lock items" and "WebDAV Unlock items" permissions
     for the objects they are editing.
-    
+
     If these permissions are not set in Zope, then the helper application will
     receive unauthorized errors from Zope which it will present to the user.
-      
+
   Integrating with External Editor
-  
+
     The external editor product in zope installs a globally available object
     that can format objects accessible through FTP/DAV for use by the helper
     application. You can take advantage of this functionality easily in your
     own content management applications.
-    
+
     Say you have an FTP editable object, "document", in a Zope folder named
     "my_stuff". The URL to view the object would be::
-    
+
       http://zopeserver/my_stuff/document
-      
+
     The URL to kick off the external editor on this document would be::
-    
+
       http://zopeserver/my_stuff/externalEdit_/document
-      
+
     Now, this may look a bit odd to you if you are used to tacking views on to
     the end of the URL. Because '\externalEdit_' is required to work on Python
     Scripts and Page Templates, which swallow the remaining path segments on
@@ -320,12 +320,12 @@ Configuration
     *directly before* the object to be edited. You could do this in ZPT using
     some TAL in a Page Template like::
 
-      <a href='edit' 
+      <a href='edit'
          attributes='href
          string:${here/aq_parent/absolute_url}/externalEdit_/${here/getId}'>
          Edit Locally
       </a>
-      
+
     As an alternative, you can also pass the path the object you want to edit
     directly to the \externalEdit_ object when you call its index_html method.
     It can be called either directly by URL or from a python script.
@@ -333,7 +333,7 @@ Configuration
     Here are some examples::
 
       http://zopeserver/externalEdit_?path=/my_stuff/document
-      
+
       return context.externalEdit_.index_html(
           context.REQUEST, context.RESPONSE, path='/my_stuff/document')
 
@@ -342,11 +342,11 @@ Configuration
     after displaying a confirmation dialog box. Although you can make this
     automatic by specifying 'always_borrow_locks = 1' in the External Editor
     config file, it may be desireable to make this the default behavior when
-    using that server. To facilitate this, you can specify that locks 
+    using that server. To facilitate this, you can specify that locks
     should be automatically borrowed in the URL (New in 0.7)::
 
       http://zopeserver/my_stuff/externalEdit_/document?borrow_lock=1
-      
+
     External Editor also defines a global method that you can call to insert
     pencil icon links for appropriate objects. The method automatically checks
     if the object supports external editing and whether the user has the "Use
@@ -360,20 +360,20 @@ Configuration
     external editor icon where appropriate::
 
       <div tal:repeat="object here/objectValues">
-        <a href="#" 
+        <a href="#"
            tal:attributes="href object/absolute_url"
            tal:content="object/title_or_id">Object Title</a>
         <span tal:replace="structure python:here.externalEditLink_(object)" />
-      </div>       
+      </div>
 
 Conclusion
 ----------
-  
+
     I hope you enjoy using this software. If you have any comments, suggestions
     or would like to report a bug, send an email to this version maintainer:
-    
+
       Thierry Benita
-      
+
       contact@atreal.net
 
       http://www.atreal.net
