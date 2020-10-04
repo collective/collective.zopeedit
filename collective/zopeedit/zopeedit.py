@@ -1668,11 +1668,14 @@ class EditorProcess:
         return False
 
     def isFileOpen(self):
-        """Test if File is locked (filesystem)"""
-        logger.debug("test if the file edited is locked by filesystem")
-        command = "/bin/fuser"
-        if not os.path.exists(command):
-            command = "/usr/bin/fuser"
+        """Test if File is opened (system)"""
+        logger.debug("test if the file edited is opened by the editor...")
+
+        for command in ['/bin/fuser', '/usr/bin/fuser', '/usr/sbin/fuser']:
+            if os.path.exists(command):
+                break
+        else:
+            return False
 
         process = Popen([command, self.command.split(" ")[-1]], stdout=subprocess.PIPE)
         process.wait()

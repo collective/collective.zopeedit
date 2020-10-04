@@ -5,7 +5,8 @@ Changelog
 ------------------
 
     - Close zem file before overriding file handler variable, so it can be correctly deleted (sgeulette)
-    - Add option to control notification of save success [gotcha]
+    - Add option to control notification of save success (gotcha)
+    - Look for the "fuser" command in .../sbin too. Also, do not crash when fuser is not found. (wlang42)
 
 
 1.1.2 (2022-01-26)
