@@ -4,6 +4,8 @@ Changelog
 (Unreleased) - 1.1.0
 --------------------
 
+    - Look for the "fuser" command in .../sbin too. Also,
+      do not crash when fuser isnt found. Fixes #12 (wlang42)
     - The command zopeedit will work even when installed using pip. Fixes #9 (ale-rt)
     - Fix --help (ale-rt)
     - fixed file closing detection under MacOSX (thomasdesvenain)
