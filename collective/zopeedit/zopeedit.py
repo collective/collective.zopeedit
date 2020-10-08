@@ -110,6 +110,7 @@ LOG_LEVELS = {
 }
 
 logger = logging.getLogger("zopeedit")
+logger.setLevel(logging.DEBUG)
 log_file = None
 
 # Retrieve locale from system
@@ -257,94 +258,92 @@ class ExternalEditor:
 
         try:
             # Open the input file and read the metadata headers
-            in_f = open(self.input_file, "rb")
-            m = rfc822.Message(in_f)
+            with open(self.input_file, "rb") as in_f:
+                m = rfc822.Message(in_f)
 
-            self.metadata = m.dict.copy()
+                self.metadata = m.dict.copy()
 
-            # Special care for Dexterity Item content type, which
-            # is encapsuled as its own rfc2822 message by plone.rfc822
-            if self.metadata["meta_type"] == "Dexterity Item":
-                import email, email.header, StringIO
+                # Special care for Dexterity Item content type, which
+                # is encapsuled as its own rfc2822 message by plone.rfc822
+                if self.metadata["meta_type"] == "Dexterity Item":
+                    import email, email.header, StringIO
 
-                msg = email.message_from_string(in_f.read())
-                self.dexterity = dict(msg.items())
-                self.metadata["title"] = self.dexterity.get(
-                    "title", self.metadata.get("title", "")
-                )
-                self.metadata["content_type"] = self.dexterity.get(
-                    "Content-Type", self.metadata.get("content_type", "text/plain")
-                )
-                in_f = StringIO.StringIO()
-                in_f.write(msg.get_payload(decode=True))
-                in_f.seek(0)
+                    msg = email.message_from_string(in_f.read())
+                    self.dexterity = dict(msg.items())
+                    self.metadata["title"] = self.dexterity.get(
+                        "title", self.metadata.get("title", "")
+                    )
+                    self.metadata["content_type"] = self.dexterity.get(
+                        "Content-Type", self.metadata.get("content_type", "text/plain")
+                    )
+                    in_io = StringIO.StringIO()
+                    in_io.write(msg.get_payload(decode=True))
+                    in_io.seek(0)
 
-            logger.debug("metadata: %s" % repr(self.metadata))
+                logger.debug("metadata: %s" % repr(self.metadata))
 
-            # Parse the incoming url
-            scheme, self.host, self.path = urlparse(self.metadata["url"])[:3]
+                # Parse the incoming url
+                scheme, self.host, self.path = urlparse(self.metadata["url"])[:3]
 
-            # Keep the full url for proxy
-            self.url = self.metadata["url"]
-            self.ssl = scheme == "https"
+                # Keep the full url for proxy
+                self.url = self.metadata["url"]
+                self.ssl = scheme == "https"
 
-            # initialyze configuration based on the config file and default values
-            self.loadConfig()
+                # initialyze configuration based on the config file and default values
+                self.loadConfig()
 
-            # Get last-modified
-            last_modified = None
-            if self.metadata.has_key("last-modified"):
-                last_modified = self.metadata["last-modified"]
-                self.last_modified = http_date_to_datetime(last_modified)
-                logger.debug("last_modified: %s" % str(self.last_modified))
+                # Get last-modified
+                last_modified = None
+                if self.metadata.has_key("last-modified"):
+                    last_modified = self.metadata["last-modified"]
+                    self.last_modified = http_date_to_datetime(last_modified)
+                    logger.debug("last_modified: %s" % str(self.last_modified))
 
-            # Retrieve original title
-            self.title = (
-                self.metadata["title"]
-                .decode(self.server_charset)
-                .encode(self.client_charset, "ignore")
-            )
-
-            # Write the body of the input file to a separate file
-            if self.long_file_name:
-                sep = self.options.get("file_name_separator", ",")
-                content_file = urllib.unquote("-%s%s" % (self.host, self.path))
-                content_file = (
-                    content_file.replace("/", sep).replace(":", sep).replace(" ", "_")
-                )
-            else:
-                content_file = "-" + urllib.unquote(self.path.split("/")[-1]).replace(
-                    " ", "_"
+                # Retrieve original title
+                self.title = (
+                    self.metadata["title"]
+                    .decode(self.server_charset)
+                    .encode(self.client_charset, "ignore")
                 )
 
-            extension = self.options.get("extension")
-            if extension and not content_file.endswith(extension):
-                content_file = content_file + extension
-            if self.options.has_key("temp_dir"):
-                while 1:
-                    temp = os.path.expanduser(self.options["temp_dir"])
-                    temp = os.tempnam(temp)
-                    content_file = "%s%s" % (temp, content_file)
-                    if not os.path.exists(content_file):
-                        break
-            else:
-                content_file = mktemp(content_file, "rw")
+                # Write the body of the input file to a separate file
+                if self.long_file_name:
+                    sep = self.options.get("file_name_separator", ",")
+                    content_file = urllib.unquote("-%s%s" % (self.host, self.path))
+                    content_file = (
+                        content_file.replace("/", sep).replace(":", sep).replace(" ", "_")
+                    )
+                else:
+                    content_file = "-" + urllib.unquote(self.path.split("/")[-1]).replace(
+                        " ", "_"
+                    )
 
-            logger.debug("Destination filename will be: %r.", content_file)
+                extension = self.options.get("extension")
+                if extension and not content_file.endswith(extension):
+                    content_file = content_file + extension
+                if self.options.has_key("temp_dir"):
+                    while 1:
+                        temp = os.path.expanduser(self.options["temp_dir"])
+                        temp = os.tempnam(temp)
+                        content_file = "%s%s" % (temp, content_file)
+                        if not os.path.exists(content_file):
+                            break
+                else:
+                    content_file = mktemp(content_file, "rw")
 
-            body_f = open(content_file, "wb")
-            shutil.copyfileobj(in_f, body_f)
-            self.content_file = content_file
-            self.saved = False
-            body_f.close()
-            in_f.close()
+                logger.debug("Destination filename will be: %r.", content_file)
+
+                with open(content_file, "wb") as body_f:
+                    shutil.copyfileobj(in_io, body_f)
+                self.content_file = content_file
+                self.saved = False
 
             # cleanup the input file if the clean_up option is active
             if self.clean_up:
                 try:
                     logger.debug("Cleaning up %r.", self.input_file)
                     os.chmod(self.input_file, 0777)
-                    os.remove(self.input_file)
+                    # os.remove(self.input_file)
                 except OSError:
                     logger.exception("Failed to clean up %r.", self.input_file)
                     pass  # Sometimes we aren't allowed to delete it
@@ -394,7 +393,7 @@ class ExternalEditor:
         logger.info("loadConfig: all options : %r" % self.options)
 
         # Log level
-        logger.setLevel(LOG_LEVELS[self.options.get("log_level", "info")])
+        logger.setLevel(LOG_LEVELS[self.options.get("log_level", "debug")])
 
         # Get autolauncher in case of an unknown file
         self.autolauncher = self.options.get(
@@ -728,7 +727,6 @@ class ExternalEditor:
     def launch(self):
         """ Launch external editor
         """
-
         # Do we have an input file ?
         if self.input_file == "":
             fatalError(_("No input file. \n" "ZopeEdit will close."), exit=0)
@@ -1151,7 +1149,6 @@ class ExternalEditor:
     def DAVLock(self):
         """Do effectively lock the object"""
         logger.debug("DAVLock at: %s" % time.asctime(time.localtime()))
-
         headers = {
             "Content-Type": 'text/xml; charset="utf-8"',
             "Timeout": self.lock_timeout,
@@ -1846,6 +1843,8 @@ else:  # Posix platform
             r = askyesno(title, message)
             tk_flush()
             return r
+        else:
+            return input(message + " (True/False)")
 
     def askPassword(realm, username):
         if has_tk():
