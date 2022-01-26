@@ -1,8 +1,8 @@
 Changelog
 =========
 
-(Unreleased) - 1.1.0
---------------------
+1.1.0 (unreleased)
+------------------
 
     - Support TLS 1.2 (gotcha)
     - The command zopeedit will work even when installed using pip. Fixes #9 (ale-rt)

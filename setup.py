@@ -15,15 +15,12 @@ import sys
 
 
 opj = os.path.join
-# Open the VERSION file for reading.
-try:
-    f = open("docs/VERSION.txt", "r")
-except IOError:
-    # zopeedit is not properly installed : try uninstalled path
-    f = open("../../docs/VERSION.txt", "r")  # Open the VERSION file for reading.
-# Below, "[:-1]" means we omit the last character, which is "\n".
-version = f.readline()[:-1]
-f.close
+
+def get_version():
+    with open(os.path.join('collective', 'zopeedit', 'zopeedit.py')) as f:
+        for line in f:
+            if line.startswith('__version__'):
+                return eval(line.split('=')[-1])
 
 install_requires = ["setuptools"]
 if sys.platform == "darwin":
@@ -68,7 +65,7 @@ def data_files():
 setup(
     name="collective.zopeedit",
     app=[os.path.join("collective", "zopeedit", "zopeedit.py")],
-    version=version,
+    version=get_version(),
     description="ZopeEdit : External Editor Client",
     long_description=open("README.txt").read()
     + "\n"

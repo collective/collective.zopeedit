@@ -47,7 +47,6 @@ Source: ZopeExtEditDummyOCX.ocx; DestDir: {app}; Flags: restartreplace regserver
 Source: ..\..\..\README.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\..\..\LICENSE.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\..\..\docs\HISTORY.txt; DestDir: {app}\docs; Flags: ignoreversion
-Source: ..\..\..\docs\VERSION.txt; DestDir: {app}\docs; Flags: ignoreversion
 Source: ..\locales\en\LC_MESSAGES\*; DestDir: {app}\locales\en\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\fr\LC_MESSAGES\*; DestDir: {app}\locales\fr\LC_MESSAGES\; Flags: ignoreversion
 Source: ..\locales\es\LC_MESSAGES\*; DestDir: {app}\locales\es\LC_MESSAGES\; Flags: ignoreversion
