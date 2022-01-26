@@ -60,7 +60,7 @@ try:
 except NameError:
     system_path = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-__version__ = '1.1.2'
+__version__ = '1.2.0.dev0'
 
 # Where am i ?
 # The windows version is used with py2exe and a python 2.x (actually 2.6)
