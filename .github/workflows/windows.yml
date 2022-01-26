@@ -16,9 +16,11 @@ jobs:
       run: |
         if ($env:TAG -eq '') {
             echo "::set-output name=release::$Env:BRANCH_NAME-${{ github.run_number }}"
+            echo "::set-output name=create_tag::false"
         }
         else {
             echo "::set-output name=release::$Env:TAG"
+            echo "::set-output name=create_tag::true"
         }
     - name: Set up Python 2.7
       uses: actions/setup-python@v2
@@ -38,21 +40,43 @@ jobs:
         collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe /VERYSILENT
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: steps.release.outputs.create_tag == 'false'
+      uses: ncipollo/release-action@v1.9.0
       with:
-        tag_name: ${{ steps.release.outputs.release }}
-        release_name: Release ${{ steps.release.outputs.release }}
+        tag: ${{ steps.release.outputs.release }}
+        name: Prerelease ${{ steps.release.outputs.release }}
+        commit: ${{ env.BRANCH_NAME }}
         draft: false
         prerelease: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Tag
+      id: create_tag
+      if: steps.release.outputs.create_tag == 'true'
+      uses: ncipollo/release-action@v1.9.0
+      with:
+        tag: ${{ steps.release.outputs.release }}
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset
       id: upload-release-asset 
+      if: steps.release.outputs.create_tag == 'false'
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe
+        asset_name: zopeedit-win32-${{ steps.release.outputs.release }}.exe
+        asset_content_type: application/exe
+    - name: Upload Release Asset
+      id: upload-tag-asset 
+      if: steps.release.outputs.create_tag == 'true'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_tag.outputs.upload_url }} 
         asset_path: collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_name: zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_content_type: application/exe
