@@ -460,6 +460,10 @@ class ExternalEditor:
         self.manage_locks = int(self.options.get("manage_locks", 1))
         logger.debug("loadConfig: manage_locks: %s" % self.manage_locks)
 
+        # Should we inform the user that the file has been saved
+        self.notify_save = int(self.options.get("notify_save", 1))
+        logger.debug("loadConfig: notify_save: %s" % self.notify_save)
+
         self.lock_timeout = self.options.get("lock_timeout", "86400")
         logger.debug("loadConfig: lock_timeout: %s" % self.lock_timeout)
 
@@ -863,7 +867,7 @@ class ExternalEditor:
 
         # Inform the user of what has been done when the edition is finished
         # without issue
-        if (
+        if self.notify_save and (
             file_monitor_exit_state == "closed modified"
             or file_monitor_exit_state == "manual close modified"
         ):
@@ -878,7 +882,7 @@ class ExternalEditor:
                 "time": time.ctime(self.last_saved_mtime),
             }
             messageDialog(msg)
-        elif (
+        elif self.notify_save and (
             file_monitor_exit_state == "closed not modified"
             or file_monitor_exit_state == "manual close not modified"
         ):
@@ -1942,6 +1946,11 @@ default_configuration += """
 # This will allow the user to borrow a lock or edit a locked file
 # without informing the administrator
 #manage_locks = 1
+
+# If you wish to avoid notification when saving
+# set notify_save = 0
+# By default, user is notified that save succeeded
+#notify_save = 0
 
 # To suppress warnings about borrowing locks on objects
 # locked by you before you began editing you can
