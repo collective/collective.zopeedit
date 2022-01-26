@@ -6,7 +6,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: olegtarasov/get-tag@v2
+    - uses: olegtarasov/get-tag@v2.1
       id: get_tag
     - uses: nelonoel/branch-name@v1.0.1
     - name: Compute release
