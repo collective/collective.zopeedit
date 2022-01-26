@@ -5,6 +5,8 @@ Changelog
 ------------------
 
     - Close zem file before overriding file handler variable, so it can be correctly deleted (sgeulette)
+    - Add option to control notification of save success [gotcha]
+
 
 1.1.2 (2022-01-26)
 ------------------
