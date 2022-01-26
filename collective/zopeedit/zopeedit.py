@@ -251,7 +251,7 @@ class ExternalEditor:
         # Setup logging.
         global log_file
         log_file = mktemp(suffix="-zopeedit-log.txt")
-        # print log_file
+        # print(log_file)
         log_filehandler = logging.FileHandler(log_file)
         log_formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
         log_filehandler.setFormatter(log_formatter)
@@ -1852,7 +1852,7 @@ else:  # Posix platform
             showerror(title, message)
             tk_flush()
         else:
-            print message
+            print(message)
 
     def messageDialog(message):
         """Error dialog box"""
@@ -1862,7 +1862,7 @@ else:  # Posix platform
             showinfo(title, message)
             tk_flush()
         else:
-            print message
+            print(message)
 
     def askRetryCancel(message):
         if has_tk():
