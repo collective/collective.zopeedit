@@ -12,7 +12,7 @@ jobs:
     - name: Compute release
       id: release
       env:
-        TAG: ${{ steps.get_tag.ouputs.tag }}
+        TAG: ${{ steps.get_tag.outputs.tag }}
       run: |
         if ($env:TAG -eq '') {
             echo "::set-output name=release::$Env:BRANCH_NAME-${{ github.run_number }}"
