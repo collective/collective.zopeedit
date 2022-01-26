@@ -4,6 +4,7 @@ Changelog
 (Unreleased) - 1.1.0
 --------------------
 
+    - Support TLS 1.2 (gotcha)
     - The command zopeedit will work even when installed using pip. Fixes #9 (ale-rt)
     - Fix --help (ale-rt)
     - fixed file closing detection under MacOSX (thomasdesvenain)
