@@ -273,6 +273,7 @@ class ExternalEditor:
                 self.metadata["content_type"] = self.dexterity.get(
                     "Content-Type", self.metadata.get("content_type", "text/plain")
                 )
+                in_f.close()  # to avoid problem when deleting original zem file
                 in_f = StringIO.StringIO()
                 in_f.write(msg.get_payload(decode=True))
                 in_f.seek(0)
