@@ -4,8 +4,7 @@ Changelog
 1.2.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+    - Close zem file before overriding file handler variable, so it can be correctly deleted (sgeulette)
 
 1.1.2 (2022-01-26)
 ------------------
