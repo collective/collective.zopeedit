@@ -15,7 +15,9 @@ jobs:
         TAG: ${{ steps.get_tag.outputs.tag }}
       run: |
         if ($env:TAG -eq '') {
-            echo "::set-output name=release::$Env:BRANCH_NAME-${{ github.run_number }}"
+            $Env:RELEASE = $ENV:BRANCH_NAME-${{ github.run_number }}
+            $Env:RELEASE = $Env:RELEASE -replace "/" "-"
+            echo "::set-output name=release::$Env:RELEASE"
             echo "::set-output name=create_tag::false"
         }
         else {
@@ -32,9 +34,9 @@ jobs:
         pip install pytest
     - name: Build installer
       run: |
-        pyinstaller.exe -D ZopeEdit.spec
-        echo '#define Version "${{ steps.release.outputs.release }}"'|  % {$_.replace("/","_")} | Out-File -FilePath .\collective\zopeedit\win32\version.iss
+        echo '#define Version "${{ steps.release.outputs.release }}"' | Out-File -FilePath .\collective\zopeedit\win32\version.iss
         Get-Content -Path .\collective\zopeedit\win32\version.iss
+        pyinstaller.exe -D ZopeEdit.spec
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" collective\zopeedit\win32\setup.iss
     - name: Run installer
       run: |
