@@ -15,7 +15,7 @@ jobs:
         TAG: ${{ steps.get_tag.outputs.tag }}
       run: |
         if ($env:TAG -eq '') {
-            $Env:RELEASE = $ENV:BRANCH_NAME-${{ github.run_number }}
+            $Env:RELEASE = "$ENV:BRANCH_NAME-${{ github.run_number }}"
             $Env:RELEASE = $Env:RELEASE -replace "/", "-"
             echo "::set-output name=release::$Env:RELEASE"
             echo "::set-output name=create_tag::false"
