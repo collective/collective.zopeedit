@@ -34,6 +34,7 @@ jobs:
       run: |
         pyinstaller.exe -D ZopeEdit.spec
         echo '#define Version "${{ steps.release.outputs.release }}"' | Out-File -FilePath .\collective\zopeedit\win32\version.iss
+        type .\collective\zopeedit\win32\version.iss
         & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" collective\zopeedit\win32\setup.iss
     - name: Run installer
       run: |
