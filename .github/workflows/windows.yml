@@ -44,7 +44,7 @@ jobs:
     - name: Create Release
       id: create_release
       if: steps.release.outputs.create_tag == 'false'
-      uses: ncipollo/release-action@v1.9.0
+      uses: ncipollo/release-action@v1.12.0
       with:
         tag: ${{ steps.release.outputs.release }}
         name: Prerelease ${{ steps.release.outputs.release }}
@@ -55,31 +55,31 @@ jobs:
     - name: Create Tag
       id: create_tag
       if: steps.release.outputs.create_tag == 'true'
-      uses: ncipollo/release-action@v1.9.0
+      uses: ncipollo/release-action@v1.12.0
       with:
         tag: ${{ steps.release.outputs.release }}
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload-release-asset
       if: steps.release.outputs.create_tag == 'false'
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_name: zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_content_type: application/exe
     - name: Upload Release Asset
-      id: upload-tag-asset 
+      id: upload-tag-asset
       if: steps.release.outputs.create_tag == 'true'
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_tag.outputs.upload_url }} 
+        upload_url: ${{ steps.create_tag.outputs.upload_url }}
         asset_path: collective\zopeedit\win32\Output\zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_name: zopeedit-win32-${{ steps.release.outputs.release }}.exe
         asset_content_type: application/exe
